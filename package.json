@@ -1,0 +1,19 @@
+{
+  "name": "business-the-pooh",
+  "version": "1.0.0",
+  "description": "Помощник, помогающий вести подробный учет расходов и доходов жителям леса вселенной Винни Пуха.\r Данный веб-сервис организует процесс купли-продажи пчелиного мёда за товары жителей. Поддерживаются следующие типы товаров:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://nbiryukov@bitbucket.org/pear25158/business-the-pooh.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/pear25158/business-the-pooh#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
