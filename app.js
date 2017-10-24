@@ -6,6 +6,10 @@ var http = require('http');
 /*СОЗДАНИЕ ПРИЛОЖЕНИЯ*/
 var app = express();
 
+/*СТАТИЧЕСКИЕ ФАЙЛЫ ПРИЛОЖЕНИЯ*/
+app.use(express.static(__dirname + '/public'));
+
+
 /*ЗАПУСК СЕРВЕРА*/
 var port = process.env.PORT || '3000';
 app.set('port', port);
@@ -16,8 +20,8 @@ server.listen(port, function(){
 
 
 /*МАРШРУТИЗАЦИЯ*/
+app.get('/', function(req, res) {
+	
+	res.sendfile('static/resources/index.html');
+});
 
-
-
-/*СТАТИЧЕСКИЕ ФАЙЛЫ ПРИЛОЖЕНИЯ*/
-app.use(express.static(__dirname + '/public'));
