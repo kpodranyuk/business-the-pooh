@@ -1,0 +1,30 @@
+body {
+    padding: 30px;
+    background-color: #FFF1B8;
+}
+.navbar{ 
+    background-image: none;
+}
+
+.navbar-default {
+    background-color: rgb(253, 202, 135);      
+}
+
+.jumbotron {
+    background-color: #ffefa0;
+}
+
+.my {
+    background-color: #FFF1B8;
+    margin-right: 5pt;
+}
+
+.rightColumn {
+    background-color: rgb(250, 245, 225);
+    margin-left: 5pt;
+}
+
+.navbar-brand>img {
+height: 100%;
+width: auto;
+}
