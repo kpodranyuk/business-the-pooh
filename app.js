@@ -25,3 +25,8 @@ app.get('/', function(req, res) {
 	res.sendfile('static/resources/index.html');
 });
 
+app.get('/userLk.html', function(req, res) {
+	
+	res.sendfile('static/resources/userLk.html');
+});
+
