@@ -7,7 +7,7 @@ body {
 }
 
 .navbar-default {
-    background-color: rgb(253, 202, 135);      
+    background-color: #FDC167;      
 }
 
 .jumbotron {
@@ -15,7 +15,7 @@ body {
 }
 
 .my {
-    background-color: #FFF1B8;
+    background-color: rgb(255, 241, 184);
     margin-right: 5pt;
 }
 
@@ -27,4 +27,14 @@ body {
 .navbar-brand>img {
 height: 100%;
 width: auto;
+}
+
+#my-row {
+    display: table;
+}
+
+#my-row .panel {
+    float: none;
+    display: table-cell;
+    vertical-align: top;
 }
