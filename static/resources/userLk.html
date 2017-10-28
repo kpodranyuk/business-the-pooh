@@ -1,147 +1,176 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="utf-8">
-	<title>Медоварня Бизнеспух</title>
+  <meta charset="utf-8">
+  <title>Медоварня Бизнеспух</title>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
 
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-  integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-  
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+    crossorigin="anonymous">
+
   <link rel="stylesheet" href="css/userLk.css">
 </head>
+
 <body>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="jumbotron col-md-8 col-xs-12" style="padding-top: 7pt;">
-              <!-- Лого -->
-              <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <img class="img-responsive" src="images/main_long.png"/>
-                  </div>                  
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <!-- Пиллс -->
-                  <ul class="nav nav-pills" style="background-color: #f2f2f2; margin-top: 7pt; margin-right: 0pt; padding:7pt">
-                      <li><a data-toggle="pill" href="#buy">Купить</a></li>
-                      <li class="active"><a data-toggle="pill" href="#history">История операций</a></li>
-                      <li><a data-toggle="pill" href="#money">Баланс</a></li>
-                      <li><a data-toggle="pill" href="#rules">Правила и соглашения</a></li>
-                      <li><a data-toggle="pill" href="#help">Помощь</a></li>
-                  </ul>        
-                  <div class="tab-content">
-                    <div id="buy" class="tab-pane fade in active">
-                      <div class="row">
-                        <div class="col-xs-12 hidden-sm hidden-md hidden-lg">  
-                                
-                        </div> 
-                      </div>
-                    </div>
-                    <div id="history" class="tab-pane fade">
-                      <div class="container" style="background-color:beige">
-                          <h2>История операций</h2>
-                          <table class="table table-bordered table-striped table-hover table-responsive" style="background-color:lightgoldenrodyellow">
-                            <thead>
-                              <tr>
-                                <th>Дата</th>
-                                <th>Объем товара</th>
-                                <th>Объем меда</th>
-                                <th>Комиссия</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>20/09/17 05:55:59</td>
-                                <td>20 шт</td>
-                                <td>2 шт/0,5 л</td>
-                                <td>0,2 л</td>
-                              </tr>
-                              <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                              </tr>
-                              <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                    </div>
-                    <div id="money" class="tab-pane fade">
-                        <div class="row">
-                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
-                                  
-                          </div>
-                        </div> 
-                    </div>
-                    <div id="rules" class="tab-pane fade">
-                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
-                                
-                      </div>
-                    </div>
-                    <div id="help" class="tab-pane fade">
-                      <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">  
-                                
-                        </div>
-                      </div>        
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="jumbotron rightColumn col-xs-12 col-sm-12 col-md-3 col-lg-3" style="padding-top: 7pt;">
-              <!-- Пользователь -->
-              <div class="row" style="background-color: rgb(255, 236, 160)">
-                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
-                  <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
-                    <div class="col-md-3" style="padding: 0pt;">
-                      <img class="img-responsive" src="images/users/owl.png" style="max-width: 100%; max-height: 50pt"/>
-                    </div>
-                    <div class="col-md-7" style="padding-left: 5pt;">
-                      <a href="" style="font-size:16pt; color:black"><b>Совунья<i class="glyphicon glyphicon-triangle-bottom"></i></b></a>
-                    </div>
-                  </div>
-                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
-              </div>
-              <!-- Баланс -->
-              <div class="row" style="background-color: rgb(236, 234, 226); margin-top: 30pt; padding: 5pt">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                  <div class="col-md-3" style="padding: 0pt;">
-                    <b style="font-size:16pt; color:black">Баланс:</b>
-                  </div>
-                  <div class="col-md-8" style="margin-left: 15pt">
-                    <div class="row"><i href="" style="font-size:14pt; color:black">25 горшочков</i></div>
-                    <div class="row"><i href="" style="font-size:14pt; color:black">0 л меда</i></div>                        
-                  </div>
-                </div>
-              </div>
-              <!-- Курс -->
-              <div class="row" style="margin-top: 70pt; padding: 0pt">
-                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
-                  <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                    <img class="img-responsive" src="images/course.png"/>
-                  </div>
-                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
-              </div>
-            </div>
+
+  <div class="container-fluid">
+    <div class="row content">
+      <div class="col-sm-9">
+        <!-- Лого -->
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <img class="img-responsive" src="images/main_long.png" />
+          </div>
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            <!-- Пиллс -->
+            <ul class="nav nav-pills" style="background-color: #f2f2f2; margin-top: 7pt; margin-right: 0pt; padding:7pt">
+              <li>
+                <a data-toggle="pill" href="#buy">Купить</a>
+              </li>
+              <li class="active">
+                <a data-toggle="pill" href="#history">История операций</a>
+              </li>
+              <li>
+                <a data-toggle="pill" href="#money">Ввод товара</a>
+              </li>
+              <li>
+                <a data-toggle="pill" href="#money">Вывод меда</a>
+              </li>
+              <li>
+                <a data-toggle="pill" href="#money">Настройка аккаунта</a>
+              </li>
+              <li>
+                <a data-toggle="pill" href="#help">О сервисе</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div id="buy" class="tab-pane fade in active">
+                <div class="row">
+                  <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+
+                  </div>
+                </div>
+              </div>
+              <div id="history" class="tab-pane fade">
+                <div class="container" style="background-color:beige">
+                  <h2>История операций</h2>
+                  <table class="table table-bordered table-striped table-hover table-responsive" style="background-color:lightgoldenrodyellow">
+                    <thead>
+                      <tr>
+                        <th>Дата</th>
+                        <th>Тип операции</th>
+                        <th>Объем товара</th>
+                        <th>Объем меда</th>
+                        <th>Комиссия</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>20/09/17 05:50:59</td>
+                        <th>Ввод</th>
+                        <td>20 шт</td>
+                        <td>--</td>
+                        <td>--</td>
+                      </tr>
+                      <tr>
+                        <td>20/09/17 05:55:59</td>
+                        <th>Покупка</th>
+                        <td>20 шт</td>
+                        <td>2 шт/0,5 л</td>
+                        <td>0,2 л</td>
+                      </tr>
+                      <tr>
+                        <td>20/09/17 06:00:44</td>
+                        <th>Вывод</th>
+                        <td>--</td>
+                        <td>0,3 л</td>
+                        <td>--</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div id="money" class="tab-pane fade">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                  </div>
+                </div>
+              </div>
+              <div id="rules" class="tab-pane fade">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                </div>
+              </div>
+              <div id="help" class="tab-pane fade">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <!-- Пользователь -->
+        <div class="row" style="background-color: rgb(255, 236, 160)">
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+            <div class="col-md-3" style="padding: 0pt;">
+              <img class="img-responsive" src="images/users/owl.png" style="max-width: 100%; max-height: 50pt" />
+            </div>
+            <div class="col-md-7" style="padding-left: 5pt;">
+              <a href="" style="font-size:16pt; color:black">
+                <b>Совунья
+                  <i class="glyphicon glyphicon-triangle-bottom"></i>
+                </b>
+              </a>
+            </div>
+          </div>
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+        </div>
+        <!-- Баланс -->
+        <div class="row" style="background-color: rgb(236, 234, 226); margin-top: 30pt; padding: 5pt">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-md-3" style="padding: 0pt;">
+              <b style="font-size:16pt; color:black">Баланс:</b>
+            </div>
+            <div class="col-md-8" style="margin-left: 15pt">
+              <div class="row">
+                <i href="" style="font-size:14pt; color:black">25 горшочков</i>
+              </div>
+              <div class="row">
+                <i href="" style="font-size:14pt; color:black">0 л меда</i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Курс -->
+        <div class="row" style="margin-top: 70pt; padding: 0pt">
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+            <img class="img-responsive" src="images/course.png" />
+          </div>
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+        </div>
+      </div>
     </div>
+  </div>
   <!-- jQuery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-  integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>
