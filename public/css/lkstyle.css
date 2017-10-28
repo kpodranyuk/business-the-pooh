@@ -29,12 +29,13 @@ height: 100%;
 width: auto;
 }
 
-#my-row {
+.my-row {
     display: table;
 }
 
-#my-row .panel {
+.panel {
     float: none;
     display: table-cell;
     vertical-align: top;
+    padding-bottom: 10pt;
 }
