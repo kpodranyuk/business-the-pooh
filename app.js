@@ -25,3 +25,12 @@ app.get('/', function(req, res) {
 	res.sendfile('static/resources/index.html');
 });
 
+app.get('/userLk', function(req, res) {
+	
+	res.sendfile('static/resources/userLk.html');
+});
+
+app.get('/poohLk', function(req, res) {
+	
+	res.sendfile('static/resources/poohLk.html');
+});

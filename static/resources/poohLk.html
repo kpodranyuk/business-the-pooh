@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Медоварня Бизнеспух</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+    crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/lkstyle.css">
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div id="my-row" class="row content">
+      <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9 panel" style="background-color: rgb(255, 239, 160); padding-bottom:5pt; padding-top:20pt">
+        <img class="img-responsive" src="images/main_long.png" />
+      </div>
+      <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 panel" style="background-color: #f5e7a5; padding-bottom:20pt; padding-top:20pt">
+        <!-- Пользователь -->
+        <div class="container-fluid">
+          <div class="row content" style="background-color: #fff0a3 ">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="col-md-3" style="padding: 0pt;">
+                <img class="img-responsive" src="images/pooh.png" style="max-width: 100%; max-height: 50pt" />
+              </div>
+              <div class="col-md-9" style="padding-left: 5pt;">
+                  <div class="dropdown">
+                    <a class="dropdown-toggle" id="menu1" data-toggle="dropdown" style="font-size:15pt; color:black">Администратор
+                    <span class="caret"></span></button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                        <li role="presentation" style="font-size:10pt; color:black"><a role="menuitem" tabindex="-1" href="#" >Выйти</a></li>
+                      </ul>
+                  </div>
+                  <b style="font-size:12pt; color:black">Винни Пух</b>
+                </div>
+            </div>
+          </div>
+          <!-- Баланс -->
+          <div class="row content" style="background-color: rgb(236, 234, 226); margin-top: 6pt; margin-bottom: 5pt; padding: 5pt">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="col-md-3" style="padding: 0pt;">
+                <b style="font-size:14pt; color:black">Баланс:</b>
+              </div>
+              <div class="col-md-8" style="margin-left: 15pt">
+                <i href="" style="font-size:14pt; color:black">0 л меда</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row content">
+      <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12" style="background-color: rgb(255, 241, 184); padding-bottom:40pt; padding-top:20pt">
+        <!-- Пиллс -->
+        <ul class="nav nav-pills" style="background-color: #f2f2f2; margin-top: 7pt; margin-right: 0pt; padding:7pt">
+          <li class="active">
+            <a data-toggle="pill" href="#myHistory">Моя история операций</a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#usersHistory">Сбор комиссии</a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#getHoney">Вывод меда</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div id="myHistory" class="tab-pane fade in active">
+              <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
+                  <div class="row content">
+                    <h2>История операций</h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped table-hover" style="background-color:lightgoldenrodyellow">
+                        <thead>
+                          <tr>
+                            <th>Дата</th>
+                            <th>Тип операции</th>
+                            <th>Объем меда</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>20/09/17 05:50:59</td>
+                            <th>Ввод</th>
+                            <td>0,2 л</td>
+                          </tr>
+                          <tr>
+                            <td>20/09/17 06:00:44</td>
+                            <th>Вывод</th>
+                            <td>0,3 л</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+          </div>
+          <div id="usersHistory" class="tab-pane fade">
+              <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
+                  <div class="row content">
+                    <h2>Комиссия для снятия</h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped table-hover" style="background-color:lightgoldenrodyellow">
+                        <thead>
+                          <tr>
+                            <th>Дата</th>
+                            <th>Логин пользователя</th>
+                            <th>Комиссия</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>20/09/17 05:50:59</td>
+                            <th>super_owl44</th>
+                            <td>0,25 л</td>
+                          </tr>
+                          <tr>
+                            <td>20/09/17 05:50:59</td>
+                            <th>P9lTA40K</th>
+                            <td>0,28 л</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="row text-center">
+                      <button type="submit" class="btn btn-lg btn-primary">Собрать комиссию</button>
+                  </div>
+                  <div class="row content">
+                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                        <label>
+                          <i>Спасибо!
+                            <br> Мёд отправлен пчелам. Ваш доход на сегодня составил <label></label> л мёда.</i>
+                        </label>
+                      </div>
+                    </div>
+                </div>
+            </div>
+          <div id="getHoney" class="tab-pane fade">
+              <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
+                  <div class="row content">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                      <h2>Укажите количество мёда для вывода из системы:</h2>
+                    </div>
+                  </div>
+                  <div class="container-fluid text-center" style="display: table">
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text-center">
+                      <div class="form-group">
+                        <label for="goodsInput">Введите количество мёда в литрах</label>
+                        <input type="number" class="form-control" id="goodsInput" aria-describedby="goodsInputHelp" placeholder="4" required>
+                        <small id="goodsInputHelp" class="control-label form-text text-muted">Не более 5 литров в день</small>
+                      </div>
+                      <div class="row content">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                          <button class="btn btn-lg btn-primary">Вывести мёд</button>
+                        </div>
+                      </div>
+                      <div class="row content">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                          <label>
+                            <i>Спасибо!
+                              <br> Мёд выведен из системы.</i>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+                      <img class="img-responsive" src="images/honey_logo.png" />
+                    </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
