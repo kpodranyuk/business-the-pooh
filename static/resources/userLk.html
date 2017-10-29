@@ -322,21 +322,24 @@
               <!-- Скрытые настройки аккаунта -->
               <div id="trueAcc" class="tab-pane fade">
                 <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
-                  <div class="container-fluid text-center" style="display: table">
+                  <div class="container-fluid" style="display: table; padding:0pt">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" style="background-color:white">
                       <div class="table-responsive" id="res">
+                        <label>
+                            <h4> Информация об аккаунте:</h4>
+                        </label>
                         <table class="table" style="background-color:white">
                           <tbody>
                             <tr>
-                              <td>
-                                <b style="font-size: 14pt">Ваш логин:</b>
-                              </td>
+                                <td><b style="font-size: 13pt">Ваше имя:</b></td>
+                                <td>--</td>
+                            </tr>
+                            <tr>
+                              <td><b style="font-size: 13pt">Ваш логин:</b></td>
                               <td>--</td>
                             </tr>
                             <tr>
-                              <td>
-                                <b style="font-size: 14pt">Ваш пароль:</b>
-                              </td>
+                              <td><b style="font-size: 13pt">Ваш пароль:</b></td>
                               <td>--</td>
                             </tr>
                           </tbody>
@@ -353,15 +356,38 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" style="background-color:white">
-                    </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel text-center" style="background-color:white">
-                      <img class="img-responsive" src="images/honey_logo.png" />
-                    </div>
-
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 panel text-center" style="background-color:white">
+                      <form>
+                        <div class="form-row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="oldPswdInput">Введите текущий пароль</label>
+                              <input type="password" class="form-control" id="oldPswdInput" aria-describedby="oldPswdInputHelp" placeholder="Текущий пароль"
+                                required>
+                              <small id="oldPswdInputHelp" class="control-label form-text text-muted"></small>
+                            </div>
+                            <div class="form-group">
+                              <label for="newPswdInput">Введите новый пароль</label>
+                              <input type="password" class="form-control" id="newPswdInput" placeholder="Новый пароль" required>
+                              <small id="newPswdInputHelp" class="control-label form-text text-muted"></small>
+                            </div>
+                            <div class="form-group">
+                              <label for="newPswdInputRepeat">Подтвердите пароль</label>
+                              <input type="password" class="form-control" id="newPswdInputRepeat" placeholder="Пароль" required>
+                              <small id="newPswdInputRepeatHelp" class="control-label form-text text-muted"></small>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="btn btn-md btn-primary">Сохранить</button>
+                    </form>
                   </div>
+                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel text-center" style="background-color:white">
+                    <img class="img-responsive" src="images/honey_logo.png" />
+                  </div>
+                
                 </div>
-              </div>
+                </div>
+                </div>
             </div>
           </div>
         </div>
