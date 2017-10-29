@@ -352,7 +352,7 @@
                       </div>
                       <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-md btn-primary">Удалить аккаунт</button>
+                          <button class="btn btn-md btn-primary" data-toggle="modal" data-target="#forgetMeModal">Деактивировать аккаунт</button>
                         </div>
                       </div>
                     </div>
@@ -434,6 +434,41 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="modal fade" id="forgetMeModal" tabindex="-1" role="dialog" aria-labelledby="forgetMeModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <div class="row">
+                      <div class="col-md-6">
+                          <h3 class="modal-title" id="enterModalLabel">Деактивация аккаунта</h3>
+                      </div>
+                      <div class="col-md-6">
+                          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-body">
+                  <form>
+                      <div class="form-row">
+                          <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="enterPswd">Вы уверены, что хотите прекратить пользование системой?<br>Для подтверждения введите Ваш текущий пароль</label>
+                                  <input type="password" class="form-control" id="enterPswd" aria-describedby="enterPswdHelp" placeholder="Пароль" required>
+                                  <small id="enterPswdHelp" class="control-label form-text text-muted"></small>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row text-center">
+                        <button type="submit" id="forgetMeSubmit" class="btn btn-primary">Подтвердить</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
   </div>
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
