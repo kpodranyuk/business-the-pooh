@@ -1,6 +1,7 @@
 /*ПОДКЛЮЧЕНИЕ МОДУЛЕЙ*/
 var express = require('express');
 var http = require('http');
+var bodyParser = require('body-parser');
 var indexRoute = require('./routes/indexRoute');
 
 
@@ -9,6 +10,7 @@ var app = express();
 
 /*СТАТИЧЕСКИЕ ФАЙЛЫ ПРИЛОЖЕНИЯ*/
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/static/resources'));
 
 //Подключение json парсера
 app.use(bodyParser.json());
@@ -25,10 +27,6 @@ server.listen(port, function(){
 /*МАРШРУТИЗАЦИЯ*/
 app.use('/', indexRoute);
 
-app.get('/', function(req, res) {
-	
-	res.sendfile('static/resources/index.html');
-});
 
 app.get('/userLk', function(req, res) {
 	
