@@ -1,7 +1,8 @@
 /*ПОДКЛЮЧЕНИЕ МОДУЛЕЙ*/
-
 var express = require('express');
 var http = require('http');
+var indexRoute = require('./routes/indexRoute');
+
 
 /*СОЗДАНИЕ ПРИЛОЖЕНИЯ*/
 var app = express();
@@ -9,6 +10,8 @@ var app = express();
 /*СТАТИЧЕСКИЕ ФАЙЛЫ ПРИЛОЖЕНИЯ*/
 app.use(express.static(__dirname + '/public'));
 
+//Подключение json парсера
+app.use(bodyParser.json());
 
 /*ЗАПУСК СЕРВЕРА*/
 var port = process.env.PORT || '3000';
@@ -20,6 +23,8 @@ server.listen(port, function(){
 
 
 /*МАРШРУТИЗАЦИЯ*/
+app.use('/', indexRoute);
+
 app.get('/', function(req, res) {
 	
 	res.sendfile('static/resources/index.html');
