@@ -4,9 +4,9 @@
  */
 function Promotion(id) {
     this.id = id;
-    var operationsCount = operationsCount;
-    var percent = 0;
-    var operationsToNext = 0;
+    this.operationsCount = 0;
+    this.percent = 0;
+    this.operationsToNext = 0;
 
 }
 
