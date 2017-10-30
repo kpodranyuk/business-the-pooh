@@ -14,7 +14,8 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/pear25158/business-the-pooh#readme",
   "dependencies": {
+    "body-parser": "~1.15.2",
     "express": "^4.16.2",
-	"body-parser": "~1.15.2"
+    "mysql": "^2.15.0"
   }
 }
