@@ -4,6 +4,7 @@ var http = require('http');
 var bodyParser = require('body-parser');
 var indexRoute = require('./routes/indexRoute');
 var poohRoute = require('./routes/poohRoute');
+var loginRoute = require('./routes/loginRoute');
 
 
 /*СОЗДАНИЕ ПРИЛОЖЕНИЯ*/
@@ -29,4 +30,5 @@ server.listen(port, function(){
 app.use('/', indexRoute);
 app.use('/userLk', userRoute);
 app.use('/poohLk', poohRoute);
+app.use('/login', loginRoute);
 
