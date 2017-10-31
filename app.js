@@ -3,6 +3,7 @@ var express = require('express');
 var http = require('http');
 var bodyParser = require('body-parser');
 var indexRoute = require('./routes/indexRoute');
+var userRoute = require('./routes/userRoute');
 
 
 /*СОЗДАНИЕ ПРИЛОЖЕНИЯ*/
@@ -26,6 +27,7 @@ server.listen(port, function(){
 
 /*МАРШРУТИЗАЦИЯ*/
 app.use('/', indexRoute);
+app.use('/userLk', userRoute);
 
 
 app.get('/userLk', function(req, res) {
