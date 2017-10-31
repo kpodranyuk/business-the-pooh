@@ -22,6 +22,16 @@ function registrationUser(login, password, name, productType) {
 }
 
 
+/**
+ * Залогинить пользователя
+ * @param {string} login - логин пользователя
+ * @param {string} password - пароль пользователя
+ * @return {User} залогиненный пользователь(null в случае ошибки авторизации)
+ */
+function loginUser(login, password) {
+    
+}
 
 
 module.exports.registrationUser = registrationUser;
+module.exports.loginUser = loginUser;
