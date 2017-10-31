@@ -8,6 +8,7 @@ var loginRoute = require('./routes/loginRoute');
 var registerRoute = require('./routes/registerRoute');
 var userApiRoute = require('./routes/userApiRoute');
 var commonApiRoute = require('./routes/commonApiRoute');
+var poohApiRoute = require('./routes/poohApiRoute');
 
 
 /*СОЗДАНИЕ ПРИЛОЖЕНИЯ*/
@@ -37,4 +38,5 @@ app.use('/login', loginRoute);
 app.use('/register', registerRoute);
 app.use('/api/user', userApiRoute);
 app.use('/api/common', commonApiRoute);
+app.use('/api/pooh', poohApiRoute);
 
