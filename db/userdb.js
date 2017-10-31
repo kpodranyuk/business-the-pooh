@@ -4,11 +4,11 @@ var User = require('../model/usermodel');
 var Promotion = require('../model/promotion');
 
 var con = mysql.createConnection({
-    host: config[host],
-    port: config[port],
-    user: config[user],
-    password: config[password],
-    database: config[database]
+    host: config["host"],
+    port: config["port"],
+    user: config["user"],
+    password: config["password"],
+    database: config["database"]
 });
 
 con.connect(function(err) {
