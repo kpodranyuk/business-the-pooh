@@ -22,15 +22,20 @@ router.post('/', function(req, res) {
 							productType: user.productType,
 							productAmount: user.productAmount,
 							honeyAmount: user.honeyAmount,
-							promotion: [{
-									idPromotion: user.promotion.id
-								},{
-									operationsCount: user.promotion.operationsCount
-								},{
-									operationsToNext: user.promotion.operationsToNext
-								},{
-									percent: user.promotion.percent
-							}]
+							promotion: {
+									success: true,					
+									login: user.login,
+									name: user.name,
+									productType: user.productType,
+									productAmount: user.productAmount,
+									honeyAmount: user.honeyAmount,
+									promotion: {
+											idPromotion: user.promotion.id,
+											operationsCount: user.promotion.operationsCount,
+											operationsToNext: user.promotion.operationsToNext,
+											percent: user.promotion.percent
+									}
+								}
                         });
 	}
 });
