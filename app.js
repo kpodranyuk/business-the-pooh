@@ -3,7 +3,7 @@ var express = require('express');
 var http = require('http');
 var bodyParser = require('body-parser');
 var indexRoute = require('./routes/indexRoute');
-var userRoute = require('./routes/userRoute');
+var poohRoute = require('./routes/poohRoute');
 
 
 /*СОЗДАНИЕ ПРИЛОЖЕНИЯ*/
@@ -28,14 +28,5 @@ server.listen(port, function(){
 /*МАРШРУТИЗАЦИЯ*/
 app.use('/', indexRoute);
 app.use('/userLk', userRoute);
+app.use('/poohLk', poohRoute);
 
-
-app.get('/userLk', function(req, res) {
-	
-	res.sendfile('static/resources/userLk.html');
-});
-
-app.get('/poohLk', function(req, res) {
-	
-	res.sendfile('static/resources/poohLk.html');
-});
