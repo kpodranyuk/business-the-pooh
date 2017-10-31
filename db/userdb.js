@@ -9,6 +9,14 @@ var con = mysql.createConnection({
     database: config[database]
 });
 
+con.connect(function(err) {
+    if (err) {
+        console.log("Не удалось подключиться к БД");
+    } else {
+        console.log("Удалось подключиться к БД");
+    }
+});
+
 
 /**
  * Зарегистрировать нового пользователя
