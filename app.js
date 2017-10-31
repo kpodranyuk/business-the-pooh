@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var indexRoute = require('./routes/indexRoute');
 var poohRoute = require('./routes/poohRoute');
 var loginRoute = require('./routes/loginRoute');
+var registerRoute = require('./routes/registerRoute');
 
 
 /*СОЗДАНИЕ ПРИЛОЖЕНИЯ*/
@@ -31,4 +32,5 @@ app.use('/', indexRoute);
 app.use('/userLk', userRoute);
 app.use('/poohLk', poohRoute);
 app.use('/login', loginRoute);
+app.use('/register', registerRoute);
 
