@@ -3,6 +3,7 @@ var express = require('express');
 var http = require('http');
 var bodyParser = require('body-parser');
 var indexRoute = require('./routes/indexRoute');
+var userRoute = require('./routes/userRoute');
 var poohRoute = require('./routes/poohRoute');
 var loginRoute = require('./routes/loginRoute');
 var registerRoute = require('./routes/registerRoute');
