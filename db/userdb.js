@@ -11,14 +11,17 @@ var con = mysql.createConnection({
 
 /**
  * Зарегистрировать нового пользователя
- * @param {login} логин пользователя
- * @param {password} пароль пользователя
- * @param {name} имя пользователя
- * @param {type} тип пользователя
+ * @param {string} login - логин пользователя
+ * @param {string} password - пароль пользователя
+ * @param {string} name - имя пользователя
+ * @param {string} productType - тип продукта пользователя('F','B','P','H')
  * @return {User} созданный пользователь
  */
-function registrationUser(login, password, name, type) {
+function registrationUser(login, password, name, productType) {
 
 }
+
+
+
 
 module.exports.registrationUser = registrationUser;
