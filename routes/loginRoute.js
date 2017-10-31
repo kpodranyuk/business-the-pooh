@@ -7,7 +7,7 @@ router.post('/', function(req, res) {
 	var login= req.body.login;
 	var password = req.body.password
 	var user= db.loginUser(login,password);
-	if(user==NULL){
+	if(user == null){
 		res.json({success: false, message: 'Не удалось авторизоваться. Пользователь не найден.'});
 	}
 	else

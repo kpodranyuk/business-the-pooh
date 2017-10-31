@@ -10,7 +10,7 @@ router.post('/', function(req, res) {
 	var product=req.body.productType;
 	
 	var user=registrationUser(login, password, name, product);
-	if(user==NULL){
+	if(user == null){
 		res.json({success: false, message: 'Не удалось зарегистрироваться, пользователь с таким логином уже существует'});
 	}
 	else
