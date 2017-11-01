@@ -41,3 +41,5 @@ function getAllHistory(loginUser, callback) {
         });
     });
 }
+
+module.exports.getAllHistory = getAllHistory;
