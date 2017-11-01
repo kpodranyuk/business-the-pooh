@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db/commondb.js');
-
+var db = require('../model/operation.js');
 /**
  * Все совершенные операции
  */

@@ -26,10 +26,10 @@ function getAllHistory(loginUser, callback) {
     // Начинаем транзакцию 
     con.beginTransaction(function (error) {
         if (error) { throw error; }
-        var sql = "SELECT o.idOperation, o.type, o.date, o.productAmount,";
-        sql = sql + "o.honeyCount, o.honeyPots, o.idProductType,o.comission ";
-        sql = sql + "FROM operation o LEFT OUTER JOIN deal d ";
-        sql = sql + "ON o.idOperation = d.idOperation where loginUser= " + loginUser;
+        var sql = "SELECT o.idOperation, o.type, o.date, o.productAmount,"
+        + "o.honeyCount, o.honeyPots, o.idProductType,o.comission "
+        + "FROM operation o LEFT OUTER JOIN deal d "
+        + "ON o.idOperation = d.idOperation where loginUser= " + mysql.escape(loginUser);
 
         con.query(sql, function (error, result, fields) {
 
