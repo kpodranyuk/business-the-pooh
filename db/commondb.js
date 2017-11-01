@@ -16,3 +16,11 @@ con.connect(function (err) {
         console.log("Удалось подключиться к БД");
     }
 });
+
+/**
+ * Получить историю операций
+ * @param {string} loginUser - логин пользователя
+ * @param {function} функция, отправляющая историю операций пользователя
+ */
+function getAllHistory( loginUser,callback) {
+}    
