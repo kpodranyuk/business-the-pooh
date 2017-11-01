@@ -27,9 +27,9 @@ function getAllHistory(loginUser, callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         var sql = "SELECT o.idOperation, o.type, o.date, o.productAmount,"
-        + "o.honeyCount, o.honeyPots, o.idProductType,o.comission "
-        + "FROM operation o LEFT OUTER JOIN deal d "
-        + "ON o.idOperation = d.idOperation where loginUser= " + mysql.escape(loginUser);
+            + "o.honeyCount, o.honeyPots, o.idProductType,o.comission "
+            + "FROM operation o LEFT OUTER JOIN deal d "
+            + "ON o.idOperation = d.idOperation where loginUser= " + mysql.escape(loginUser);
 
         con.query(sql, function (error, result, fields) {
 

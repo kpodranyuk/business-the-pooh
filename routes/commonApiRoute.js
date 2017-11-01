@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db/commondb.js');
-var db = require('../model/operation.js');
+var Operation = require('../model/operation.js');
 /**
  * Все совершенные операции
  */
@@ -31,7 +31,7 @@ router.post('/operations', function (req, res) {
 		}
 		else {
 
-			var mass=[];
+			var mass = [];
 			for (var i = 0; i < result.length; i++) {
 				var operation = new Operation(
 					result[i].idOperation,
