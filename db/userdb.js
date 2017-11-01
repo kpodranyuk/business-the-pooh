@@ -95,9 +95,9 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
  * Залогинить пользователя
  * @param {string} login - логин пользователя
  * @param {string} password - пароль пользователя
- * @return {User} залогиненный пользователь(null в случае ошибки авторизации)
+ * @param {function} функция, отправляющая созданного пользователя
  */
-function loginUser(login, password) {
+function loginUser(login, password, callback) {
 
 }
 
