@@ -8,7 +8,7 @@ var db = require('../db/commondb.js');
 router.post('/operations', function (req, res) {
 
 	module.exports = router;
-	
+
 	/**
 	 * Получить тип продукта по индексу
 	 * @param {number} productType - тип продукта пользователя(1,2,3,4)
@@ -20,7 +20,7 @@ router.post('/operations', function (req, res) {
 			return "B";
 		else if (productType == 3)
 			return "P";
-		else if(productType == 4)
+		else if (productType == 4)
 			return "H";
 		else
 			return null;
@@ -32,27 +32,25 @@ router.post('/operations', function (req, res) {
 			res.json({ success: false, message: 'Не удалось получить историю операций данного пользователя' });
 		}
 		else {
-			res.json({
-				success: true
-			});
 
+			var mass;
 			for (var i = 0; i < result.length; i++) {
 				var operation = new Operation(
 					result[i].idOperation,
 					result[i].type,
 					result[i].date,
-					result[i].idProductType,
+					getStringProductType(result[i].idProductType),
 					result[i].productAmount,
 					result[i].honeyPots,
 					result[i].honeyCount,
 					result[i].comission
 				);
-
-				res.json({
-					user: operation
-				});
-
+				mass[length] = operation;
 			}
+			res.json({
+				success: true,
+				operations: mass
+			});
 		}
 	});
 
