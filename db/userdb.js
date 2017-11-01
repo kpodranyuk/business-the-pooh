@@ -41,7 +41,7 @@ function getIndexProductType(productType) {
  * @param {string} passwordUser - пароль пользователя
  * @param {string} nameUser - имя пользователя
  * @param {string} productTypeUser - тип продукта пользователя('F','B','P','H')
- * @return {User} созданный пользователь
+ * @param {function} функция, отправляющая созданного пользователя
  */
 function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, callback) {
 
