@@ -13,17 +13,7 @@ router.post('/', function (req, res) {
 		else {
 			res.json({
 				success: true,
-				login: user.login,
-				name: user.name,
-				productType: user.productType,
-				productAmount: user.productAmount,
-				honeyAmount: user.honeyAmount,
-				promotion: {
-					idPromotion: user.promotion.id,
-					operationsCount: user.promotion.operationsCount,
-					operationsToNext: user.promotion.operationsToNext,
-					percent: user.promotion.percent
-				}
+				user: user
 			});
 		}
 	});
