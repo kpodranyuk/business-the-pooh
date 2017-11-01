@@ -7,8 +7,6 @@ var db = require('../db/commondb.js');
  */
 router.post('/operations', function (req, res) {
 
-	module.exports = router;
-
 	/**
 	 * Получить тип продукта по индексу
 	 * @param {number} productType - тип продукта пользователя(1,2,3,4)
@@ -33,7 +31,7 @@ router.post('/operations', function (req, res) {
 		}
 		else {
 
-			var mass;
+			var mass=[];
 			for (var i = 0; i < result.length; i++) {
 				var operation = new Operation(
 					result[i].idOperation,
@@ -45,7 +43,7 @@ router.post('/operations', function (req, res) {
 					result[i].honeyCount,
 					result[i].comission
 				);
-				mass[length] = operation;
+				mass[mass.length] = operation;
 			}
 			res.json({
 				success: true,
