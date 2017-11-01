@@ -11,7 +11,7 @@ var con = mysql.createConnection({
     database: config["database"]
 });
 
-con.connect(function(err) {
+con.connect(function (err) {
     if (err) {
         console.log("Не удалось подключиться к БД");
     } else {
@@ -21,67 +21,73 @@ con.connect(function(err) {
 
 
 /**
- * Зарегистрировать нового пользователя
- * @param {string} login - логин пользователя
- * @param {string} password - пароль пользователя
- * @param {string} name - имя пользователя
+ * Получить индекс типа продукта из БД
  * @param {string} productType - тип продукта пользователя('F','B','P','H')
+ */
+function getIndexProductType(productType) {
+    if (productType == 'F')
+        return 1;
+    else if (productType == 'B')
+        return 2;
+    else if (productType == 'P')
+        return 3;
+    else
+        return 4;
+}
+
+/**
+ * Зарегистрировать нового пользователя
+ * @param {string} loginUser - логин пользователя
+ * @param {string} passwordUser - пароль пользователя
+ * @param {string} nameUser - имя пользователя
+ * @param {string} productTypeUser - тип продукта пользователя('F','B','P','H')
  * @return {User} созданный пользователь
  */
-function registrationUser(login, password, name, productType) {
-    var user = null;
-    var promotion = null;
+function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, callback) {
+
     // Начинаем транзакцию 
-    con.beginTransaction(function(err) {
-        if (err) {
-            console.error(err);
-            throw err;
-        }
+    con.beginTransaction(function (err) {
+        if (err) { throw err; }
 
-        // Вставляем скидки дл нового пользователя
-        con.query("INSERT INTO Promotion(operationsCount, operationsToNext, percent) VALUES(0, 5, 15)", function(error, results, fields) {
+        // Смотрим тип продукта
+        var type = getIndexProductType(productTypeUser);
+        // Вставляем пользователя  
+        var values = [[loginUser, passwordUser, nameUser, false, 0, 0, type, 1]];
+        var sql = "INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount, idProductType, idPromotion) VALUES ";
+        con.query(sql + mysql.escape(values), function (error, results, fields) {
             if (error) {
-                return con.rollback(function() {
-                    console.error(error);
-                    throw error;
-                });
+                callback(null);
+                return con.rollback(function () { console.error(error.message); });
             } else {
-                promotion = new Promotion(results.insertId);
-            }
+                // Создаем пользователя и скидку для него
+                var user = new User(loginUser, nameUser, productTypeUser);
+                user.promotion = new Promotion(1);
+                user.promotion.operationsToNext = 5;
+                user.promotion.percent = 15;
+                user.password = passwordUser;
+                user.honeyAmount = 0;
+                user.productAmount = 0;
 
-            var idPromotion = results.insertId;
-            var type = 0;
-            if (productType == 'F')
-                type = 1;
-            else if(productType == 'B')
-                type = 2;
-            else if (productType == 'P')
-                type = 3;
-            else
-                type = 4;
+                // Вставляем скидки дл нового пользователя
+                con.query("INSERT INTO Promotion(operationsCount, operationsToNext, percent) VALUES(0, 5, 15)", function (error, results, fields) {
+                    if (error) return con.rollback(function () { console.error(error.message); });
 
-            // Вставляем самого пользователя
-            var sql = "INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount, idProductType, idPromotion) VALUES ?";
-            var values = [login, password, name, false, 0, 0, type, idPromotion];
-            con.query(sql, values, function(error, results, fields) {
-                if (error) {
-                    return con.rollback(function() {
-                        console.error(error);
-                        throw error;
+                    user.promotion.id = results.insertId;
+
+                    // Обновляем id скидки у  пользователя и отправляем в коллбек
+                    con.query("UPDATE User SET idPromotion = " + user.promotion.id + " WHERE login = " + mysql.escape(user.login), function (error, results, fields) {
+                        if (error) return con.rollback(function () { console.error(error.message); });
+
+                        callback(user);
+
+                        con.commit(function (error) {
+                            if (error) return con.rollback(function () { console.error(error.message); });
+                        });
                     });
-                } else {
-                    promotion.operationsToNext = 5;
-                    promotion.percent = 15;
-                    user = new User(login, name, productType);
-                    user.password = password;
-                    user.promotion = promotion;
-                }
-            });
-
+                });
+            }
         });
     });
-
-    return user;
 }
 
 
@@ -92,7 +98,7 @@ function registrationUser(login, password, name, productType) {
  * @return {User} залогиненный пользователь(null в случае ошибки авторизации)
  */
 function loginUser(login, password) {
-    
+
 }
 
 
