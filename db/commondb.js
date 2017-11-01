@@ -22,5 +22,22 @@ con.connect(function (err) {
  * @param {string} loginUser - логин пользователя
  * @param {function} функция, отправляющая историю операций пользователя
  */
-function getAllHistory( loginUser,callback) {
-}    
+function getAllHistory(loginUser, callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (err) {
+        if (err) { throw err; }
+        var sql = "SELECT * FROM operation o LEFT OUTER JOIN deal d ON o.idOperation = d.idOperation where loginUser=" + login;
+        con.query(sql, function (err, result, fields) {
+
+            if (error) {
+                callback(null);
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (error) {
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                callback(result);
+            }
+        });
+    });
+}
