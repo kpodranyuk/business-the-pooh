@@ -36,7 +36,7 @@ router.post('/operations', function (req, res) {
 				var operation = new Operation(
 					result[i].idOperation,
 					result[i].type,
-					result[i].date,
+					new Date(result[i].date),
 					getStringProductType(result[i].idProductType),
 					result[i].productAmount,
 					result[i].honeyPots,
