@@ -9,8 +9,8 @@ var con = mysql.createConnection({
     database: config["database"]
 });
 
-con.connect(function (err) {
-    if (err) {
+con.connect(function (error) {
+    if (error) {
         console.log("Не удалось подключиться к БД");
     } else {
         console.log("Удалось подключиться к БД");
@@ -24,14 +24,14 @@ con.connect(function (err) {
  */
 function getAllHistory(loginUser, callback) {
     // Начинаем транзакцию 
-    con.beginTransaction(function (err) {
-        if (err) { throw err; }
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
         var sql = "SELECT o.idOperation, o.type, o.date, o.productAmount,";
         sql = sql + "o.honeyCount, o.honeyPots, o.idProductType,o.comission ";
         sql = sql + "FROM operation o LEFT OUTER JOIN deal d ";
-        sql = sql + "ON o.idOperation = d.idOperation where loginUser= " + login;
+        sql = sql + "ON o.idOperation = d.idOperation where loginUser= " + loginUser;
 
-        con.query(sql, function (err, result, fields) {
+        con.query(sql, function (error, result, fields) {
 
             if (error) {
                 callback(null);
