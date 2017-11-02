@@ -29,7 +29,7 @@ function getHistoryForLastDay(callback) {
 
 
         // Проверить получил ли пух зарплату за текущий оп день
-        var day = new OpeartionDay(new Date());
+        var day = new OperationDay(new Date());
         var sql = "SELECT * FROM operation o LEFT OUTER JOIN deal d ON o.idOperation = d.idOperation"
             + " where d.loginUser=\"superpooh\" AND o.type= \"E\""
             + " AND o.date BETWEEN " + day.startDay.toLocaleString()
