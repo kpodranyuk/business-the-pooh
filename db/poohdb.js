@@ -31,9 +31,9 @@ function getHistoryForLastDay(callback) {
         // Проверить получил ли пух зарплату за текущий оп день
         var day = new OpeartionDay(new Date());
         var sql = "SELECT * FROM operation o LEFT OUTER JOIN deal d ON o.idOperation = d.idOperation"
-            + " where d.loginUser=\"superpooh\" AND  o.type= \"E\""
-            + "AND o.date BETWEEN " + day.startDay.toLocaleString()
-            + "AND " + day.endDay.toLocaleString();
+            + " where d.loginUser=\"superpooh\" AND o.type= \"E\""
+            + " AND o.date BETWEEN " + day.startDay.toLocaleString()
+            + " AND " + day.endDay.toLocaleString();
         // Если получил
         con.query(sql, function (error, result, fields) {
             if (error) {
@@ -47,10 +47,10 @@ function getHistoryForLastDay(callback) {
                 else {
                     day = day.getLastOperationDay();
                     var sql = "SELECT o.date, d.loginUser, o.comission"
-                        + "FROM operation o LEFT OUTER JOIN deal d"
+                        + " FROM operation o LEFT OUTER JOIN deal d"
                         + " ON o.idOperation = d.idOperation where o.type=\"B\""
-                        + "AND o.date BETWEEN " + day.startDay.toLocaleString()
-                        + "AND " + day.endDay.toLocaleString();
+                        + " AND o.date BETWEEN " + day.startDay.toLocaleString()
+                        + " AND " + day.endDay.toLocaleString();
 
                     // Получить из бд все операции с типом покупка
                     con.query(sql, function (error, result, fields) {
