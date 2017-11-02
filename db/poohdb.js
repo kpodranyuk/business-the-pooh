@@ -32,8 +32,8 @@ function getHistoryForLastDay(callback) {
         var day = new OpeartionDay(new Date());
         var sql = "SELECT * FROM operation o LEFT OUTER JOIN deal d ON o.idOperation = d.idOperation"
             + " where d.loginUser=\"superpooh\" AND  o.type= \"E\""
-            + "AND o.date BETWEEN " + day.startDay.toLocalestring()
-            + "AND " + day.endDay.toLocalestring();
+            + "AND o.date BETWEEN " + day.startDay.toLocaleString()
+            + "AND " + day.endDay.toLocaleString();
         // Если получил
         con.query(sql, function (error, result, fields) {
             if (error) {
@@ -45,10 +45,12 @@ function getHistoryForLastDay(callback) {
                     callback(null);
                 }
                 else {
+                    day = day.getLastOperationDay();
                     var sql = "SELECT o.date, d.loginUser, o.comission"
                         + "FROM operation o LEFT OUTER JOIN deal d"
                         + " ON o.idOperation = d.idOperation where o.type=\"B\""
-                        +  "AND o.date = "+ day.getLastOperationDay().toLocalestring();
+                        + "AND o.date BETWEEN " + day.startDay.toLocaleString()
+                        + "AND " + day.endDay.toLocaleString();
 
                     // Получить из бд все операции с типом покупка
                     con.query(sql, function (error, result, fields) {
