@@ -37,12 +37,18 @@ function getHistoryForLastDay(callback) {
         // Если получил
         con.query(sql, function (error, result, fields) {
             if (error) {
-                callback(null);
+                con.commit(function (err) {
+                    callback(null);
+                    if (err) return con.rollback(function () { console.error(err.message); });
+                });
                 return con.rollback(function () { console.error(error.message); });
             } else {
                 if (result != null) {
                     // Отправить пустой список
-                    callback(null);
+                    con.commit(function (err) {
+                        callback(null);
+                        if (err) return con.rollback(function () { console.error(err.message); });
+                    });
                 }
                 else {
                     day = day.getLastOperationDay();
@@ -55,12 +61,17 @@ function getHistoryForLastDay(callback) {
                     // Получить из бд все операции с типом покупка
                     con.query(sql, function (error, result, fields) {
                         if (error) {
-                            callback(null);
+                            con.commit(function (err) {
+                                callback(null);
+                                if (err) return con.rollback(function () { console.error(err.message); });
+                            });
                             return con.rollback(function () { console.error(error.message); });
                         }
-                        callback(result);
-                        con.commit(function (error) {
-                            if (error) return con.rollback(function () { console.error(error.message); });
+
+                        // Отправить пустой список
+                        con.commit(function (err) {
+                            callback(result);
+                            if (err) return con.rollback(function () { console.error(err.message); });
                         });
 
                     });
