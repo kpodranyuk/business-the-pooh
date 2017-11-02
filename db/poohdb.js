@@ -46,7 +46,7 @@ function getHistoryForLastDay(callback) {
                 if (result.length != 0) {
                     // Отправить пустой список
                     con.commit(function (err) {
-                        callback(result);
+                        callback(null);
                         if (err) return con.rollback(function () { console.error(err.message); });
                     });
                 }
@@ -68,7 +68,7 @@ function getHistoryForLastDay(callback) {
                             return con.rollback(function () { console.error(error.message); });
                         }
 
-                        // Отправить пустой список
+                       // Отправить список
                         con.commit(function (err) {
                             callback(result);
                             if (err) return con.rollback(function () { console.error(err.message); });
