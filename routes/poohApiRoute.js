@@ -9,7 +9,7 @@ var db = require('../db/poohdb.js');
 router.post('/last-op-day', function (req, res) {
 	db.getHistoryForLastDay(function (result) {
 		if (result == null) {
-			res.json({ success: true });
+			res.json({ success: false });
 		}
 		else {
 			res.json({

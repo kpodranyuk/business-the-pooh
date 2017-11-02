@@ -32,7 +32,7 @@ function getHistoryForLastDay(callback) {
         var day = new OperationDay(new Date());
         var sql = "SELECT * FROM operation o LEFT OUTER JOIN deal d ON o.idOperation = d.idOperation"
             + " where d.loginUser=\"superpooh\" AND o.type= \"E\""
-            + " AND o.date BETWEEN " +  mysql.escape(day.startDay.toLocaleString())
+            + " AND o.date BETWEEN " + mysql.escape(day.startDay.toLocaleString())
             + " AND " + mysql.escape(day.endDay.toLocaleString());
         // Если получил
         con.query(sql, function (error, result, fields) {
@@ -43,10 +43,10 @@ function getHistoryForLastDay(callback) {
                 });
                 return con.rollback(function () { console.error(error.message); });
             } else {
-                if (result != null) {
+                if (result.length != 0) {
                     // Отправить пустой список
                     con.commit(function (err) {
-                        callback(null);
+                        callback(result);
                         if (err) return con.rollback(function () { console.error(err.message); });
                     });
                 }
