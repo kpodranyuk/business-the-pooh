@@ -78,10 +78,9 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
                     con.query("UPDATE User SET idPromotion = " + user.promotion.id + " WHERE login = " + mysql.escape(user.login), function (error, results, fields) {
                         if (error) return con.rollback(function () { console.error(error.message); });
 
-                        callback(user);
-
                         con.commit(function (error) {
                             if (error) return con.rollback(function () { console.error(error.message); });
+                            callback(user);
                         });
                     });
                 });
