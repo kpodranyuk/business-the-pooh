@@ -38,8 +38,8 @@ function getAllHistory(loginUser, callback) {
                 return con.rollback(function () { console.error(error.message); });
             } else {
                 con.commit(function (error) {
-                    if (error) return con.rollback(function () { console.error(error.message); });
                     callback(result);
+                    if (error) return con.rollback(function () { console.error(error.message); });
                 });
             }
         });

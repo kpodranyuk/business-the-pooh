@@ -79,8 +79,8 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
                         if (error) return con.rollback(function () { console.error(error.message); });
 
                         con.commit(function (error) {
-                            if (error) return con.rollback(function () { console.error(error.message); });
                             callback(user);
+                            if (error) return con.rollback(function () { console.error(error.message); });
                         });
                     });
                 });
