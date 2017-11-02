@@ -30,6 +30,15 @@ router.post('/entry-product', function(req, res) {
 
 
 /**
+ * Ввод своего товара в систему(информация)
+ */
+router.post('/entry-product-info', function(req, res) {
+	
+	res.send("User entry product(info)");
+});
+
+
+/**
  * Деактивация аккаунта
  */
 router.post('/deactivate-account', function(req, res) {

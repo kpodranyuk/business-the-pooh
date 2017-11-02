@@ -64,4 +64,14 @@ router.post('/get-honey', function (req, res) {
 });
 
 
+/**
+ * Вывод меда из системы(информация)
+ */
+router.post('/get-honey-info', function (req, res) {
+
+	res.send("Get honey User or Pooh info");
+});
+
+
+
 module.exports = router;
