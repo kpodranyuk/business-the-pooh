@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var config = require('./config');
-var date = require('../model/operationday');
+var OperationDay = require('../model/operationday');
 
 var con = mysql.createConnection({
     host: config["host"],
@@ -32,8 +32,8 @@ function getHistoryForLastDay(callback) {
         var day = new OpeartionDay(new Date());
         var sql = "SELECT * FROM operation o LEFT OUTER JOIN deal d ON o.idOperation = d.idOperation"
             + " where d.loginUser=\"superpooh\" AND  o.type= \"E\""
-            + "AND o.date >=" + day.startDay.toLocalestring()
-            + "AND o.date <=" + day.endDay.toLocalestring();
+            + "AND o.date BETWEEN " + day.startDay.toLocalestring()
+            + "AND " + day.endDay.toLocalestring();
         // Если получил
         con.query(sql, function (error, result, fields) {
             if (error) {
@@ -47,8 +47,9 @@ function getHistoryForLastDay(callback) {
                 else {
                     var sql = "SELECT o.date, d.loginUser, o.comission"
                         + "FROM operation o LEFT OUTER JOIN deal d"
-                        + " ON o.idOperation = d.idOperation where o.type=\"B\"";
-                        
+                        + " ON o.idOperation = d.idOperation where o.type=\"B\""
+                        +  "AND o.date = "+ day.getLastOperationDay().toLocalestring();
+
                     // Получить из бд все операции с типом покупка
                     con.query(sql, function (error, result, fields) {
                         if (error) {
