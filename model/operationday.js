@@ -48,3 +48,6 @@ function OperationDay(date) {
     }
 
 }
+
+
+module.exports = OperationDay;
