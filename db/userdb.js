@@ -2,6 +2,7 @@ var mysql = require('mysql');
 var config = require('./config');
 var User = require('../model/usermodel');
 var Promotion = require('../model/promotion');
+var OperationDay = require('../model/operationday.js');
 
 var con = mysql.createConnection({
     host: config["host"],
@@ -100,6 +101,44 @@ function loginUser(login, password, callback) {
 
 }
 
+/**
+* Получить все операции ввода средств пользователем за текущий день
+* @param {string} login - логин пользователя
+* @param {function} функция, создающая запрос
+*/
+function getTodaysEnterOperations(loginUser, callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Опеределить временные рамки текущего операционного дня с помощью класса OperationDay
+        var opDay = new OperationDay(new Date());
+        // Сделать выборку из БД всех операций ввода за текущий день
+        var sql = "SELECT o.productAmount "
+            + "FROM operation o LEFT OUTER JOIN deal d "
+            + "ON o.idOperation = d.idOperation where loginUser= " + mysql.escape(loginUser)
+            + " AND o.type='E' "
+            + "AND o.date BETWEEN " + mysql.escape(opDay.startDay.toLocaleString()) + " AND " + mysql.escape(opDay.endDay.toLocaleString());
+        console.log(sql);
 
+        con.query(sql, function (error, result, fields) {
+
+            if (error) {
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (error) {
+                    callback(result);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+
+            }
+        });
+    });
+}
+
+module.exports.getTodaysEnterOperations = getTodaysEnterOperations;
 module.exports.registrationUser = registrationUser;
 module.exports.loginUser = loginUser;
