@@ -78,10 +78,20 @@ router.post('/get-honey', function (req, res) {
 			});
 		}
 		else {
-			// console.log(result);
-			res.json({
-				success: true,
-				message: 'Мед был выведен из системы'
+			db.getUserBalance(login, function (result) {
+				if (result == null) {
+					res.json({ success: false, message: 'Не удалось получить баланс пользователя' });
+				}
+				else {
+					// Выводим баланс пользователя
+					res.json({
+						success: true,
+						productAmount: result.productAmount,
+						honeyAmount: result.honeyAmount,
+						idProductType: result.idProductType
+					});
+				}
+
 			});
 		}
 	});
