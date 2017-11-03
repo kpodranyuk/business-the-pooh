@@ -139,6 +139,39 @@ function getTodaysEnterOperations(loginUser, callback) {
     });
 }
 
+/**
+ * Пополнить счет пользователя его товаром
+ * @param {string} login - логин пользователя
+ * @param {int} product - количество товара для ввода
+ * @param {function} функция, отправляющая полученный баланс
+ */
+function enterUserProduct(login, product, callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Обновить поле с количеством товара пользователя
+        var sql = "UPDATE user SET productAmount = productAmount + " + product +
+            + " WHERE login = " + mysql.escape(login);
+        console.log(sql);
+
+        con.query(sql, function (error, result, fields) {
+
+            if (error) {
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (error) {
+                    callback(result);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+            }
+        });
+    });
+}
+
 module.exports.getTodaysEnterOperations = getTodaysEnterOperations;
 module.exports.registrationUser = registrationUser;
 module.exports.loginUser = loginUser;
