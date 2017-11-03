@@ -21,6 +21,31 @@ router.post('/buy-honey-info', function (req, res) {
 });
 
 
+/**
+ * Вывод баланса пользователя
+ */
+router.post('/get-balance', function (req, res) {
+
+	// Получаем логин пользователя
+	var login = req.body.login;
+
+	dbo.getUserBalance(login, function (result) {
+		if (result == null) {
+			res.json({ success: false, message: 'Не удалось получить баланс пользователя' });
+		}
+		else {
+			// Выводим баланс пользователя
+			res.json({
+				success: true,
+				productAmount: result[0].productAmount,
+				honeyAmount: result[0].honeyAmount,
+				idProductType: result[0].idProductType
+			});
+		}
+
+	});
+});
+
 
 /**
  * Ввод своего товара в систему
