@@ -57,7 +57,10 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
         var sql = "INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount, idProductType, idPromotion) VALUES ";
         con.query(sql + mysql.escape(values), function (error, results, fields) {
             if (error) {
-                callback(null);
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
                 return con.rollback(function () { console.error(error.message); });
             } else {
                 // Создаем пользователя и скидку для него
@@ -118,7 +121,7 @@ function getTodaysEnterOperations(loginUser, callback) {
             + "ON o.idOperation = d.idOperation where loginUser= " + mysql.escape(loginUser)
             + " AND o.type='E' "
             + "AND o.date BETWEEN " + mysql.escape(opDay.startDay.toLocaleString()) + " AND " + mysql.escape(opDay.endDay.toLocaleString());
-        console.log(sql);
+
 
         con.query(sql, function (error, result, fields) {
 
@@ -147,12 +150,13 @@ function getTodaysEnterOperations(loginUser, callback) {
  */
 function enterUserProduct(login, product, callback) {
     // Начинаем транзакцию 
+
     con.beginTransaction(function (error) {
         if (error) { throw error; }
+
         // Обновить поле с количеством товара пользователя
-        var sql = "UPDATE user SET productAmount = productAmount + " + product +
+        var sql = "UPDATE user SET productAmount = productAmount + " + product
             + " WHERE login = " + mysql.escape(login);
-        console.log(sql);
 
         con.query(sql, function (error, result, fields) {
 
@@ -171,7 +175,7 @@ function enterUserProduct(login, product, callback) {
         });
     });
 }
-
+module.exports.enterUserProduct = enterUserProduct;
 module.exports.getTodaysEnterOperations = getTodaysEnterOperations;
 module.exports.registrationUser = registrationUser;
 module.exports.loginUser = loginUser;
