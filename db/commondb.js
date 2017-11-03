@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var config = require('./config');
+var OperationDay = require('../model/operationday.js');
 
 var con = mysql.createConnection({
     host: config["host"],
@@ -45,5 +46,12 @@ function getAllHistory(loginUser, callback) {
         });
     });
 }
-
+/**
+ * Получить операции прошедшие в текущий день
+ * @param {string} loginUser - логин пользователя
+ * @param {function} функция, отправляющая список операций
+ */
+function getTodaysOperations(loginUser, callback) {
+}
+module.exports.getTodaysOperations = getTodaysOperations;
 module.exports.getAllHistory = getAllHistory;
