@@ -66,7 +66,6 @@ function getTodaysOperations(loginUser, callback) {
             + "FROM operation o LEFT OUTER JOIN deal d "
             + "ON o.idOperation = d.idOperation where loginUser = " + mysql.escape(loginUser)
             + " AND o.date BETWEEN " + mysql.escape(opDay.startDay.toLocaleString()) + " AND " + mysql.escape(opDay.endDay.toLocaleString());
-        console.log(sql);
         con.query(sql, function (error, result, fields) {
 
             if (error) {
@@ -98,7 +97,6 @@ function withdrawUserHoney(login, honey, callback) {
         // Обновить поле с количеством меда пользователя
         var sql = "UPDATE user SET honeyAmount = honeyAmount-" + honey
             + " WHERE login = " + mysql.escape(login);
-        console.log(sql);
 
         con.query(sql, function (error, result, fields) {
 
@@ -133,8 +131,6 @@ function getUserBalance(login, callback) {
         var sql = "SELECT u.productAmount, u.honeyAmount, u.idProductType "
             + "FROM user u "
             + "WHERE login = " + mysql.escape(login);
-        console.log(sql);
-
         con.query(sql, function (error, result, fields) {
 
             if (error) {

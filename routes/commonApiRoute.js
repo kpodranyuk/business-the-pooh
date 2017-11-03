@@ -86,9 +86,9 @@ router.post('/get-honey', function (req, res) {
 					// Выводим баланс пользователя
 					res.json({
 						success: true,
-						productAmount: result.productAmount,
-						honeyAmount: result.honeyAmount,
-						idProductType: result.idProductType
+						productAmount: result[0].productAmount,
+						honeyAmount: result[0].honeyAmount,
+						idProductType: result[0].idProductType
 					});
 				}
 

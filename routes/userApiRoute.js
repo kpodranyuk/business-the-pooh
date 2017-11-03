@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db/userdb.js');
+var dbo = require('../db/commondb.js');
 
 /**
  * Покупка меда(подтверждение)
@@ -44,7 +45,7 @@ router.post('/entry-product', function (req, res) {
 			});
 		}
 		else {
-			db.getUserBalance(login, function (result) {
+			dbo.getUserBalance(login, function (result) {
 				if (result == null) {
 					res.json({ success: false, message: 'Не удалось получить баланс пользователя' });
 				}
@@ -52,9 +53,9 @@ router.post('/entry-product', function (req, res) {
 					// Выводим баланс пользователя
 					res.json({
 						success: true,
-						productAmount: result.productAmount,
-						honeyAmount: result.honeyAmount,
-						idProductType: result.idProductType
+						productAmount: result[0].productAmount,
+						honeyAmount: result[0].honeyAmount,
+						idProductType: result[0].idProductType
 					});
 				}
 
