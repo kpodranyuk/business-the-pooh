@@ -108,6 +108,38 @@ function withdrawUserHoney(login, honey, callback) {
         });
     });
 }
+
+/**
+ * Получить баланс пользователя
+ * @param {string} login - логин пользователя
+ * @param {function} функция, отправляющая полученный баланс
+ */
+function getUserBalance(login, callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Сделать выборку из БД информации о счете пользователя
+        var sql = "SELECT u.productAmount, u.honeyAmount, u.idProductType"
+        + "FROM user u"
+        + "WHERE login = " + mysql.escape(login);
+        console.log(sql);
+
+        con.query(sql, function (error, result, fields) {
+
+            if (error) {
+                callback(null);
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (error) {
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                callback(result);
+            }
+        });
+    });
+}
+
+module.exports.getUserBalance = getUserBalance;
 module.exports.withdrawUserHoney = withdrawUserHoney;
 module.exports.getTodaysOperations = getTodaysOperations;
 module.exports.getAllHistory = getAllHistory;
