@@ -70,7 +70,37 @@ router.post('/entry-product', function (req, res) {
  */
 router.post('/entry-product-info', function (req, res) {
 
-	res.send("User entry product(info)");
+	// res.send("User entry product(info)");
+	// Получаем логин пользователя
+	var login = req.body.login;
+	// Получаем у БД информацию об уже введенных средствах за сегодня
+	db.getTodaysEnterOperations(login, function (result) {
+		if (result == null) {
+			res.json({ success: false, message: 'Не удалось получить историю операций за текущий день у данного пользователя' });
+		}
+		else {
+			// console.log(result);
+
+			var entered = 0;	// Количество введенного товара в систему за сегодня
+			var canEnter = 0;	// Максимально возможное количество товара для ввода
+			// Для каждой операции..				
+			for (var i = 0; i < result.length; i++) {
+				// Вычисляем сколько уже было введенно
+				entered += result[i].productAmount;
+			}
+			// Определить допустимое количество товара для ввода - в сумме за день не более 50 шт
+			if (entered >= 50) {
+				canEnter = 0;
+			}
+			else {
+				canEnter = 50 - entered;
+			}
+			res.json({
+				success: true,
+				honeyToGet: canEnter
+			});
+		}
+	});
 });
 
 
