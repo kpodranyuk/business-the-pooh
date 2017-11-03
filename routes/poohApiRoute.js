@@ -21,13 +21,17 @@ router.post('/last-op-day', function (req, res) {
 });
 
 
-	/**
-	 * Операции пользователей за прошлый операционный день
-	 */
-	router.post('/get-commission', function (req, res) {
-
-		res.send("Pooh get commission from users");
+/**
+ * Операции пользователей за прошлый операционный день
+ */
+router.post('/get-commission', function (req, res) {
+	db.getCommission(req.body.balance, req.body.promotion, function (poohZP, dateOperation) {
+		res.json({
+			poohZP: poohZP,
+			dateOperation: dateOperation
+		});
 	});
+});
 
 
-	module.exports = router;
+module.exports = router;
