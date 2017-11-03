@@ -95,7 +95,11 @@ function getCommission(balance, promotion, callback) {
 
         // Вытаскиваем из БД пользователей, текущий баланс, и комиссию(сумму) за прошлый оп. день
         var day = new OperationDay(new Date());
-        day = day.getLastOperationDay().getLastOperationDay().getLastOperationDay();
+        console.log(day.startDay.toLocaleString());
+        console.log(day.endDay.toLocaleString());
+        day = day.getLastOperationDay();
+        console.log(day.startDay.toLocaleString());
+        console.log(day.endDay.toLocaleString());
         var sql = "SELECT u.login, u.honeyAmount, SUM(o.comission) as comission FROM ((deal d"
             + " LEFT OUTER JOIN operation o ON d.idOperation = o.idOperation)"
             + " LEFT OUTER JOIN  user u ON d.loginUser = u.login)"

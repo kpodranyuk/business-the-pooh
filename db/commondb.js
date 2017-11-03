@@ -173,6 +173,7 @@ function insertNewOperation(operation, login, callback) {
                 });
             } else {
                 var id = result.insertId;
+                console.log(id);
                 values = [[login, id]];
                 con.query("INSERT INTO Deal(loginUser, idOperation) VALUES " + mysql.escape(values), function (error, result, fields) {
                     if (error) {
