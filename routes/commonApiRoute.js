@@ -59,9 +59,34 @@ router.post('/operations', function (req, res) {
  * Вывод меда из системы
  */
 router.post('/get-honey', function (req, res) {
-
-	res.send("Get honey User or Pooh");
-});
+	
+		// res.send("Get honey User or Pooh");
+		// Получаем логин пользователя
+		var login = req.body.login;
+		// Получаем желаемое для снятия количество меда
+		var honey = req.body.honey;
+		// Говорим БД обновить данные пользователя
+		db.withdrawUserHoney(login, honey, function (result) {
+			if (result == null) {
+				res.json({ success: false, message: 'Не удалось снять мед у данного пользователя' });
+			}
+			else if(result.affectedRows == 0){
+				//console.log(result);
+				res.json({
+					success: false,
+					message: 'Запись пользователя не была найдена'
+				});
+			}
+			else{
+				// console.log(result);
+				res.json({
+					success: true,
+					message: 'Мед был выведен из системы'
+				});
+			}
+		});
+	});
+	
 
 
 /**
