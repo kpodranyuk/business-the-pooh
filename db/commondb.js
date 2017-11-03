@@ -1,6 +1,8 @@
 var mysql = require('mysql');
 var config = require('./config');
 var OperationDay = require('../model/operationday.js');
+var Operation = require('../model/operation');
+var userdb = require("./userdb");
 
 var con = mysql.createConnection({
     host: config["host"],
@@ -96,7 +98,7 @@ function withdrawUserHoney(login, honey, callback) {
         if (error) { throw error; }
         // Обновить поле с количеством меда пользователя
         var sql = "UPDATE user SET honeyAmount = honeyAmount-" + honey
-             " WHERE login = " + mysql.escape(login);
+        " WHERE login = " + mysql.escape(login);
         con.query(sql, function (error, result, fields) {
 
             if (error) {
@@ -149,7 +151,50 @@ function getUserBalance(login, callback) {
     });
 }
 
+/**
+ * Вставить новую операцию
+ * @param {Operation} operation - операция
+ * @param {string} login - логин пользователя
+ * @param {function} функция, отправляющая успешность вставки операции
+ */
+function insertNewOperation(operation, login, callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (err) {
+        if (err) { throw err; }
+
+        // Вставляем новую операцию
+        var values = [[operation.type, operation.datatime, operation.productAmount, operation.honeyPots, operation.honeyCount, operation.comission, userdb.getIndexProductType(operation.productType)]];
+        con.query("INSERT INTO Operation(type, date, productAmount, honeyPots, honeyCount, comission, idProductType) VALUES " + mysql.escape(values), function (error, result, fields) {
+            callback(false);
+            if (error) {
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+            } else {
+                var id = result.insertId;
+                values = [[login, id]];
+                con.query("INSERT INTO Deal(loginUser, idOperation) VALUES " + mysql.escape(values), function (error, result, fields) {
+                    if (error) {
+                        con.commit(function (error) {
+                            callback(false);
+                            if (error) return con.rollback(function () { console.error(error.message); });
+                        });
+                    } else {
+                        con.commit(function (error) {
+                            callback(true);
+                            if (error) return con.rollback(function () { console.error(error.message); });
+                        });
+                    }
+                });
+            }
+        });
+    });
+}
+
+
 module.exports.getUserBalance = getUserBalance;
 module.exports.withdrawUserHoney = withdrawUserHoney;
 module.exports.getTodaysOperations = getTodaysOperations;
 module.exports.getAllHistory = getAllHistory;
+module.exports.insertNewOperation = insertNewOperation;

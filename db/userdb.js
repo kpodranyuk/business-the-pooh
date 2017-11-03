@@ -179,3 +179,4 @@ module.exports.enterUserProduct = enterUserProduct;
 module.exports.getTodaysEnterOperations = getTodaysEnterOperations;
 module.exports.registrationUser = registrationUser;
 module.exports.loginUser = loginUser;
+module.exports.getIndexProductType = getIndexProductType;
