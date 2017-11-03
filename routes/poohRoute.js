@@ -6,7 +6,7 @@ router.post('/', function (req, res) {
 	var userLogin = req.body.login;
 
 	if (userLogin != null && userLogin.length > 0) {
-		res.sendFile(__dirname + '/poohLk.html');
+		res.sendFile(__dirname + '/../static/resources/poohLk.html');
 	}
 });
 
