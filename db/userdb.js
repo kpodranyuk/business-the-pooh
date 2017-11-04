@@ -180,11 +180,32 @@ function enterUserProduct(login, product, callback) {
  * Потдвердить покупку меда
  * @param {User} user - пользователь с информацией о всем
  * @param {number} countPots - кол-во горшочков меда, которое покупает пользователь
- * @param {function} callback функция, возвращающая на клиент информацию о кол-ве горшочков у пчел 
+ * @param {function} callback функция, возвращающая новые данные о пользователе, комиссию
  */
 function buyHoney(user, countPots, callback) {
-    // обновить кол-во меда и горшочков у пчел
-    // рассчитать пользовательскую скидку
+    // Начинаем транзакцию 
+    con.beginTransaction(function (err){
+        if (err) { throw err; }
+
+        // обновить кол-во меда и горшочков у пчел
+        con.query("UPDATE Bees SET potsCount=potsCount-"+countPots+", honeyInPot=honeyInPot-("+(countPots*0.25).toFixed(5)+") WHERE id=1", function(error, result, fields) {
+            if (error) {
+                console.log(error.message);
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                // рассчитать пользовательскую скидку
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+            }
+        });
+
+    });
     // обновить данные у пользователя как по его балансу так и по его скидке
     // в коллбеке вернуть данные для встваки новой операции в БД
 }

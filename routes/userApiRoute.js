@@ -9,6 +9,9 @@ var dbo = require('../db/commondb.js');
 router.post('/buy-honey', function (req, res) {
 
 	// Купить у пчел мед
+	db.buyHoney(req.body.user, req.body.countPots, function(newUserData, comission) {
+		res.json({success: true});
+	});
 	// В коллбеке получить данные о новой операции
 	// Вызвать событие, информирующее что у пчел поменялся баланс
 	// Вернуть на клиент новые данные о балансе пользователя
