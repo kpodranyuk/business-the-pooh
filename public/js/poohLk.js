@@ -41,6 +41,11 @@ logOutBttn.onclick = function(event){
     console.log("Нажата кнопка выхода из аккаунта");
 }
 
+/**
+ * Добавить подсветку формы ввода данных в зависимости от корректности данных
+ * @param {any} parentForm - форма ввода данных
+ * @param {boolean} isProud - корректные ли данные
+ */
 function makePapaProud(parentForm, isProud){
     if(isProud){
         parentForm.classList.remove("has-error");
@@ -54,6 +59,11 @@ function makePapaProud(parentForm, isProud){
     }
 }
 
+/**
+ * Проверить корректность количества меда для вывода
+ * @param {string} honeyAmount - значение, введенное пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
 function isCorrectHoneyAmount(honeyAmount, errorPlace){
     console.log("I'm in isCorrectHoneyAmount");
     var reg = new RegExp(`^[0-5]([.,][0-9]{1,3})?$`, '');
