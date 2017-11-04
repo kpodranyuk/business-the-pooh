@@ -1,10 +1,10 @@
 // Изображение пчелы при выводе меда
-var bee_out = document.querySelector("#outbee");
-console.log(bee_out);
+var beeOut = document.querySelector("#outbee");
+console.log(beeOut);
 
 // Анимация пчелы при выводе меда
 var outAnime = anime({
-    targets: bee_out,
+    targets: beeOut,
     rotate: '1turn',
     autoplay: false,
     complete: function(anim) {
@@ -14,15 +14,16 @@ var outAnime = anime({
 });
 
 // Кнопка вывода меда
-var out_bttn = document.querySelector("#honeyOut");
-out_bttn.onclick=outAnime.restart;
+var outBttn = document.querySelector("#honeyOut");
+outBttn.onclick=outAnime.restart;
 
+// Кнопка сбора и отправки комиссии
 var comissionButton = document.querySelector("#getComission");
 comissionButton.onclick = function(event){
     console.log("Нажата кнопка сбора комиссии");
 }
 
-
+// Кнопка выхода из аккаунта
 var logOutBttn = document.querySelector("#logOut");
 logOutBttn.onclick = function(event){
     console.log("Нажата кнопка выхода из аккаунта");
