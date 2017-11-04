@@ -77,19 +77,43 @@ historyPillBttn.onclick = function(event){
 // Вкладка Ввод товара
 enterPillBttn.onclick = function(event){
     console.log("Нажата кнопка Ввод товара в панели меню");
-    // TODO стереть информацию с инпута
+    // Стираем информацию с инпута
+    var goodsCount = document.querySelector("#goodsInput");
+    goodsCount.value = "";
+    var goodsCountHelp = document.querySelector("#goodsInputHelp");
+    // Задаем строке-помощнику текст по умолчанию
+    goodsCountHelp.innerHTML = "Не более 50 товаров в день";
+    // Удаляем классы корректности с родительской формы
+    goodsCount.parentNode.classList.remove("has-error");
+    goodsCount.parentNode.classList.remove("has-success");
+    
 }
 
 // Вкладка Вывод меда
 getPillBttn.onclick = function(event){
     console.log("Нажата кнопка Вывод меда в панели меню");
-    // TODO стереть информацию с инпута
+    // Стираем информацию с инпута
+    var honeyCount = document.querySelector("#honeyInput");
+    honeyCount.value = "";
+    var honeyCountHelp = document.querySelector("#honeyInputHelp");
+    // Задаем строке-помощнику текст по умолчанию
+    honeyCountHelp.innerHTML = "Не более 5 литров в день";
+    // Удаляем классы корректности с родительской формы
+    honeyCount.parentNode.classList.remove("has-error");
+    honeyCount.parentNode.classList.remove("has-success");
 }
 
 // Вкладка Настройки аккаунта (вход)
 settingsPillBttn.onclick = function(event){
     console.log("Нажата кнопка Настройка аккаунта в панели меню");
-    // TODO стереть информацию с инпута
+    // Стираем информацию с инпута и строки-помощника
+    var pswdInput = document.querySelector("#passwordInput");
+    pswdInput.value = "";
+    var pswdInputHelp = document.querySelector("#passwordInputHelp");
+    pswdInputHelp.innerHTML = "";
+    // Удаляем классы корректности с родительской формы
+    pswdInput.parentNode.classList.remove("has-error");
+    pswdInput.parentNode.classList.remove("has-success");
 }
 
 
@@ -148,8 +172,18 @@ honeyInBttn.onclick = inAnime.restart;
 // Переключение на скрытую вкладку с настройками аккаунта
 showAccSettingsBttn.onclick = function(event){
     console.log("Нажата кнопка подтверждения пароля для открытия настроек аккаунта");
-    // TODO сделать проверку корректно введенного пароля
-    $('#pills a[href="#trueAcc"]').tab('show');
+    // Осуществляем проверку пароля на корректность
+    var pswdInput = document.querySelector("#passwordInput");
+    console.log(pswdInput);
+    var pswdInputHelp = document.querySelector("#passwordInputHelp");
+    console.log(pswdInput);
+    var wasPapaProud = false;
+    wasPapaProud = isCorrectPassword(pswdInput.value, pswdInputHelp);
+    makePapaProud(pswdInput.parentNode, wasPapaProud);
+    // Если пароль корректный, открываем настройки
+    if(wasPapaProud){
+        $('#pills a[href="#trueAcc"]').tab('show');
+    }
 }
 
 // Открытие форм обновления пароля
@@ -233,4 +267,34 @@ function isCorrectProductAmount(productAmount, errorPlace){
         errorPlace.innerHTML = "Некорректное количество товара.<br>Количество товара должно быть положительным целым числом не больше 50";
         return false;
     }    
+}
+
+function isCorrectPassword(pswd, errorPlace){
+    console.log("I'm in isCorrectPassword");
+    var reg = new RegExp(`^[A-Za-z0-9]{8,32}$`, '');
+    if (pswd==null){
+        console.log("pswd is null");
+        errorPlace.innerHTML = "Введите пароль, пустое поле";
+        return false;
+    }
+    if (pswd.length>32){
+        console.log("wrong length of pswd");
+        errorPlace.innerHTML = "Пароль не должен быть длиньше 32 символов";
+        return false;
+    }
+    if (pswd.length<8){
+        console.log("wrong length of pswd");
+        errorPlace.innerHTML = "Пароль не должен быть короче 8 символов";
+        return false;
+    }    
+    if(reg.test(pswd)){
+        console.log("true, correct pswd");
+        errorPlace.innerHTML = "Корректный пароль";
+        return true;
+    }
+    else {
+        console.log("wrong, incorrect pswd");
+        errorPlace.innerHTML = "Некорректный пароль. Пароль должен содержать от 8 до 32 символов английского алфавита и/или цифр";
+        return false;
+    }  
 }
