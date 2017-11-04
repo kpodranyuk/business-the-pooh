@@ -20,7 +20,42 @@ router.post('/buy-honey', function (req, res) {
  */
 router.post('/buy-honey-info', function (req, res) {
 
-	res.send("User buy honey(info)");
+	//res.send("User buy honey(info)");
+	db.getInformationForBuying(function (result) {
+		if (result == null) {
+			res.json({ success: false, message: 'Не удалось получить количество доступного мёда у пчёл' });
+		}
+		else {
+			var potsCount = result[0].potsCount;
+			var productCount = req.body.productAmount;
+			var rate = 0;
+			var count = 0;
+
+			// Узнать курс по продукту
+			if (req.body.idProductType == 0 || req.body.idProductType == 1) {
+				rate = 10;
+			}
+			else if (req.body.idProductType == 2) {
+				rate = 5;
+			}
+			else {
+				rate = 1;
+			}
+			// Проверить сколько горшочков мёда можно купить
+			var canBuy = potsCount - productCount / rate;
+			if (canBuy > 0) {
+				canBuy = productCount / rate;
+			}
+			else {
+				canBuy = potsCount;
+			}
+			// Записать в файл джейсон
+			res.json({
+				success: true,
+				honeyToBuy: canBuy - (canBuy % 1) // Убрать возможный остаток
+			});
+		}
+	});
 });
 
 
