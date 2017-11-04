@@ -27,7 +27,7 @@ function User(login, name, productType) {
             rate = 5;
         }
 
-        this.productAmount = this.productAmount - (countPots * rate);
+        this.productAmount = this.productAmount - ((countPots * rate).toFixed(5));
         this.honeyAmount = this.honeyAmount + ((countPots * 0.25).toFixed(5));
 
         this.promotion.operationsCount = this.promotion.operationsCount + 1;

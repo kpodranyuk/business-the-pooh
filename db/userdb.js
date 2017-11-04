@@ -176,6 +176,7 @@ function enterUserProduct(login, product, callback) {
     });
 }
 
+
 /**
  * Потдвердить покупку меда
  * @param {User} user - пользователь с информацией о всем
@@ -192,21 +193,51 @@ function buyHoney(user, countPots, callback) {
             if (error) {
                 console.log(error.message);
                 con.commit(function (error) {
-                    callback(null);
+                    callback(null, null);
                     if (error) return con.rollback(function () { console.error(error.message); });
                 });
                 return con.rollback(function () { console.error(error.message); });
             } else {
-                // рассчитать пользовательскую скидку
-                con.commit(function (error) {
-                    callback(null);
-                    if (error) return con.rollback(function () { console.error(error.message); });
+                // Вызвать событие, информирующее что у пчел поменялся баланс
+                // обновить данные у пользователя(баланс) и рассчитать комиссию
+                user.buyHoney(countPots);
+                var comission = ((countPots * 0.25) * (user.promotion.percent / 100)).toFixed(5);
+
+                // вставить в базу обновленные данные о балансе пользователя
+                con.query("UPDATE User SET productAmount="+user.productAmount+", honeyAmount="+user.honeyAmount+" WHERE login="+mysql.escape(user.login), function(error, result, fields) {
+                    if(error) {
+                        console.log(error.message);
+                        con.commit(function (error) {
+                            callback(null, null);
+                            if (error) return con.rollback(function () { console.error(error.message); });
+                        });
+                        return con.rollback(function () { console.error(error.message); });
+                    } else {
+                        // рассчитать новую скидку для следующей покупки
+                        user.calculateNewPromotion();
+                        // вставить в базу обновленную скидку
+                        con.query("UPDATE Promotion SET operationsCount="+user.promotion.operationsCount+", operationsToNext="+user.promotion.operationsToNext+", percent="+user.promotion.percent+" WHERE idPromotion="+user.promotion.id, function(error, result, fields) {
+                            if(error) {
+                                console.log(error.message);
+                                con.commit(function (error) {
+                                    callback(null, null);
+                                    if (error) return con.rollback(function () { console.error(error.message); });
+                                });
+                                return con.rollback(function () { console.error(error.message); });
+                            } else {
+                                callback(user, comission);
+                                con.commit(function(error){
+                                    if (error) return con.rollback(function () { console.error(error.message); });
+                                });
+                            }
+                        });
+                    }
                 });
             }
         });
 
     });
-    // обновить данные у пользователя как по его балансу так и по его скидке
+    //как по его балансу так и по его скидке
     // в коллбеке вернуть данные для встваки новой операции в БД
 }
 

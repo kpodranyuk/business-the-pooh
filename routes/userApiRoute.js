@@ -2,19 +2,41 @@ var express = require('express');
 var router = express.Router();
 var db = require('../db/userdb.js');
 var dbo = require('../db/commondb.js');
+var Operation = require('../model/operation');
+var User = require("../model/usermodel");
+var Promotion = require('../model/promotion');
 
 /**
  * Покупка меда(подтверждение)
  */
 router.post('/buy-honey', function (req, res) {
 
+	var user = new User(req.body.user.login, req.body.user.name, req.body.user.productType);
+	user.password = req.body.user.password;
+	user.productAmount = req.body.user.productAmount;
+	user.honeyAmount = req.body.user.honeyAmount;
+	user.promotion = new Promotion(req.body.user.promotion.id);
+	user.promotion.operationsCount =  req.body.user.promotion.operationsCount;
+	user.promotion.percent = req.body.user.promotion.percent;
+	user.promotion.operationsToNext = req.body.user.promotion.operationsToNext;
+
 	// Купить у пчел мед
-	db.buyHoney(req.body.user, req.body.countPots, function(newUserData, comission) {
-		res.json({success: true});
+	db.buyHoney(user, req.body.countPots, function(newUserData, comission) {
+		if (newUserData == null) {
+			res.json({success: false});
+		} else {
+			// Вставить новую операцию
+			var operation = new Operation(1, 'B', new Date(), newUserData.productType, getRate(newUserData.productType),req.body.countPots, (req.body.countPots*0.25).toFixed(5), comission);
+			dbo.insertNewOperation(operation, newUserData.login, function(success) {
+				if (success) {
+					res.json({
+						success: true,
+						user: newUserData
+					});
+				}
+			});
+		}
 	});
-	// В коллбеке получить данные о новой операции
-	// Вызвать событие, информирующее что у пчел поменялся баланс
-	// Вернуть на клиент новые данные о балансе пользователя
 });
 
 
@@ -35,15 +57,7 @@ router.post('/buy-honey-info', function (req, res) {
 			var count = 0;
 
 			// Узнать курс по продукту
-			if (req.body.productType == 'F' || req.body.productType == 'B') {
-				rate = 10;
-			}
-			else if (req.body.productType == 'P') {
-				rate = 5;
-			}
-			else {
-				rate = 1;
-			}
+			rate = getRate(req.body.productType);
 			// Проверить сколько горшочков мёда можно купить
 			var canBuy = potsCount - productCount / rate;
 			if (canBuy > 0) {
@@ -60,6 +74,22 @@ router.post('/buy-honey-info', function (req, res) {
 		}
 	});
 });
+
+/**
+ * Получить курс по меду
+ * @param {string} productType - тип продукта
+ */
+function getRate(productType) {
+	if (productType == 'F' || productType == 'B') {
+		return 10;
+	}
+	else if (productType == 'P') {
+		return 5;
+	}
+	else {
+		return 1;
+	}
+}
 
 
 /**
