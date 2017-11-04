@@ -16,7 +16,7 @@ router.post('/buy-honey', function (req, res) {
 
 
 /**
- * Покупка меда(информация при покупке: скидка, комиссия и тд)
+ * Покупка меда(информация при покупке)
  */
 router.post('/buy-honey-info', function (req, res) {
 
@@ -32,10 +32,10 @@ router.post('/buy-honey-info', function (req, res) {
 			var count = 0;
 
 			// Узнать курс по продукту
-			if (req.body.idProductType == 0 || req.body.idProductType == 1) {
+			if (req.body.productType == 'F' || req.body.productType == 'B') {
 				rate = 10;
 			}
-			else if (req.body.idProductType == 2) {
+			else if (req.body.productType == 'P') {
 				rate = 5;
 			}
 			else {
