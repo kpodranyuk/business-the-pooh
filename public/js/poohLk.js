@@ -9,6 +9,7 @@ var outAnime = anime({
     autoplay: false,
     complete: function(anim) {
         // СОБЫТИЕ ЗАВЕРШЕНИЯ АНИМАЦИИ ПРИ ВЫВОДЕ МЕДА
+        console.log("Нажата кнопка вывода меда");
       }
 });
 
