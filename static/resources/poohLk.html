@@ -156,13 +156,13 @@
                   <div class="container-fluid text-center" style="display: table">
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text-center">
                       <div class="form-group">
-                        <label for="goodsInput">Введите количество мёда в литрах</label>
-                        <input type="number" class="form-control" id="goodsInput" aria-describedby="goodsInputHelp" placeholder="4" required>
-                        <small id="goodsInputHelp" class="control-label form-text text-muted">Не более 5 литров в день</small>
+                        <label for="honeyInput">Введите количество мёда в литрах</label>
+                        <input type="number" class="form-control" id="honeyInput" aria-describedby="honeyInputHelp" placeholder="4" required>
+                        <small id="honeyInputHelp" class="control-label form-text text-muted">Не более 5 литров в день</small>
                       </div>
                       <div class="row content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-lg btn-primary">Вывести мёд</button>
+                          <button class="btn btn-lg btn-primary" id="honeyOut">Вывести мёд</button>
                         </div>
                       </div>
                       <div class="row content">
@@ -175,7 +175,7 @@
                       </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-                      <img class="img-responsive" src="images/honey_logo.png" />
+                      <img class="img-responsive" id="outbee" src="images/honey_logo.png" />
                     </div>
                   </div>
                 </div>
@@ -189,6 +189,7 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js'></script>
     <script src="js/poohLk.js"></script>
 </body>
 
