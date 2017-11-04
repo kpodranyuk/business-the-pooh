@@ -65,7 +65,16 @@ var settingsPillBttn = document.querySelector("#settingsPill");
 // Вкладка Купить
 buyPillBttn.onclick = function(event){
     console.log("Нажата кнопка Купить в панели меню");
-    // TODO спрятать divы и задать количеству горшочков значение по умолчанию
+    // TODO получить от сервера количество горшочков для покупки и добавить в селект
+    var sel = document.querySelector("#sel1");
+    sel.value = 1;
+    // Прячем div'ы
+    var div2 = document.querySelector("#secondStep");
+    div2.style.visibility = "hidden";
+    var div3 = document.querySelector("#thirdStep");
+    div3.style.visibility = "hidden";    
+    var bttnsDiv = document.querySelector("#buyButtons");
+    bttnsDiv.style.visibility = "hidden";
 }
 
 // Вкладка История
@@ -145,6 +154,8 @@ potsInBuyBttn.onclick = function(event){
     console.log("Нажата кнопка подтверждения выбора количества горшочков для покупки");
     var div = document.querySelector("#secondStep");
     div.style.visibility = "visible";
+    var bttnsDiv = document.querySelector("#buyButtons");
+    bttnsDiv.style.visibility = "visible";
 }
 
 // Подтверждение операции покупки
@@ -161,6 +172,8 @@ stopBuyBttn.onclick = function(event){
     console.log("Нажата кнопка отмены операции покупки");
     var div = document.querySelector("#secondStep");
     div.style.visibility = "hidden";
+    var bttnsDiv = document.querySelector("#buyButtons");
+    bttnsDiv.style.visibility = "hidden";
 }
 
 // Кнопка вывода меда
