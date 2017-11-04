@@ -175,8 +175,20 @@ function enterUserProduct(login, product, callback) {
         });
     });
 }
+
+
+/**
+ * Получить информацию о покупке меда
+ * @param {function} callback функция, возвращающая на клиент информацию о кол-ве горшочков у пчел 
+ */
+function getInformationForBuying(callback) {
+    // получить информцию сколько у пчел горшочков
+}
+
+
 module.exports.enterUserProduct = enterUserProduct;
 module.exports.getTodaysEnterOperations = getTodaysEnterOperations;
 module.exports.registrationUser = registrationUser;
 module.exports.loginUser = loginUser;
 module.exports.getIndexProductType = getIndexProductType;
+module.exports.getInformationForBuying = getInformationForBuying;
