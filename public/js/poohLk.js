@@ -25,6 +25,41 @@ var outAnime = anime({
       }
 });
 
+/* КНОПКИ МЕНЮ */
+// myHistoryPill - История операций Пуха
+var myHistoryPillBttn = document.querySelector("#myHistoryPill");
+// usersHistoryPill - История операций пользователей
+var historyPillBttn = document.querySelector("#usersHistoryPill");
+// getHoneyPill - Вывод меда
+var getPillBttn = document.querySelector("#getHoneyPill");
+
+/* ДЕЙСТВИЯ ПО НАЖАТИЮ КНОПОК МЕНЮ */
+// Вкладка Моя история
+myHistoryPillBttn.onclick = function(event){
+    console.log("Нажата кнопка Моя История в панели меню");
+    // TODO обновить информацию с сервера
+}
+
+// Вкладка История
+historyPillBttn.onclick = function(event){
+    console.log("Нажата кнопка История в панели меню");
+    // TODO обновить информацию с сервера
+}
+
+// Вкладка Вывод меда
+getPillBttn.onclick = function(event){
+    console.log("Нажата кнопка Вывод меда в панели меню");
+    // Стираем информацию с инпута
+    var honeyCount = document.querySelector("#honeyInput");
+    honeyCount.value = "";
+    var honeyCountHelp = document.querySelector("#honeyInputHelp");
+    // Задаем строке-помощнику текст по умолчанию
+    honeyCountHelp.innerHTML = "Не более 5 литров в день";
+    // Удаляем классы корректности с родительской формы
+    honeyCount.parentNode.classList.remove("has-error");
+    honeyCount.parentNode.classList.remove("has-success");
+}
+
 // Кнопка вывода меда
 var outBttn = document.querySelector("#honeyOut");
 outBttn.onclick=outAnime.restart;
