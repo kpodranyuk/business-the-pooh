@@ -21,3 +21,9 @@ var comissionButton = document.querySelector("#getComission");
 comissionButton.onclick = function(event){
     console.log("Нажата кнопка сбора комиссии");
 }
+
+
+var logOutBttn = document.querySelector("#logOut");
+logOutBttn.onclick = function(event){
+    console.log("Нажата кнопка выхода из аккаунта");
+}
