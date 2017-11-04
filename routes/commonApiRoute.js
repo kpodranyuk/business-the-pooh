@@ -87,7 +87,7 @@ router.post('/get-honey', function (req, res) {
 					res.json({
 						success: true,
 						productAmount: result[0].productAmount,
-						honeyAmount: result[0].honeyAmount,
+						honeyAmount: Number(result[0].honeyAmount).toFixed(5),
 						idProductType: result[0].idProductType
 					});
 				}
