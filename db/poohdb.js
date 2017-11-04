@@ -84,22 +84,17 @@ function getHistoryForLastDay(callback) {
 
 /**
  * Снять комиссию с пользователей
- * @param {number} balance - текущий баланс Пуха
  * @param {Promotion} promotion - текущая программа поощерения Пуха
  * @param {function} функция, отправляющая Пуху его баланс
  */
-function getCommission(balance, promotion, callback) {
+function getCommission(promotion, callback) {
     // Начинаем транзакцию 
     con.beginTransaction(function (err) {
         if (err) { throw err; }
 
         // Вытаскиваем из БД пользователей, текущий баланс, и комиссию(сумму) за прошлый оп. день
         var day = new OperationDay(new Date());
-        console.log(day.startDay.toLocaleString());
-        console.log(day.endDay.toLocaleString());
         day = day.getLastOperationDay();
-        console.log(day.startDay.toLocaleString());
-        console.log(day.endDay.toLocaleString());
         var sql = "SELECT u.login, u.honeyAmount, SUM(o.comission) as comission FROM ((deal d"
             + " LEFT OUTER JOIN operation o ON d.idOperation = o.idOperation)"
             + " LEFT OUTER JOIN  user u ON d.loginUser = u.login)"
@@ -109,7 +104,7 @@ function getCommission(balance, promotion, callback) {
         con.query(sql, function (error, result, fields) {
             if (error) {
                 con.commit(function (err) {
-                    callback(null);
+                    callback(0, null);
                     if (err) return con.rollback(function () { console.error(err.message); });
                 });
                 return con.rollback(function () { console.error(error.message); });
@@ -122,9 +117,6 @@ function getCommission(balance, promotion, callback) {
                 var poohZP = sumCommission * (promotion.percent / 100);
                 var beeZP = sumCommission - poohZP;
                 var dateOperation = null;
-                console.log(sumCommission);
-                console.log(poohZP);
-                console.log(beeZP);
 
                 // Для каждого пользователя обновляем его баланс
                 for(var i =0; i < result.length; i++) {
@@ -132,24 +124,20 @@ function getCommission(balance, promotion, callback) {
 
                     con.query("UPDATE user SET honeyAmount = "+ (result[i].honeyAmount - result[i].comission).toFixed(5) +" WHERE login = " + mysql.escape(login), function(error, result, fields) {
                         if(error) console.log(error.message);
-                        console.log("update balance user: " + login);
                     });
                 }
 
                 // Обновляем баланс Пуха
                 con.query("UPDATE user SET honeyAmount=honeyAmount+" + poohZP.toFixed(5) + " WHERE login=\"superpooh\"", function(error, result, fields) {
                     if(error) console.log(error.message);
-                    console.log("Обновился баланс Пуха");
                     dateOperation = new Date();
                 });
 
                 // Обновляем баланс Пчел
                 con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+"+beeZP.toFixed(5)+")/0.25), " + "honeyInPot=honeyInPot+" + beeZP.toFixed(5), function(error, result, fields) {
                     if(error) console.log(error.message);
-                    console.log("Обновился баланс Пчел");
                     con.commit(function (err) {
                         if (err) return con.rollback(function () { console.error(err.message); });
-                        console.log("Конец транзакции");
                         callback(poohZP, dateOperation);
                     });
                 });

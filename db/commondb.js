@@ -165,15 +165,13 @@ function insertNewOperation(operation, login, callback) {
         // Вставляем новую операцию
         var values = [[operation.type, operation.datatime, operation.productAmount, operation.honeyPots, operation.honeyCount, operation.comission, userdb.getIndexProductType(operation.productType)]];
         con.query("INSERT INTO Operation(type, date, productAmount, honeyPots, honeyCount, comission, idProductType) VALUES " + mysql.escape(values), function (error, result, fields) {
-            callback(false);
             if (error) {
                 con.commit(function (error) {
-                    callback(null);
+                    callback(false);
                     if (error) return con.rollback(function () { console.error(error.message); });
                 });
             } else {
                 var id = result.insertId;
-                console.log(id);
                 values = [[login, id]];
                 con.query("INSERT INTO Deal(loginUser, idOperation) VALUES " + mysql.escape(values), function (error, result, fields) {
                     if (error) {
@@ -183,8 +181,8 @@ function insertNewOperation(operation, login, callback) {
                         });
                     } else {
                         con.commit(function (error) {
-                            callback(true);
                             if (error) return con.rollback(function () { console.error(error.message); });
+                            callback(true);
                         });
                     }
                 });
