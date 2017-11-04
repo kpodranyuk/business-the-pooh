@@ -257,6 +257,12 @@ logOutBttn.onclick = function(event){
 openForgetMeBttn.onclick = function(event){
     console.log("Нажата кнопка открытия окна с подтверждением деактивации аккаунта");
     // TODO добавить очистку поля для пароля
+    var pswdInput = document.querySelector("#enterPswd");
+    pswdInput.value = "";
+    var pswdInputHelp = document.querySelector("#enterPswdHelp");
+    pswdInputHelp.innerHTML = "";
+    pswdInput.parentNode.classList.remove("has-error");
+    pswdInput.parentNode.classList.remove("has-success");
 }
 
 // Деактивировать аккаунт
