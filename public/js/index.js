@@ -2,17 +2,17 @@ import * as indexApi from "./indexApi.js";
 indexApi.sayHiGuest();
 
 // enterSubmit - "Войти в систему"
-var enter_bttn = document.querySelector("#enterSubmit");
-enter_bttn.onclick=function(event){
+var enterBttn = document.querySelector("#enterSubmit");
+enterBttn.onclick=function(event){
     // Проверить логин
     // enterInputLogin - инпут логина при входе
     var login = document.querySelector("#enterInputLogin");
     console.log(login);
     // enterloginHelp - подпись под инпутом логина при входе
-    var login_help = document.querySelector("#enterloginHelp");
-    console.log(login_help);
+    var loginHelp = document.querySelector("#enterloginHelp");
+    console.log(loginHelp);
     var wasPapaProud = false;
-    wasPapaProud = isCorrectLogin(login.value, login_help);
+    wasPapaProud = isCorrectLogin(login.value, loginHelp);
     makePapaProud(login.parentNode, wasPapaProud);
 
     // Проверить пароль
@@ -20,9 +20,9 @@ enter_bttn.onclick=function(event){
     var passwd = document.querySelector("#enterInputPass");
     console.log(passwd);
     // enterpassHelp - подпись под инпутом пароля при входе
-    var passwd_help = document.querySelector("#enterpassHelp");
-    console.log(passwd_help);
-    wasPapaProud = wasPapaProud && makePapaProud(passwd.parentNode, isCorrectPassword(passwd.value, passwd_help));
+    var passwdHelp = document.querySelector("#enterpassHelp");
+    console.log(passwdHelp);
+    wasPapaProud = wasPapaProud && makePapaProud(passwd.parentNode, isCorrectPassword(passwd.value, passwdHelp));
     if(!wasPapaProud)
         return false;
 }
@@ -30,45 +30,45 @@ enter_bttn.onclick=function(event){
 // agreeCheck - "Согласен с уловиями..."
 var agree = document.querySelector("#agreeCheck");
 agree.onchange=function(event){
-    reg_bttn.disabled = !agree.checked;
+    regBttn.disabled = !agree.checked;
 }
 
 // regSubmit - "Зарегистрироваться"
-var reg_bttn = document.querySelector("#regSubmit");
-reg_bttn.onclick=function(event){
+var regBttn = document.querySelector("#regSubmit");
+regBttn.onclick=function(event){
     // Проверить логин
     var login = document.querySelector("#regInputLogin");
     console.log(login);
-    var login_help = document.querySelector("#regloginHelp");
-    console.log(login_help);
+    var loginHelp = document.querySelector("#regloginHelp");
+    console.log(loginHelp);
     var wasPapaProud = false;
-    wasPapaProud = isCorrectLogin(login.value, login_help);
+    wasPapaProud = isCorrectLogin(login.value, loginHelp);
     makePapaProud(login.parentNode, wasPapaProud);
 
     // Проверить имя
     var name = document.querySelector("#regInputName");
     console.log(name);
-    var name_help = document.querySelector("#regnameHelp");
-    console.log(name_help);
-    var papasLast = isCorrectName(name.value, name_help);
+    var nameHelp = document.querySelector("#regnameHelp");
+    console.log(nameHelp);
+    var papasLast = isCorrectName(name.value, nameHelp);
     makePapaProud(name.parentNode, papasLast);    
     wasPapaProud = wasPapaProud && papasLast;
 
     // Проверить пароль
     var passwd = document.querySelector("#regInputPass");
     console.log(passwd);
-    var passwd_help = document.querySelector("#regpassHelp");
-    console.log(passwd_help);
-    papasLast = isCorrectPassword(passwd.value, passwd_help);
+    var passwdHelp = document.querySelector("#regpassHelp");
+    console.log(passwdHelp);
+    papasLast = isCorrectPassword(passwd.value, passwdHelp);
     makePapaProud(passwd.parentNode, papasLast);
     wasPapaProud = wasPapaProud && papasLast;
 
     // Проверить что пароли совпадают
     var passwd2 = document.querySelector("#regInputPassRepeat");
     console.log(passwd2);
-    var passwd2_help = document.querySelector("#regpassHelpRepeat");
-    console.log(passwd2_help);
-    papasLast = isSecondPswdTheSame(passwd.value, passwd2.value, passwd2_help);
+    var passwd2Help = document.querySelector("#regpassHelpRepeat");
+    console.log(passwd2Help);
+    papasLast = isSecondPswdTheSame(passwd.value, passwd2.value, passwd2Help);
     makePapaProud(passwd2.parentNode, papasLast);
     wasPapaProud = wasPapaProud && papasLast;
 
@@ -78,6 +78,12 @@ reg_bttn.onclick=function(event){
         return false;
 }
 
+/**
+ * Проверить совпадают ли два пароля
+ * @param {string} pswd1 - первый пароль
+ * @param {string} pswd2 - второй пароль
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
 function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
     console.log("I'm in isSecondPswdTheSame");
     if(pswd1!=pswd2){
@@ -90,9 +96,14 @@ function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
     return true;
 }
 
+/**
+ * Проверить корректность имени
+ * @param {string} name - имя, введенное пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
 function isCorrectName(name, errorPlace){
     console.log("I'm in isCorrectName");
-    var reg = new RegExp(`^[A-Za-z0-9А-Яа-я]{2,20}$`, '');
+    var reg = new RegExp(`^([А-Яа-я]{2,20})|([A-Za-z]{2,20})$`, '');
     if (name==null){
         console.log("name is null");
         errorPlace.innerHTML = "Введите имя, пустое поле";
@@ -120,7 +131,11 @@ function isCorrectName(name, errorPlace){
     }
 }
 
-
+/**
+ * Проверить корректность логина
+ * @param {string} login - логин, введенный пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
 function isCorrectLogin(login, errorPlace){
     console.log("I'm in isCorrectLogin");
     var reg = new RegExp(`^[A-Za-z0-9]{2,20}$`, '');
@@ -140,6 +155,7 @@ function isCorrectLogin(login, errorPlace){
         return false;
     }    
     if(reg.test(login)){
+        // TODO сделать проверку на сервере, не занят ли текущий логин
         console.log("true, correct login");
         errorPlace.innerHTML = "Корректный логин";
         return true;
@@ -151,6 +167,11 @@ function isCorrectLogin(login, errorPlace){
     }    
 }
 
+/**
+ * Проверить корректность пароля
+ * @param {string} pswd - пароль, введенный пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
 function isCorrectPassword(pswd, errorPlace){
     console.log("I'm in isCorrectPassword");
     var reg = new RegExp(`^[A-Za-z0-9]{8,32}$`, '');
@@ -181,6 +202,11 @@ function isCorrectPassword(pswd, errorPlace){
     }  
 }
 
+/**
+ * Добавить подсветку формы ввода данных в зависимости от корректности данных
+ * @param {any} parentForm - форма ввода данных
+ * @param {boolean} isProud - корректные ли данные
+ */
 function makePapaProud(parentForm, isProud){
     if(isProud){
         parentForm.classList.remove("has-error");
