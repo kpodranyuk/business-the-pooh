@@ -145,6 +145,8 @@ var openNewPswdBttn = document.querySelector("#makeNewPswd");
 var saveNewPswdBttn = document.querySelector("#saveNewPswd");
 // logOut - Выйти из аккаунта
 var logOutBttn = document.querySelector("#logOut");
+// openForgetMe - Кнопка, открывающая модальное окно подтверждения пароля при деактивации аккаунта
+var openForgetMeBttn = document.querySelector("#openForgetMe");
 // forgetMeSubmit - Деактивировать аккаунт
 var forgetMeBttn = document.querySelector("#forgetMeSubmit");
 
@@ -250,6 +252,11 @@ saveNewPswdBttn.onclick = function(event){
 // Выйти из аккаунта
 logOutBttn.onclick = function(event){
     console.log("Нажата кнопка выхода из аккаунта");
+}
+
+openForgetMeBttn.onclick = function(event){
+    console.log("Нажата кнопка открытия окна с подтверждением деактивации аккаунта");
+    // TODO добавить очистку поля для пароля
 }
 
 // Деактивировать аккаунт

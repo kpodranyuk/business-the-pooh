@@ -352,34 +352,33 @@
                       </div>
                       <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-md btn-primary" data-toggle="modal" data-target="#forgetMeModal">Деактивировать аккаунт</button>
+                          <button class="btn btn-md btn-primary" data-toggle="modal" id="openForgetMe" data-target="#forgetMeModal">Деактивировать аккаунт</button>
                         </div>
                       </div>
                     </div>
-                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 panel text-center" style="background-color:white">
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 panel text-center" id="pswdDiv" style="background-color:white; visibility:hidden">
                       <form>
                         <div class="form-row">
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="oldPswdInput">Введите текущий пароль</label>
-                              <input type="password" class="form-control" id="oldPswdInput" aria-describedby="oldPswdInputHelp" placeholder="Текущий пароль"
-                                required>
+                              <input type="password" class="form-control" id="oldPswdInput" aria-describedby="oldPswdInputHelp" placeholder="Текущий пароль">
                               <small id="oldPswdInputHelp" class="control-label form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                               <label for="newPswdInput">Введите новый пароль</label>
-                              <input type="password" class="form-control" id="newPswdInput" placeholder="Новый пароль" required>
+                              <input type="password" class="form-control" id="newPswdInput" placeholder="Новый пароль">
                               <small id="newPswdInputHelp" class="control-label form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                               <label for="newPswdInputRepeat">Подтвердите пароль</label>
-                              <input type="password" class="form-control" id="newPswdInputRepeat" placeholder="Пароль" required>
+                              <input type="password" class="form-control" id="newPswdInputRepeat" placeholder="Пароль">
                               <small id="newPswdInputRepeatHelp" class="control-label form-text text-muted"></small>
                             </div>
                           </div>
                         </div>
-                        <button class="btn btn-md btn-primary" id="saveNewPswd">Сохранить</button>
                     </form>
+                    <button class="btn btn-md btn-primary" id="saveNewPswd">Сохранить</button>
                   </div>
                   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel text-center" style="background-color:white">
                     <img class="img-responsive" src="images/honey_logo.png" />
