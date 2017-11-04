@@ -183,6 +183,28 @@ function enterUserProduct(login, product, callback) {
  */
 function getInformationForBuying(callback) {
     // получить информцию сколько у пчел горшочков
+       // Начинаем транзакцию 
+       con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Сделать выборку из БД информации о количестве горшков у пчёл
+        var sql = "Select potsCount from bees";
+        con.query(sql, function (error, result, fields) {
+
+            if (error) {
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (error) {
+                    callback(result);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+
+            }
+        });
+    });
 }
 
 
