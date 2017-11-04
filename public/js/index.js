@@ -1,3 +1,5 @@
+import * as indexApi from "./indexApi.js";
+indexApi.sayHiGuest();
 
 // enterSubmit - "Войти в систему"
 var enter_bttn = document.querySelector("#enterSubmit");

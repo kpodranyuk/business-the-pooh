@@ -1,3 +1,6 @@
+import * as userApi from "./userLkApi.js";
+userApi.sayHiUser();
+
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
 console.log(beeOut);

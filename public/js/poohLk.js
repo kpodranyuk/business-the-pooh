@@ -1,3 +1,6 @@
+import * as poohApi from "./poohLkApi.js";
+poohApi.sayHiPooh();
+
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
 console.log(beeOut);
