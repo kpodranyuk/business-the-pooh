@@ -78,20 +78,24 @@ router.post('/get-honey', function (req, res) {
 			});
 		}
 		else {
-			db.getUserBalance(login, function (result) {
-				if (result == null) {
-					res.json({ success: false, message: 'Не удалось получить баланс пользователя' });
-				}
-				else {
-					// Выводим баланс пользователя
-					res.json({
-						success: true,
-						productAmount: result[0].productAmount,
-						honeyAmount: Number(result[0].honeyAmount).toFixed(5),
-						idProductType: result[0].idProductType
+			db.insertNewOperation(new Operation(0, 'G', new Date(), 'H', 0, 0, honey, 0), login, function (success) {
+				if (success) {
+					db.getUserBalance(login, function (result) {
+						if (result == null) {
+							res.json({ success: false, message: 'Не удалось получить баланс пользователя' });
+						}
+						else {
+							// Выводим баланс пользователя
+							res.json({
+								success: true,
+								productAmount: result[0].productAmount,
+								honeyAmount: Number(result[0].honeyAmount).toFixed(5),
+								idProductType: result[0].idProductType
+							});
+						}
+
 					});
 				}
-
 			});
 		}
 	});

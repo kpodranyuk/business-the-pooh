@@ -26,7 +26,7 @@ router.post('/buy-honey', function (req, res) {
 			res.json({success: false});
 		} else {
 			// Вставить новую операцию
-			var operation = new Operation(1, 'B', new Date(), newUserData.productType, getRate(newUserData.productType),req.body.countPots, (req.body.countPots*0.25).toFixed(5), comission);
+			var operation = new Operation(1, 'B', new Date(), newUserData.productType, getRate(newUserData.productType) * req.body.countPots, req.body.countPots, (req.body.countPots*0.25).toFixed(5), comission);
 			dbo.insertNewOperation(operation, newUserData.login, function(success) {
 				if (success) {
 					res.json({
@@ -128,6 +128,8 @@ router.post('/entry-product', function (req, res) {
 	var login = req.body.login;
 	// Получаем желаемое для ввода количество товара
 	var product = req.body.product;
+	// Тип товара
+	var type = req.body.productType;
 	// Говорим БД обновить данные пользователя
 	db.enterUserProduct(login, product, function (result) {
 		if (result == null) {
@@ -141,20 +143,24 @@ router.post('/entry-product', function (req, res) {
 			});
 		}
 		else {
-			dbo.getUserBalance(login, function (result) {
-				if (result == null) {
-					res.json({ success: false, message: 'Не удалось получить баланс пользователя' });
-				}
-				else {
-					// Выводим баланс пользователя
-					res.json({
-						success: true,
-						productAmount: result[0].productAmount,
-						honeyAmount: result[0].honeyAmount,
-						idProductType: result[0].idProductType
+			dbo.insertNewOperation(new Operation(0,'E',new Date(),type,product,0,0,0), login, function(success){
+				if (success) {
+					dbo.getUserBalance(login, function (result) {
+						if (result == null) {
+							res.json({ success: false, message: 'Не удалось получить баланс пользователя' });
+						}
+						else {
+							// Выводим баланс пользователя
+							res.json({
+								success: true,
+								productAmount: result[0].productAmount,
+								honeyAmount: result[0].honeyAmount,
+								idProductType: result[0].idProductType
+							});
+						}
+		
 					});
 				}
-
 			});
 		}
 	});
