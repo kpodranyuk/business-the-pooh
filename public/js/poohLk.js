@@ -15,3 +15,8 @@ var outAnime = anime({
 // Кнопка вывода меда
 var out_bttn = document.querySelector("#honeyOut");
 out_bttn.onclick=outAnime.restart;
+
+var comissionButton = document.querySelector("#getComission");
+comissionButton.onclick = function(event){
+    console.log("Нажата кнопка сбора комиссии");
+}
