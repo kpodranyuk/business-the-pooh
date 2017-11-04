@@ -282,6 +282,11 @@ forgetMeBttn.onclick = function(event){
     }
 }
 
+/**
+ * Добавить подсветку формы ввода данных в зависимости от корректности данных
+ * @param {any} parentForm - форма ввода данных
+ * @param {boolean} isProud - корректные ли данные
+ */
 function makePapaProud(parentForm, isProud){
     if(isProud){
         parentForm.classList.remove("has-error");
@@ -295,6 +300,11 @@ function makePapaProud(parentForm, isProud){
     }
 }
 
+/**
+ * Проверить корректность количества меда для вывода
+ * @param {string} honeyAmount - значение, введенное пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
 function isCorrectHoneyAmount(honeyAmount, errorPlace){
     console.log("I'm in isCorrectHoneyAmount");
     var reg = new RegExp(`^[0-5]([.,][0-9]{1,3})?$`, '');
@@ -320,6 +330,11 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
     }    
 }
 
+/**
+ * Проверить корректность количества товара для ввода
+ * @param {string} productAmount - значение, введенное пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
 function isCorrectProductAmount(productAmount, errorPlace){
     console.log("I'm in isCorrectProductAmount");
     var reg = new RegExp(`^[1-9]|([1-5][0-9])$`, '');
@@ -345,6 +360,11 @@ function isCorrectProductAmount(productAmount, errorPlace){
     }    
 }
 
+/**
+ * Проверить корректность пароля
+ * @param {string} pswd - пароль, введенный пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
 function isCorrectPassword(pswd, errorPlace){
     console.log("I'm in isCorrectPassword");
     var reg = new RegExp(`^[A-Za-z0-9]{8,32}$`, '');
@@ -375,6 +395,12 @@ function isCorrectPassword(pswd, errorPlace){
     }  
 }
 
+/**
+ * Проверить совпадают ли два пароля
+ * @param {string} pswd1 - первый пароль
+ * @param {string} pswd2 - второй пароль
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
 function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
     console.log("I'm in isSecondPswdTheSame");
     if(pswd1!=pswd2){
@@ -387,6 +413,9 @@ function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
     return true;
 }
 
+/**
+ * Очистить виджеты обновления пароля в личном кабинете
+ */
 function clearMakeNewPswdInputs(){
     // Очищаем инпуты, строки-помощники и классы для форм ввода паролей
     // Сначала текущий
