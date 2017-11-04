@@ -176,6 +176,19 @@ function enterUserProduct(login, product, callback) {
     });
 }
 
+/**
+ * Потдвердить покупку меда
+ * @param {User} user - пользователь с информацией о всем
+ * @param {number} countPots - кол-во горшочков меда, которое покупает пользователь
+ * @param {function} callback функция, возвращающая на клиент информацию о кол-ве горшочков у пчел 
+ */
+function buyHoney(user, countPots, callback) {
+    // обновить кол-во меда и горшочков у пчел
+    // рассчитать пользовательскую скидку
+    // обновить данные у пользователя как по его балансу так и по его скидке
+    // в коллбеке вернуть данные для встваки новой операции в БД
+}
+
 
 /**
  * Получить информацию о покупке меда
@@ -214,3 +227,4 @@ module.exports.registrationUser = registrationUser;
 module.exports.loginUser = loginUser;
 module.exports.getIndexProductType = getIndexProductType;
 module.exports.getInformationForBuying = getInformationForBuying;
+module.exports.buyHoney = buyHoney;
