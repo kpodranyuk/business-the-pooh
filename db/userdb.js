@@ -36,6 +36,33 @@ function getIndexProductType(productType) {
 }
 
 /**
+* Обновлять пароль пользователя в БД
+* @param {string} loginUser - логин пользователя
+* @param {string} passwordUser - пароль пользователя
+* @param {function} функция обратного вызова
+*/
+function updatePassword(loginUser, passwordUser, callback){
+	con.beginTransaction(function (error) {
+		if (error) { throw error; }
+		var sql =  "UPDATE User SET password="+mysql.escape(passwordUser)+"WHERE login="+mysql.escape(loginUse);
+		con.query(sql, function(error, result)){
+			if (error) { 
+				con.commit(function (error) { 
+				callback(false); 
+				if (error) return con.rollback(function () { console.error(error.message); }); 
+				}); 
+				return con.rollback(function () { console.error(error.message); }); 
+			} else {
+				con.commit(function (error) { 
+				callback(true); 
+				if (error) return con.rollback(function () { console.error(error.message); }); 
+				});
+			}
+		}
+	}
+}
+
+/**
  * Зарегистрировать нового пользователя
  * @param {string} loginUser - логин пользователя
  * @param {string} passwordUser - пароль пользователя
@@ -47,7 +74,8 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
 
     // Начинаем транзакцию 
     con.beginTransaction(function (err) {
-        if (err) { throw err; }
+        
+		if (err) { throw err; }
 
         // Смотрим тип продукта
         var type = getIndexProductType(productTypeUser);
@@ -101,6 +129,6 @@ function loginUser(login, password, callback) {
 
 }
 
-
 module.exports.registrationUser = registrationUser;
 module.exports.loginUser = loginUser;
+module.exports.updatePassword = updatePassword;
