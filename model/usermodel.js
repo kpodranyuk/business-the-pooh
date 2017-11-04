@@ -29,9 +29,26 @@ function User(login, name, productType) {
 
         this.productAmount = this.productAmount - (countPots * rate);
         this.honeyAmount = this.honeyAmount + ((countPots * 0.25).toFixed(5));
+
+        this.promotion.operationsCount = this.promotion.operationsCount + 1;
+        this.promotion.operationsToNext = this.promotion.operationsToNext - 1;
+        if (this.promotion.operationsToNext <= 0) {
+            if (this.promotion.operationsCount == 5) {
+                this.promotion.operationsToNext = 10;
+            } else if (this.promotion.operationsCount >= 15) {
+                this.promotion.operationsToNext = 0;
+            }
+        }
     };
 
-    
+    this.calculateNewPromotion = function() {
+        
+        if (this.promotion.operationsCount == 5 && this.promotion.operationsToNext == 10) {
+            this.promotion.percent = 10;
+        } else if (this.promotion.operationsCount >= 15) {
+            this.promotion.percent = 5;
+        }
+    }
 }
 
 module.exports = User;
