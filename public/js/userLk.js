@@ -19,9 +19,18 @@ var inAnime = anime({
     rotate: '1turn',
     autoplay: false,
     direction: 'reverse',
-    duration: 800,
+    duration: 1200,
     begin: function(anim) {
         // СОБЫТИЕ ЗАВЕРШЕНИЯ АНИМАЦИИ ПРИ ВВОДЕ ТОВАРА
+        console.log("Нажата кнопка ввода товара");
+        // Проверить введенное количество меда
+        var productCount = document.querySelector("#goodsInput");
+        console.log(productCount);
+        var productCountHelp = document.querySelector("#goodsInputHelp");
+        console.log(productCountHelp);
+        var wasPapaProud = false;
+        wasPapaProud = isCorrectProductAmount(productCount.value, productCountHelp);
+        makePapaProud(productCount.parentNode, wasPapaProud);
       }
 });
 
@@ -92,6 +101,31 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
     else {
         console.log("wrong, incorrect honeyAmount");
         errorPlace.innerHTML = "Некорректное количество меда.<br>Количество меда должно быть положительным числом меньше 5";
+        return false;
+    }    
+}
+
+function isCorrectProductAmount(productAmount, errorPlace){
+    console.log("I'm in isCorrectProductAmount");
+    var reg = new RegExp(`^[1-9]|([1-5][0-9])$`, '');
+    if (productAmount==null){
+        console.log("productAmount is null");
+        errorPlace.innerHTML = "Введите количество товара, пустое поле";
+        return false;
+    } 
+    if(reg.test(productAmount)){
+        if (parseInt(productAmount)<1 || parseInt(productAmount)>50){
+            console.log("wrong amount of productAmount");
+            errorPlace.innerHTML = "Количество товара не должно быть меньше 1 и больше 50";
+            return false;
+        }
+        console.log("true, correct productAmount");
+        errorPlace.innerHTML = "Корректное количество товара";
+        return true;
+    }
+    else {
+        console.log("wrong, incorrect productAmount");
+        errorPlace.innerHTML = "Некорректное количество товара.<br>Количество товара должно быть положительным целым числом не больше 50";
         return false;
     }    
 }
