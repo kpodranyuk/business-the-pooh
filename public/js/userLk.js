@@ -202,6 +202,8 @@ showAccSettingsBttn.onclick = function(event){
 // Открытие форм обновления пароля
 openNewPswdBttn.onclick = function(event){
     console.log("Нажата кнопка отображения виджетов для обновления пароля");
+    // Очищаем виджеты
+    clearMakeNewPswdInputs();
     var div = document.querySelector("#pswdDiv");
     div.style.visibility = "visible";
 }
@@ -370,4 +372,31 @@ function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
     console.log("passwords are the same");
     errorPlace.innerHTML = "Пароли совпадают";
     return true;
+}
+
+function clearMakeNewPswdInputs(){
+    // Очищаем инпуты, строки-помощники и классы для форм ввода паролей
+    // Сначала текущий
+    var curpswdInput = document.querySelector("#oldPswdInput");
+    curpswdInput.value = "";
+    var curpswdInputHelp = document.querySelector("#oldPswdInputHelp");
+    curpswdInputHelp.innerHTML = "";
+    curpswdInput.parentNode.classList.remove("has-error");
+    curpswdInput.parentNode.classList.remove("has-success");
+
+    // Затем новый
+    var newpswdInput = document.querySelector("#newPswdInput");
+    newpswdInput.value = "";
+    var newpswdInputHelp = document.querySelector("#newPswdInputHelp");
+    newpswdInputHelp.innerHTML = "";
+    newpswdInput.parentNode.classList.remove("has-error");
+    newpswdInput.parentNode.classList.remove("has-success");
+
+    // Затем повтор нового
+    var newRepeatPswdInput = document.querySelector("#newPswdInputRepeat");
+    newRepeatPswdInput.value = "";
+    var newRepeatPswdInputHelp = document.querySelector("#newPswdInputRepeatHelp");
+    newRepeatPswdInputHelp.innerHTML = "";
+    newRepeatPswdInput.parentNode.classList.remove("has-error");
+    newRepeatPswdInput.parentNode.classList.remove("has-success");
 }
