@@ -134,7 +134,7 @@ function getCommission(promotion, callback) {
                 });
 
                 // Обновляем баланс Пчел
-                con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+"+beeZP.toFixed(5)+")/0.25), " + "honeyInPot=honeyInPot+" + beeZP.toFixed(5), function(error, result, fields) {
+                con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+"+beeZP.toFixed(5)+")/0.25), " + "honeyInPot=honeyInPot+" + beeZP.toFixed(5) + " WHERE id=1", function(error, result, fields) {
                     if(error) console.log(error.message);
                     con.commit(function (err) {
                         if (err) return con.rollback(function () { console.error(err.message); });
