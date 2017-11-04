@@ -71,7 +71,7 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
     }
     else {
         console.log("wrong, incorrect honeyAmount");
-        errorPlace.innerHTML = "Некорректное количество меда.<br>Количество меда должно быть положительным числом меньше 5";
+        errorPlace.innerHTML = "Некорректное количество меда.<br>Количество меда должно быть положительным числом не больше 5";
         return false;
     }    
 }
