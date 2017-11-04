@@ -41,3 +41,8 @@ out_bttn.onclick=outAnime.restart;
 // Кнопка ввода товара
 var in_bttn = document.querySelector("#honeyIn");
 in_bttn.onclick=inAnime.restart;
+
+var logOutBttn = document.querySelector("#logOut");
+logOutBttn.onclick = function(event){
+    console.log("Нажата кнопка выхода из аккаунта");
+}
