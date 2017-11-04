@@ -1,5 +1,5 @@
 import * as userApi from "./userLkApi.js";
-userApi.sayHiUser();
+//userApi.sayHiUser();
 
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
@@ -49,6 +49,48 @@ var inAnime = anime({
         makePapaProud(productCount.parentNode, wasPapaProud);
       }
 });
+/* КНОПКИ МЕНЮ */
+// buyPill - Купить
+var buyPillBttn = document.querySelector("#buyPill");
+// historyPill - История операций
+var historyPillBttn = document.querySelector("#historyPill");
+// enterPill - Ввод товара
+var enterPillBttn = document.querySelector("#enterPill");
+// getPill - Вывод меда
+var getPillBttn = document.querySelector("#getPill");
+// settingsPill - Настройки аккаунта (ввод пароля)
+var settingsPillBttn = document.querySelector("#settingsPill");
+
+/* ДЕЙСТВИЯ ПО НАЖАТИЮ КНОПОК МЕНЮ */
+// Вкладка Купить
+buyPillBttn.onclick = function(event){
+    console.log("Нажата кнопка Купить в панели меню");
+    // TODO спрятать divы и задать количеству горшочков значение по умолчанию
+}
+
+// Вкладка История
+historyPillBttn.onclick = function(event){
+    console.log("Нажата кнопка История в панели меню");
+    // TODO обновить информацию с сервера
+}
+
+// Вкладка Ввод товара
+enterPillBttn.onclick = function(event){
+    console.log("Нажата кнопка Ввод товара в панели меню");
+    // TODO стереть информацию с инпута
+}
+
+// Вкладка Вывод меда
+getPillBttn.onclick = function(event){
+    console.log("Нажата кнопка Вывод меда в панели меню");
+    // TODO стереть информацию с инпута
+}
+
+// Вкладка Настройки аккаунта (вход)
+settingsPillBttn.onclick = function(event){
+    console.log("Нажата кнопка Настройка аккаунта в панели меню");
+    // TODO стереть информацию с инпута
+}
 
 
 /* КНОПКИ УПРАВЛЕНИЯ */
@@ -77,16 +119,24 @@ var forgetMeBttn = document.querySelector("#forgetMeSubmit");
 // Выбрано количество горшочков для покупки
 potsInBuyBttn.onclick = function(event){
     console.log("Нажата кнопка подтверждения выбора количества горшочков для покупки");
+    var div = document.querySelector("#secondStep");
+    div.style.visibility = "visible";
 }
 
 // Подтверждение операции покупки
 makeBuyBttn.onclick = function(event){
     console.log("Нажата кнопка подтверждения операции покупки");
+    var div = document.querySelector("#thirdStep");
+    div.style.visibility = "visible";
+    var bttnsDiv = document.querySelector("#buyButtons");
+    bttnsDiv.style.visibility = "hidden";
 }
 
 // Отмена операции покупки
 stopBuyBttn.onclick = function(event){
     console.log("Нажата кнопка отмены операции покупки");
+    var div = document.querySelector("#secondStep");
+    div.style.visibility = "hidden";
 }
 
 // Кнопка вывода меда
