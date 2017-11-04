@@ -202,11 +202,47 @@ showAccSettingsBttn.onclick = function(event){
 // Открытие форм обновления пароля
 openNewPswdBttn.onclick = function(event){
     console.log("Нажата кнопка отображения виджетов для обновления пароля");
+    var div = document.querySelector("#pswdDiv");
+    div.style.visibility = "visible";
 }
 
 // Сохранить новый пароль
 saveNewPswdBttn.onclick = function(event){
     console.log("Нажата кнопка сохранения нового пароля");
+    // Проверяем корректность паролей
+    // Сначала текущий
+    var curpswdInput = document.querySelector("#oldPswdInput");
+    console.log(curpswdInput);
+    var curpswdInputHelp = document.querySelector("#oldPswdInputHelp");
+    console.log(curpswdInputHelp);
+    var wasPapaProud = false;
+    wasPapaProud = isCorrectPassword(curpswdInput.value, curpswdInputHelp);
+    makePapaProud(curpswdInput.parentNode, wasPapaProud);
+
+    // Затем новый
+    var newpswdInput = document.querySelector("#newPswdInput");
+    console.log(newpswdInput);
+    var newpswdInputHelp = document.querySelector("#newPswdInputHelp");
+    console.log(newpswdInputHelp);
+    var papasLast = isCorrectPassword(newpswdInput.value, newpswdInputHelp);
+    makePapaProud(newpswdInput.parentNode, papasLast);    
+    wasPapaProud = wasPapaProud && papasLast;
+
+    // Затем повтор нового
+    var newRepeatPswdInput = document.querySelector("#newPswdInputRepeat");
+    console.log(newRepeatPswdInput);
+    var newRepeatPswdInputHelp = document.querySelector("#newPswdInputRepeatHelp");
+    console.log(newRepeatPswdInputHelp);
+    papasLast = isCorrectPassword(newRepeatPswdInput.value, newRepeatPswdInputHelp);
+    if(papasLast)
+        papasLast = isSecondPswdTheSame(newpswdInput.value, newRepeatPswdInput.value, newRepeatPswdInputHelp);
+    makePapaProud(newRepeatPswdInput.parentNode, papasLast);    
+    wasPapaProud = wasPapaProud && papasLast;
+
+    if(!wasPapaProud)
+        return false;
+    var div = document.querySelector("#pswdDiv");    
+    div.style.visibility = "hidden";
 }
 
 // Выйти из аккаунта
@@ -217,6 +253,18 @@ logOutBttn.onclick = function(event){
 // Деактивировать аккаунт
 forgetMeBttn.onclick = function(event){
     console.log("Нажата кнопка подтверждения деактивации аккаунта");
+    // Осуществляем проверку пароля на корректность
+    var pswdInput = document.querySelector("#enterPswd");
+    console.log(pswdInput);
+    var pswdInputHelp = document.querySelector("#enterPswdHelp");
+    console.log(pswdInput);
+    var wasPapaProud = false;
+    wasPapaProud = isCorrectPassword(pswdInput.value, pswdInputHelp);
+    makePapaProud(pswdInput.parentNode, wasPapaProud);
+    // Если пароль корректный, открываем настройки
+    if(!wasPapaProud){
+        return false;
+    }
 }
 
 function makePapaProud(parentForm, isProud){
@@ -310,4 +358,16 @@ function isCorrectPassword(pswd, errorPlace){
         errorPlace.innerHTML = "Некорректный пароль. Пароль должен содержать от 8 до 32 символов английского алфавита и/или цифр";
         return false;
     }  
+}
+
+function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
+    console.log("I'm in isSecondPswdTheSame");
+    if(pswd1!=pswd2){
+        console.log("passwords are not the same");
+        errorPlace.innerHTML = "Пароли не совпадают";
+        return false;
+    }
+    console.log("passwords are the same");
+    errorPlace.innerHTML = "Пароли совпадают";
+    return true;
 }
