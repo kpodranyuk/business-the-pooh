@@ -21,7 +21,7 @@ CREATE TABLE Promotion (
   idPromotion int NOT NULL auto_increment,
   operationsCount int NOT NULL,
   operationsToNext int NOT NULL,
-  percent double NOT NULL,
+  percent int NOT NULL,
   primary key (idPromotion)
 );
 
@@ -76,10 +76,15 @@ CREATE TABLE Deal (
 );
 
 CREATE TABLE Bees (
+  id int NOT NULL,
   potsCount int NOT NULL,
   honeyInPot double NOT NULL,
   idExchangeRate int NOT NULL,
   idProductType int NOT NULL,
+  primary key (id),
   foreign key (idExchangeRate) references ExchangeRate(idExchangeRate) on update cascade on delete cascade,
   foreign key (idProductType) references ProductType(idProductType) on update cascade on delete cascade
 );
+
+INSERT INTO Bees(id, potsCount, honeyInPot, idExchangeRate, idProductType) 
+VALUES(1, 50, 12.5, 1, (select idProductType from ProductType where type='H'));
