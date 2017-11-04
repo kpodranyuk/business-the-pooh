@@ -1,21 +1,34 @@
-// Переключение на скрытую вкладку с настройками аккаунта
-var acc_bttn = document.querySelector("#cont");
-console.log(acc_bttn);
-acc_bttn.onclick=function(event){
-    $('#pills a[href="#trueAcc"]').tab('show')
-}
-
 // Изображение пчелы при выводе меда
-var bee_out = document.querySelector("#outbee");
-console.log(bee_out);
+var beeOut = document.querySelector("#outbee");
+console.log(beeOut);
 
 // Изображение пчелы при вводе товара
-var bee_in = document.querySelector("#inbee");
-console.log(bee_in);
+var beeIn = document.querySelector("#inbee");
+console.log(beeIn);
+
+// Анимация пчелы при выводе меда
+var outAnime = anime({
+    targets: beeOut,
+    rotate: '1turn',
+    autoplay: false,
+    duration: 800,
+    begin: function(anim) {
+        // СОБЫТИЕ ЗАВЕРШЕНИЯ АНИМАЦИИ ПРИ ВЫВОДЕ МЕДА
+        console.log("Нажата кнопка вывода меда");
+        // Проверить введенное количество меда
+        var honeyCount = document.querySelector("#honeyInput");
+        console.log(honeyCount);
+        var honeyCountHelp = document.querySelector("#honeyInputHelp");
+        console.log(honeyCountHelp);
+        var wasPapaProud = false;
+        wasPapaProud = isCorrectHoneyAmount(honeyCount.value, honeyCountHelp);
+        makePapaProud(honeyCount.parentNode, wasPapaProud);
+      }
+});
 
 // Анимация пчелы при вводе товара
 var inAnime = anime({
-    targets: bee_in,
+    targets: beeIn,
     rotate: '1turn',
     autoplay: false,
     direction: 'reverse',
@@ -34,37 +47,76 @@ var inAnime = anime({
       }
 });
 
-// Анимация пчелы при выводе меда
-var outAnime = anime({
-    targets: bee_out,
-    rotate: '1turn',
-    autoplay: false,
-    duration: 800,
-    begin: function(anim) {
-        // СОБЫТИЕ ЗАВЕРШЕНИЯ АНИМАЦИИ ПРИ ВЫВОДЕ МЕДА
-        console.log("Нажата кнопка вывода меда");
-        // Проверить введенное количество меда
-        var honeyCount = document.querySelector("#honeyInput");
-        console.log(honeyCount);
-        var honeyCountHelp = document.querySelector("#honeyInputHelp");
-        console.log(honeyCountHelp);
-        var wasPapaProud = false;
-        wasPapaProud = isCorrectHoneyAmount(honeyCount.value, honeyCountHelp);
-        makePapaProud(honeyCount.parentNode, wasPapaProud);
-      }
-});
+
+/* КНОПКИ УПРАВЛЕНИЯ */
+// chosenPots - Выбрано количество горшочков для покупки
+var potsInBuyBttn = document.querySelector("#chosenPots");
+// argeeToBuy - Подтверждение операции покупки
+var makeBuyBttn = document.querySelector("#argeeToBuy");
+// cancelBuy - Отмена операции покупки
+var stopBuyBttn = document.querySelector("#cancelBuy");
+// honeyOut - Кнопка вывода меда
+var honeyOutBttn = document.querySelector("#honeyOut");
+// honeyIn - Кнопка ввода товара
+var honeyInBttn = document.querySelector("#honeyIn");
+// cont - Переключение на скрытую вкладку с настройками аккаунта
+var showAccSettingsBttn = document.querySelector("#cont");
+// makeNewPswd - Открытие форм обновления пароля
+var openNewPswdBttn = document.querySelector("#makeNewPswd");
+// saveNewPswd - Сохранить новый пароль
+var saveNewPswdBttn = document.querySelector("#saveNewPswd");
+// logOut - Выйти из аккаунта
+var logOutBttn = document.querySelector("#logOut");
+// forgetMeSubmit - Деактивировать аккаунт
+var forgetMeBttn = document.querySelector("#forgetMeSubmit");
+
+/* ДЕЙСТВИЯ ПО НАЖАТИЮ КНОПОК */
+// Выбрано количество горшочков для покупки
+potsInBuyBttn.onclick = function(event){
+    console.log("Нажата кнопка подтверждения выбора количества горшочков для покупки");
+}
+
+// Подтверждение операции покупки
+makeBuyBttn.onclick = function(event){
+    console.log("Нажата кнопка подтверждения операции покупки");
+}
+
+// Отмена операции покупки
+stopBuyBttn.onclick = function(event){
+    console.log("Нажата кнопка отмены операции покупки");
+}
 
 // Кнопка вывода меда
-var out_bttn = document.querySelector("#honeyOut");
-out_bttn.onclick=outAnime.restart;
+honeyOutBttn.onclick = outAnime.restart;
 
 // Кнопка ввода товара
-var in_bttn = document.querySelector("#honeyIn");
-in_bttn.onclick=inAnime.restart;
+honeyInBttn.onclick = inAnime.restart;
 
-var logOutBttn = document.querySelector("#logOut");
+// Переключение на скрытую вкладку с настройками аккаунта
+showAccSettingsBttn.onclick = function(event){
+    console.log("Нажата кнопка подтверждения пароля для открытия настроек аккаунта");
+    // TODO сделать проверку корректно введенного пароля
+    $('#pills a[href="#trueAcc"]').tab('show');
+}
+
+// Открытие форм обновления пароля
+openNewPswdBttn.onclick = function(event){
+    console.log("Нажата кнопка отображения виджетов для обновления пароля");
+}
+
+// Сохранить новый пароль
+saveNewPswdBttn.onclick = function(event){
+    console.log("Нажата кнопка сохранения нового пароля");
+}
+
+// Выйти из аккаунта
 logOutBttn.onclick = function(event){
     console.log("Нажата кнопка выхода из аккаунта");
+}
+
+// Деактивировать аккаунт
+forgetMeBttn.onclick = function(event){
+    console.log("Нажата кнопка подтверждения деактивации аккаунта");
 }
 
 function makePapaProud(parentForm, isProud){
