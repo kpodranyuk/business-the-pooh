@@ -11,12 +11,17 @@ $(document).ready(function(){
     $("#loginDropdown").text(userApi.curUser.login);
     // Устанавливаем тип пользователя и имя
     $("#userTypeName").text(translateTypeToString(userApi.curUser.productType)+" "+userApi.curUser.name);
+    setUserBalance();
+
+    enterPillBttn.click();
+});
+
+function setUserBalance(){
     // Устанавливаем количество товара пользователя
     $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
     // Устанавливаем количество меда пользователя
     $("#honeyLabel").text(userApi.curUser.honeyAmount+" л меда");
-    enterPillBttn.click();
-});
+}
 
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
@@ -211,7 +216,13 @@ var forgetMeBttn = document.querySelector("#forgetMeSubmit");
 /* ДЕЙСТВИЯ ПО НАЖАТИЮ КНОПОК */
 // Выбрано количество горшочков для покупки
 potsInBuyBttn.onclick = function(event){
-    // TODO добавить информацию о покупке на виджеты 
+    if($("#selectPots").val() == "")
+        return false;
+    // Добавляем информацию о покупке на виджеты
+    $("#potsCountToBuy").text($("#selectPots").val() + " шт.");
+    // TODO узнать текущий курс
+    $("#productCountToBuy").text(Number($("#selectPots").val())*5 + " шт.");
+    $("#comissionSizeForBuy").text(Number($("#selectPots").val())*0.25*(Number(userApi.curUser.promotion.percent)/100));
     var div = document.querySelector("#secondStep");
     div.style.visibility = "visible";
     var bttnsDiv = document.querySelector("#buyButtons");
@@ -220,6 +231,12 @@ potsInBuyBttn.onclick = function(event){
 
 // Подтверждение операции покупки
 makeBuyBttn.onclick = function(event){
+    userApi.buyHoney($("#selectPots").val(), function(result){
+        if(result == true){
+            setUserBalance();
+            $("#comissionSize").text($("#comissionSizeForBuy").val());
+        }
+    });
     var div = document.querySelector("#thirdStep");
     div.style.visibility = "visible";
     var bttnsDiv = document.querySelector("#buyButtons");
