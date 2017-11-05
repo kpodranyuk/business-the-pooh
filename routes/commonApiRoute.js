@@ -118,7 +118,8 @@ router.post('/get-honey-info', function (req, res) {
 			res.json({ success: false, message: 'Не удалось получить баланс данного пользователя' });
 		}
 		else {
-			var honeyCount = result.honeyCount;	// Количество меда у пользователя
+			var honeyCount = result[0].honeyAmount;	// Количество меда у пользователя
+			console.log(honeyCount);
 			var comissioned = 0;	// Мед "под комиссией" - его нельзя снять
 			var canGet = 0;			// Мед, который можно вывести
 			var alreadyGot = 0;		// Мед, который уже был выведен за сегодня
@@ -135,6 +136,8 @@ router.post('/get-honey-info', function (req, res) {
 						if (result[i].type == 'G')
 							alreadyGot += result[i].honeyCount;
 					}
+					console.log(alreadyGot);
+					console.log(canGet);
 					// Определяем свободное количество меда
 					canGet = honeyCount - comissioned;
 					if (canGet > 5.0) {
@@ -147,6 +150,7 @@ router.post('/get-honey-info', function (req, res) {
 					else if (alreadyGot + canGet >= 5.0) {
 						canGet = 5.0 - alreadyGot;
 					}
+					console.log(canGet);
 					res.json({
 						success: true,
 						honeyToGet: canGet

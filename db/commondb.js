@@ -63,10 +63,10 @@ function getTodaysOperations(loginUser, callback) {
         // Опеределить временные рамки текущего операционного дня с помощью класса OperationDay
         var opDay = new OperationDay(new Date());
         // Сделать выборку из БД всех операций за текущий день
-        var sql = "SELECT o.idOperation, o.type, o.date, o.productAmount, "
-            + "o.honeyCount, o.honeyPots, o.idProductType,o.comission "
+        var sql = "SELECT o.idOperation, o.type as type, o.date, o.productAmount, "
+            + "o.honeyCount as honeyCount, o.honeyPots, o.idProductType,o.comission as comission "
             + "FROM operation o LEFT OUTER JOIN deal d "
-            + "ON o.idOperation = d.idOperation where loginUser = " + mysql.escape(loginUser)
+            + "ON o.idOperation = d.idOperation where d.loginUser = " + mysql.escape(loginUser)
             + " AND o.date BETWEEN " + mysql.escape(opDay.startDay.toLocaleString()) + " AND " + mysql.escape(opDay.endDay.toLocaleString());
         con.query(sql, function (error, result, fields) {
 
@@ -129,9 +129,9 @@ function getUserBalance(login, callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Сделать выборку из БД информации о счете пользователя
-        var sql = "SELECT u.productAmount, u.honeyAmount, u.idProductType "
+        var sql = "SELECT u.productAmount, u.honeyAmount as honeyAmount, u.idProductType "
             + "FROM user u "
-            + "WHERE login = " + mysql.escape(login);
+            + "WHERE u.login = " + mysql.escape(login);
         con.query(sql, function (error, result, fields) {
 
             if (error) {
