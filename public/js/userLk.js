@@ -247,6 +247,19 @@ saveNewPswdBttn.onclick = function(event){
     // TODO сделать обновление пароля
     if(!wasPapaProud)
         return false;
+    else{
+        if(curpswdInput.value!=curUser.password){
+            makePapaProud(curpswdInput.parentNode, false);
+            curpswdInputHelp.innerHTML = "Неправильный пароль";
+        }
+        else{
+            // TODO отправить запрос на сервер для обновления пароля
+            /* ЗАКОММЕНТИРОВАНО ДО НАЧАЛА ПОДДЕРЖКИ НА СЕРВЕРЕ
+            curUser.password = newpswdInput.value;
+            localStorage.currentUser = JSON.stringify(curUser);*/
+        }
+        
+    }
     var div = document.querySelector("#pswdDiv");    
     div.style.visibility = "hidden";
 }
