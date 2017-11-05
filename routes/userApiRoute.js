@@ -15,10 +15,10 @@ router.post('/buy-honey', function (req, res) {
 	user.password = req.body.user.password;
 	user.productAmount = req.body.user.productAmount;
 	user.honeyAmount = req.body.user.honeyAmount;
-	user.promotion = new Promotion(req.body.user.promotion.id);
-	user.promotion.operationsCount =  req.body.user.promotion.operationsCount;
-	user.promotion.percent = req.body.user.promotion.percent;
-	user.promotion.operationsToNext = req.body.user.promotion.operationsToNext;
+	user.promotion = new Promotion(req.body.promotion.id);
+	user.promotion.operationsCount =  req.body.promotion.operationsCount;
+	user.promotion.percent = req.body.promotion.percent;
+	user.promotion.operationsToNext = req.body.promotion.operationsToNext;
 
 	// Купить у пчел мед
 	db.buyHoney(user, req.body.countPots, function(newUserData, comission) {
