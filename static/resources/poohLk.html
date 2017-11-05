@@ -37,7 +37,7 @@
                     <a class="dropdown-toggle" id="menu1" data-toggle="dropdown" style="font-size:15pt; color:black">Администратор
                     <span class="caret"></span></button>
                       <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                        <li role="presentation" style="font-size:10pt; color:black"><a role="menuitem" tabindex="-1" href="#" >Выйти</a></li>
+                        <li role="presentation" style="font-size:10pt; color:black" id="logOut"><a role="menuitem" tabindex="-1" href="#" >Выйти</a></li>
                       </ul>
                   </div>
                   <b style="font-size:12pt; color:black">Винни Пух</b>
@@ -65,13 +65,13 @@
         <!-- Пиллс -->
         <ul class="nav nav-pills" style="background-color: #f2f2f2; margin-top: 7pt; margin-right: 0pt; padding:7pt">
           <li class="active">
-            <a data-toggle="pill" href="#myHistory">Моя история операций</a>
+            <a data-toggle="pill" href="#myHistory" id="myHistoryPill">Моя история операций</a>
           </li>
           <li>
-            <a data-toggle="pill" href="#usersHistory">Сбор комиссии</a>
+            <a data-toggle="pill" href="#usersHistory" id="usersHistoryPill">Сбор комиссии</a>
           </li>
           <li>
-            <a data-toggle="pill" href="#getHoney">Вывод меда</a>
+            <a data-toggle="pill" href="#getHoney" id="getHoneyPill">Вывод меда</a>
           </li>
         </ul>
         <div class="tab-content">
@@ -134,7 +134,7 @@
                     </div>
                   </div>
                   <div class="row text-center">
-                      <button type="submit" class="btn btn-lg btn-primary">Собрать комиссию</button>
+                      <button type="submit" id="getComission" class="btn btn-lg btn-primary">Собрать комиссию</button>
                   </div>
                   <div class="row content">
                       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
@@ -156,13 +156,13 @@
                   <div class="container-fluid text-center" style="display: table">
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text-center">
                       <div class="form-group">
-                        <label for="goodsInput">Введите количество мёда в литрах</label>
-                        <input type="number" class="form-control" id="goodsInput" aria-describedby="goodsInputHelp" placeholder="4" required>
-                        <small id="goodsInputHelp" class="control-label form-text text-muted">Не более 5 литров в день</small>
+                        <label for="honeyInput">Введите количество мёда в литрах</label>
+                        <input type="number" class="form-control" id="honeyInput" aria-describedby="honeyInputHelp" placeholder="4" required>
+                        <small id="honeyInputHelp" class="control-label form-text text-muted">Не более 5 литров в день</small>
                       </div>
                       <div class="row content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-lg btn-primary">Вывести мёд</button>
+                          <button class="btn btn-lg btn-primary" id="honeyOut">Вывести мёд</button>
                         </div>
                       </div>
                       <div class="row content">
@@ -175,7 +175,7 @@
                       </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-                      <img class="img-responsive" src="images/honey_logo.png" />
+                      <img class="img-responsive" id="outbee" src="images/honey_logo.png" />
                     </div>
                   </div>
                 </div>
@@ -189,6 +189,8 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js'></script>
+    <script src="js/poohLk.js" type="module"></script>
 </body>
 
 </html>

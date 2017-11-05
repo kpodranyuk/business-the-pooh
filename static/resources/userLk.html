@@ -33,22 +33,22 @@
             <!-- Пиллс -->
             <ul class="nav nav-pills" id="pills" style="background-color: #f2f2f2; margin-top: 7pt; margin-right: 0pt; padding:7pt">
               <li>
-                <a data-toggle="pill" href="#buy">Купить</a>
+                <a data-toggle="pill" href="#buy" id="buyPill">Купить</a>
               </li>
               <li>
-                <a data-toggle="pill" href="#history">История операций</a>
+                <a data-toggle="pill" href="#history" id="historyPill">История операций</a>
               </li>
               <li class="active">
-                <a data-toggle="pill" href="#enterMoney">Ввод товара</a>
+                <a data-toggle="pill" href="#enterMoney" id="enterPill">Ввод товара</a>
               </li>
               <li>
-                <a data-toggle="pill" href="#getHoney">Вывод меда</a>
+                <a data-toggle="pill" href="#getHoney" id="getPill">Вывод меда</a>
               </li>
               <li>
-                <a data-toggle="pill" href="#account">Настройка аккаунта</a>
+                <a data-toggle="pill" href="#account" id="settingsPill">Настройка аккаунта</a>
               </li>
               <li class="hidden">
-                <a data-toggle="pill" href="#trueAcc">Аккаунт</a>
+                <a data-toggle="pill" href="#trueAcc" id="accPill">Аккаунт</a>
               </li>
               <li>
                 <a data-toggle="pill" href="#help">О сервисе</a>
@@ -73,11 +73,11 @@
                       </div>
                       <div class="row content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-lg btn-primary">Выбрать</button>
+                          <button class="btn btn-lg btn-primary" id="chosenPots">Выбрать</button>
                         </div>
                       </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" style="background-color:white">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" id="secondStep" style="background-color:white; visibility:hidden">
                       <label for="res">
                         <h3> Информация об операции:</h3>
                       </label>
@@ -105,16 +105,16 @@
                           </tbody>
                         </table>
                       </div>
-                      <div class="row">
+                      <div class="row" id="buyButtons">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-                          <button class="btn btn-md btn-primary">Подтвердить</button>
+                          <button class="btn btn-md btn-primary" id="argeeToBuy">Подтвердить</button>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-                          <button class="btn btn-md btn-default">Отмена</button>
+                          <button class="btn btn-md btn-default" id="cancelBuy">Отмена</button>
                         </div>
                       </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel text-center" style="background-color:white">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel text-center" id="thirdStep" style="background-color:white; visibility:hidden">
                       <label>
                         <h3>Завершение операции</h3>
                       </label>
@@ -188,7 +188,7 @@
                       </div>
                       <div class="row content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-lg btn-primary">Ввести товар</button>
+                          <button class="btn btn-lg btn-primary" id="honeyIn">Ввести товар</button>
                         </div>
                       </div>
                       <div class="row content">
@@ -201,7 +201,7 @@
                       </div>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-                      <img class="img-responsive" src="images/honey_logo.png" />
+                      <img class="img-responsive" id="inbee" src="images/honey_logo.png" />
                     </div>
                   </div>
                 </div>
@@ -217,13 +217,13 @@
                   <div class="container-fluid text-center" style="display: table">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
                       <div class="form-group">
-                        <label for="goodsInput">Введите количество мёда в литрах</label>
-                        <input type="number" class="form-control" id="goodsInput" aria-describedby="goodsInputHelp" placeholder="4" required>
-                        <small id="goodsInputHelp" class="control-label form-text text-muted">Не более 5 литров в день</small>
+                        <label for="honeyInput">Введите количество мёда в литрах</label>
+                        <input type="number" class="form-control" id="honeyInput" aria-describedby="honeyInputHelp" placeholder="4" required>
+                        <small id="honeyInputHelp" class="control-label form-text text-muted">Не более 5 литров в день</small>
                       </div>
                       <div class="row content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-lg btn-primary">Вывести мёд</button>
+                          <button class="btn btn-lg btn-primary" id="honeyOut">Вывести мёд</button>
                         </div>
                       </div>
                       <div class="row content">
@@ -236,7 +236,7 @@
                       </div>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-                      <img class="img-responsive" src="images/honey_logo.png" />
+                      <img class="img-responsive" id="outbee" src="images/honey_logo.png" />
                     </div>
                   </div>
                 </div>
@@ -347,39 +347,38 @@
                       </div>
                       <div class="row" style="margin: 10pt">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-md btn-primary">Обновить пароль</button>
+                          <button class="btn btn-md btn-primary" id="makeNewPswd">Обновить пароль</button>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-md btn-primary" data-toggle="modal" data-target="#forgetMeModal">Деактивировать аккаунт</button>
+                          <button class="btn btn-md btn-primary" data-toggle="modal" id="openForgetMe" data-target="#forgetMeModal">Деактивировать аккаунт</button>
                         </div>
                       </div>
                     </div>
-                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 panel text-center" style="background-color:white">
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 panel text-center" id="pswdDiv" style="background-color:white; visibility:hidden">
                       <form>
                         <div class="form-row">
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="oldPswdInput">Введите текущий пароль</label>
-                              <input type="password" class="form-control" id="oldPswdInput" aria-describedby="oldPswdInputHelp" placeholder="Текущий пароль"
-                                required>
+                              <input type="password" class="form-control" id="oldPswdInput" aria-describedby="oldPswdInputHelp" placeholder="Текущий пароль">
                               <small id="oldPswdInputHelp" class="control-label form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                               <label for="newPswdInput">Введите новый пароль</label>
-                              <input type="password" class="form-control" id="newPswdInput" placeholder="Новый пароль" required>
+                              <input type="password" class="form-control" id="newPswdInput" placeholder="Новый пароль">
                               <small id="newPswdInputHelp" class="control-label form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                               <label for="newPswdInputRepeat">Подтвердите пароль</label>
-                              <input type="password" class="form-control" id="newPswdInputRepeat" placeholder="Пароль" required>
+                              <input type="password" class="form-control" id="newPswdInputRepeat" placeholder="Пароль">
                               <small id="newPswdInputRepeatHelp" class="control-label form-text text-muted"></small>
                             </div>
                           </div>
                         </div>
-                        <button class="btn btn-md btn-primary">Сохранить</button>
                     </form>
+                    <button class="btn btn-md btn-primary" id="saveNewPswd">Сохранить</button>
                   </div>
                   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel text-center" style="background-color:white">
                     <img class="img-responsive" src="images/honey_logo.png" />
@@ -405,7 +404,7 @@
                   <a class="dropdown-toggle" id="menu1" data-toggle="dropdown" style="font-size:15pt; color:black">Логин
                   <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                      <li role="presentation" style="font-size:10pt; color:black"><a role="menuitem" tabindex="-1" href="#" >Выйти</a></li>
+                      <li role="presentation" id="logOut" style="font-size:10pt; color:black"><a role="menuitem" tabindex="-1" href="#" >Выйти</a></li>
                     </ul>
                 </div>
                 <b style="font-size:12pt; color:black">Совунья Имя</b>
@@ -475,7 +474,8 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
-  <script src="js/userLk.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js'></script>
+  <script src="js/userLk.js" type="module"></script>
 </body>
 
 </html>
