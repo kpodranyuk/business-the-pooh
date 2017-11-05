@@ -1,5 +1,13 @@
 import * as poohApi from "./poohLkApi.js";
 
+// По загрузке документа заполняем элементы, отображающие информацию о Пухе
+$(document).ready(function(){
+    
+    $("#honeyAmount").text(poohApi.curUser.honeyAmount+" л меда");
+    myHistoryPillBttn.click();
+});
+
+
 // Создание сокетного соединения
 var socket = io.connect();
 // Переменная отображающая, изменилось ли состояние Пуха(т.е. когда надо подгружать с сервера данные)

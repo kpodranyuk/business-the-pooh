@@ -19,9 +19,7 @@ export function lastOperationDay(callback) {
         },   
         success: function(response){
             if(response.success == true){
-                console.log("получен список пользователей");
                 // Передаем пользователей для их отображения
-                console.log(response.result);
                 callback(response.result);
             } else {
                 console.log("Произошла какая то ошибка, нет соединения к БД, или не правильный запрос");
@@ -53,9 +51,7 @@ export function getOperations(callback) {
         },   
         success: function(response){
             if(response.success == true){
-                console.log("получен список операций");
                 // Передаем операции для их отображения
-                console.log(response.operations);
                 callback(response.operations);
             } else {
                 console.log("Произошла какая то ошибка, нет соединения к БД, или не правильный запрос");
