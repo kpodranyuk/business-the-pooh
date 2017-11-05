@@ -21,7 +21,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/static/resources'));
 
 //Подключение json парсера
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ type: 'application/json' }));
 
 /*ЗАПУСК СЕРВЕРА*/
 var port = process.env.PORT || '3000';
