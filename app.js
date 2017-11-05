@@ -57,4 +57,6 @@ io.on('connection', function (socket) {
 
 });
 
-setInterval(common.updateOperationDay(io), 1200);
+setInterval(function() {
+  common.updateOperationDay(io);
+}, 1200);
