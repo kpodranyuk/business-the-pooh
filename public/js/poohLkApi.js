@@ -33,3 +33,37 @@ export function lastOperationDay(callback) {
         }
     });
 };
+
+
+/**
+ * Получить все совершенные операции
+ * @param {function} callback - функция, которая будет получать данные после запроса
+ */
+export function getOperations(callback) {
+    console.log("Операции за все время");
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/common/operations',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            login: curUser.login
+        },   
+        success: function(response){
+            if(response.success == true){
+                console.log("получен список операций");
+                // Передаем операции для их отображения
+                console.log(response.result);
+                callback(response.result);
+            } else {
+                console.log("Произошла какая то ошибка, нет соединения к БД, или не правильный запрос");
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ПОЛУЧЕНИЕ ОПЕРАЦИИЙ");
+            console.log(response);
+        }
+    });
+};

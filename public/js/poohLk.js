@@ -2,6 +2,8 @@ import * as poohApi from "./poohLkApi.js";
 
 // Создание сокетного соединения
 var socket = io.connect();
+// Переменная отображающая, изменилось ли состояние Пуха(т.е. когда надо подгружать с сервера данные)
+var statePooh = true;
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
 
@@ -34,7 +36,10 @@ var getPillBttn = document.querySelector("#getHoneyPill");
 // Вкладка Моя история
 myHistoryPillBttn.onclick = function(event){
     console.log("Нажата кнопка Моя История в панели меню");
-    // TODO обновить информацию с сервера
+    // Получить данные с сервера
+    poohApi.getOperations(function(result){
+        // Вставить новые данные
+    });
 }
 
 // Вкладка История
@@ -144,5 +149,5 @@ socket.emit('join', {username: 'Администратор Пух'});
 
 // Настал новый операционный день
 socket.on('new-oper-day', function(data) {
-
+    console.log("Сработало событие нового операционного дня");
 });
