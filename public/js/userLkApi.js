@@ -2,7 +2,7 @@ export var curUser = [];
 curUser = JSON.parse(localStorage.currentUser);
 
 /**
- * Отправить на сервер запрос о регистрации пользователя
+ * Отправить на сервер запрос об обновлении пароля
  */
 export function updatePassword(newPassword, callback){
     // Формируем запрос
