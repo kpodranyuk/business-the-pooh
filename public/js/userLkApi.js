@@ -43,3 +43,41 @@ export function updatePassword(newPassword, callback){
         }        
     });
 }
+
+/**
+ * Отправить на сервер запрос об информации для покупки меда
+ */
+export function buyHoneyInfo(callback){
+    // Формируем запрос
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/user/buy-honey-info',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            productAmount : curUser.productAmount,
+            productType : curUser.productType
+        },   
+        success: function(response){
+            if(response.success == true){
+                console.log("ИНФОРМАЦИЯ ДЛЯ ПОКУПКИ ПОЛУЧЕНА");
+                // Возвращаем максимальное количество горшочков для покупки
+                callback(response.honeyToBuy);
+            }
+            else{
+                console.log(response.message);
+                callback(null);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ПОЛУЧЕНИИ ИНФОРМАЦИИ ДЛЯ ПОКУПКИ");
+            console.log(response);
+            callback(null);
+        }, 
+        complete: function(){
+
+        }        
+    });
+}

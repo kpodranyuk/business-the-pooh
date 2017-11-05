@@ -73,8 +73,32 @@ var settingsPillBttn = document.querySelector("#settingsPill");
 // Вкладка Купить
 buyPillBttn.onclick = function(event){
     // TODO получить от сервера количество горшочков для покупки и добавить в селект
-    var sel = document.querySelector("#sel1");
-    sel.value = 1;
+    var maxPots = 0;
+    userApi.buyHoneyInfo(function (result) {
+        if(result != null) {
+            maxPots = result;
+        }
+    });
+    console.log(maxPots);
+    var sel = document.querySelector("#selectPots");
+    var selHelp = document.querySelector("#selectPotsHelp");
+    if(maxPots<1){
+        sel.value = "";
+        makePapaProud(sel.parentNode, false);
+        selHelp.innerHTML = "Недостаточно средств для покупки";
+        potsInBuyBttn.disabled = true;
+        return false;
+    }
+    else{
+        sel.parentNode.classList.remove("has-error");
+        sel.parentNode.classList.remove("has-success");
+        selHelp.innerHTML = "Не более "+ maxPots;
+        potsInBuyBttn.disabled = false;
+        $("selectPots").attr({
+            "max" : maxPots,        
+            "min" : 1          
+         });
+    }
     // Прячем div'ы
     var div2 = document.querySelector("#secondStep");
     div2.style.visibility = "hidden";
