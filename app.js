@@ -10,6 +10,7 @@ var registerRoute = require('./routes/registerRoute');
 var userApiRoute = require('./routes/userApiRoute');
 var commonApiRoute = require('./routes/commonApiRoute');
 var poohApiRoute = require('./routes/poohApiRoute');
+var common = require('./model/common');
 
 
 /*СОЗДАНИЕ ПРИЛОЖЕНИЯ*/
@@ -56,13 +57,4 @@ io.on('connection', function (socket) {
 
 });
 
-/*setInterval(opDay, 1500);
-
-var OperationDay = require('./model/operationday');
-var currentOpDay = new OperationDay(new Date());
-function opDay() {
-  console.log(currentOpDay.startDay.toLocaleString());
-  if (!currentOpDay.includedOnOperationDay(new Date())) {
-    currentOpDay = new OperationDay(new Date());
-  }
-}*/
+setInterval(common.updateOperationDay(io), 1200);

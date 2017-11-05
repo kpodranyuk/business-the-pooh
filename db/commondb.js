@@ -218,3 +218,4 @@ module.exports.withdrawUserHoney = withdrawUserHoney;
 module.exports.getTodaysOperations = getTodaysOperations;
 module.exports.getAllHistory = getAllHistory;
 module.exports.insertNewOperation = insertNewOperation;
+module.exports.generateNewPots = generateNewPots;
