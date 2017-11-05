@@ -40,7 +40,11 @@ myHistoryPillBttn.onclick = function(event){
 // Вкладка История
 historyPillBttn.onclick = function(event){
     console.log("Нажата кнопка История в панели меню");
-    // TODO обновить информацию с сервера
+    // Очистить таблицу
+    // Получить данные с сервера
+    poohApi.lastOperationDay(function(result) {
+        // Вставить новые данные
+    })
 }
 
 // Вкладка Вывод меда
