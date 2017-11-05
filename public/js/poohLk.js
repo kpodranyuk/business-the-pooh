@@ -1,5 +1,17 @@
 import * as poohApi from "./poohLkApi.js";
 
+// По загрузке документа заполняем элементы, отображающие информацию о Пухе
+$(document).ready(function(){
+    
+    $("#honeyAmount").text(poohApi.curUser.honeyAmount+" л меда");
+    myHistoryPillBttn.click();
+});
+
+
+// Создание сокетного соединения
+var socket = io.connect();
+// Переменная отображающая, изменилось ли состояние Пуха(т.е. когда надо подгружать с сервера данные)
+var statePooh = true;
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
 
@@ -32,13 +44,21 @@ var getPillBttn = document.querySelector("#getHoneyPill");
 // Вкладка Моя история
 myHistoryPillBttn.onclick = function(event){
     console.log("Нажата кнопка Моя История в панели меню");
-    // TODO обновить информацию с сервера
+    // Получить данные с сервера
+    poohApi.getOperations(function(result){
+        // Вставить новые данные
+        insertNewDataFotMyHistory(result);
+    });
 }
 
 // Вкладка История
 historyPillBttn.onclick = function(event){
     console.log("Нажата кнопка История в панели меню");
-    // TODO обновить информацию с сервера
+    // Получить данные с сервера
+    poohApi.lastOperationDay(function(result) {
+        // Вставить новые данные
+        insertNewDataFotUsersHistory(result);
+    });
 }
 
 // Вкладка Вывод меда
@@ -112,3 +132,57 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
         return false;
     }    
 }
+
+
+/**
+ * Вставить новые данные о пользователях за прошлый оп. день.
+ * {mass} data - массив объектов, содержащих информацию за прошлый операционный день
+ */
+function insertNewDataFotUsersHistory(data) {
+    // Очистить таблицу
+    var tableBody = $("#usersHistoryBuyingLastDay");
+    tableBody.empty();
+    for (var i = 0; i < data.length; i++) {
+        var row = "<tr>";
+        row += "<td>"+new Date(data[i].date).toLocaleString()+"</td>";
+        row += "<td>"+data[i].loginUser+"</td>";
+        row += "<td>"+data[i].comission+"</td>";
+        row += "</tr>"
+        tableBody.append(row);
+    }
+}
+
+/**
+ * Вставить новые данные о совершенных операциях
+ * {mass} data - массив объектов, содержащих информацию о операциях
+ */
+function insertNewDataFotMyHistory(data) {
+    // Очистить таблицу
+    var tableBody = $("#myHistoryOperations");
+    tableBody.empty();
+    for (var i = 0; i < data.length; i++) {
+        var row = "<tr>";
+        row += "<td>"+new Date(data[i].datatime).toLocaleString()+"</td>";
+        row += "<td>"+getWordForTypeOperation(data[i].type)+"</td>";
+        row += "<td>"+data[i].honeyCount+"</td>";
+        row += "</tr>"
+        tableBody.append(row);
+    }
+}
+
+function getWordForTypeOperation(type) {
+    if (type == 'E') {
+        return "Ввод";
+    } else if (type == 'G') {
+        return "Вывод";
+    }
+}
+
+
+/*   СОБЫТИЯ    */
+socket.emit('join', {username: 'Администратор Пух'});
+
+// Настал новый операционный день
+socket.on('new-oper-day', function(data) {
+    console.log("Сработало событие нового операционного дня");
+});
