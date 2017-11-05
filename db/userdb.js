@@ -20,6 +20,22 @@ con.connect(function (err) {
     }
 });
 
+/**
+ * Получить тип продукта по индексу
+ * @param {number} productType - тип продукта пользователя(1,2,3,4)
+ */
+function getStringProductType(productType) {
+    if (productType == 1)
+        return "F";
+    else if (productType == 2)
+        return "B";
+    else if (productType == 3)
+        return "P";
+    else if (productType == 4)
+        return "H";
+    else
+        return null;
+}
 
 /**
  * Получить индекс типа продукта из БД
