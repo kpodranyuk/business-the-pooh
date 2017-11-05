@@ -5,7 +5,7 @@
 function OperationDay(date) {
 
     // Час начала нового оп. дня
-    var DATE_START = 15;
+    var DATE_START = 7;
     // Дата начала дня{Date}
     this.startDay = null;
     // Дата завершения дня{Date}
