@@ -200,7 +200,7 @@ router.post('/entry-product-info', function (req, res) {
 			}
 			res.json({
 				success: true,
-				honeyToGet: canEnter
+				productToEnter: canEnter
 			});
 		}
 	});
