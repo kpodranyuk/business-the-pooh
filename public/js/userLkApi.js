@@ -81,3 +81,80 @@ export function buyHoneyInfo(callback){
         }        
     });
 }
+
+/**
+ * Отправить на сервер запрос ввода товара
+ */
+export function enterProduct(amount, callback){
+    // Формируем запрос
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/user/entry-product',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            login : curUser.login,
+            product : amount,
+            productType : curUser.productType
+        },   
+        success: function(response){
+            if(response.success == true){
+                console.log("ТОВАР ВВЕДЕН В СИСТЕМУ");
+                curUser.productAmount = response.productAmount;
+                localStorage.currentUser = JSON.stringify(curUser);
+                callback(true);
+            }
+            else{
+                console.log(response.message);
+                callback(false);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ВВОДЕ ТОВАРА");
+            console.log(response);
+            callback(false);
+        }, 
+        complete: function(){
+
+        }        
+    });
+}
+
+/**
+ * Отправить на сервер запрос об информации для ввода ТОВАРА
+ */
+export function enterProductInfo(callback){
+    // Формируем запрос
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/user/entry-product-info',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            login : curUser.login
+        },   
+        success: function(response){
+            if(response.success == true){
+                console.log("ИНФОРМАЦИЯ ДЛЯ ВВОДА ТОВАРА ПОЛУЧЕНА");
+                // Возвращаем максимальное количество товара для ввода
+                callback(response.productToEnter);
+            }
+            else{
+                console.log(response.message);
+                callback(null);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ПОЛУЧЕНИИ ИНФОРМАЦИИ ДЛЯ ВВОДА ТОВАРА");
+            console.log(response);
+            callback(null);
+        }, 
+        complete: function(){
+
+        }        
+    });
+}
