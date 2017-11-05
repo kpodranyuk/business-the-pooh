@@ -59,7 +59,7 @@ router.post('/buy-honey-info', function (req, res) {
 			var count = 0;
 
 			// Узнать курс по продукту
-			rate = getRate(req.body.idProductType);
+			rate = getRate(req.body.productType);
 			// Проверить сколько горшочков мёда можно купить
 			var canBuy = potsCount - productCount / rate;
 			if (canBuy > 0) {
@@ -79,13 +79,13 @@ router.post('/buy-honey-info', function (req, res) {
 
 /**
  * Получить курс по меду
- * @param {number} productType - тип продукта
+ * @param {string} productType - тип продукта
  */
 function getRate(productType) {
-	if (productType == 0 || productType == 1) {
+	if (productType == 'F' || productType == 'B') {
 		return 10;
 	}
-	else if (productType == 2) {
+	else if (productType == 'P') {
 		return 5;
 	}
 	else {
