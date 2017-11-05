@@ -39,6 +39,7 @@ myHistoryPillBttn.onclick = function(event){
     // Получить данные с сервера
     poohApi.getOperations(function(result){
         // Вставить новые данные
+        insertNewDataFotMyHistory(result);
     });
 }
 
@@ -126,7 +127,7 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
 
 
 /**
- * Вставить новые данные о пеользователях за прошлый оп. день.
+ * Вставить новые данные о пользователях за прошлый оп. день.
  * {mass} data - массив объектов, содержащих информацию за прошлый операционный день
  */
 function insertNewDataFotUsersHistory(data) {
@@ -140,6 +141,32 @@ function insertNewDataFotUsersHistory(data) {
         row += "<td>"+data[i].comission+"</td>";
         row += "</tr>"
         tableBody.append(row);
+    }
+}
+
+/**
+ * Вставить новые данные о совершенных операциях
+ * {mass} data - массив объектов, содержащих информацию о операциях
+ */
+function insertNewDataFotMyHistory(data) {
+    // Очистить таблицу
+    var tableBody = $("#myHistoryOperations");
+    tableBody.empty();
+    for (var i = 0; i < data.length; i++) {
+        var row = "<tr>";
+        row += "<td>"+new Date(data[i].datatime).toLocaleString()+"</td>";
+        row += "<td>"+getWordForTypeOperation(data[i].type)+"</td>";
+        row += "<td>"+data[i].honeyCount+"</td>";
+        row += "</tr>"
+        tableBody.append(row);
+    }
+}
+
+function getWordForTypeOperation(type) {
+    if (type == 'E') {
+        return "Ввод";
+    } else if (type == 'G') {
+        return "Вывод";
     }
 }
 

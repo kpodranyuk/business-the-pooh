@@ -30,9 +30,11 @@ function OperationDay(date) {
      * @return {OperationDay} прошлый операционный день
      */
     this.getLastOperationDay = function () {
-        var tmp = new Date();
-        tmp.setDate(this.startDay.getDate() - 1);
-        return new OperationDay(tmp);
+        
+        var tmp = new OperationDay(new Date());
+        tmp.startDay.setDate(tmp.startDay.getDate() - 1);
+        tmp.endDay.setDate(tmp.endDay.getDate() - 1);
+        return tmp;
     };
 
     /**

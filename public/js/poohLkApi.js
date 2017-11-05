@@ -55,8 +55,8 @@ export function getOperations(callback) {
             if(response.success == true){
                 console.log("получен список операций");
                 // Передаем операции для их отображения
-                console.log(response.result);
-                callback(response.result);
+                console.log(response.operations);
+                callback(response.operations);
             } else {
                 console.log("Произошла какая то ошибка, нет соединения к БД, или не правильный запрос");
             }
