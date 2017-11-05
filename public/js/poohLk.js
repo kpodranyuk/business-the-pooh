@@ -1,5 +1,7 @@
 import * as poohApi from "./poohLkApi.js";
 
+// Создание сокетного соединения
+var socket = io.connect();
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
 
@@ -112,3 +114,12 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
         return false;
     }    
 }
+
+/*   СОБЫТИЯ    */
+socket.emit('connection', {});
+socket.emit('join', {username: 'Администратор Пух'});
+
+// Настал новый операционный день
+socket.on('new-oper-day', function(data) {
+
+});
