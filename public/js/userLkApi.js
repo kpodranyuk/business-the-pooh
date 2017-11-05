@@ -97,7 +97,6 @@ export function buyHoney(amount, callback){
         dataType: 'json',
         data: {
             user : JSON.stringify(curUser),
-            promotion: JSON.stringify(curUser.promotion),
             countPots : amount
         },   
         success: function(response){
