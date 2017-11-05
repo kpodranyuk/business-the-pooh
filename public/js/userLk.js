@@ -1,23 +1,20 @@
 import * as userApi from "./userLkApi.js";
 
-var curUser = [];
-curUser = JSON.parse(localStorage.currentUser);
-
 // По загрузке документа заполняем элементы, отображающие информацию о пользователе
 $(document).ready(function(){
     // TODO сделать функцию для работы с localStorage
     // Устанавливаем информацию о пользователе
     // userImage loginDropdown userTypeName productLabel honeyLabel
     // Устанавливаем изображение
-    $("#userImage").attr("src",getUserImagePath(curUser.productType));
+    $("#userImage").attr("src",getUserImagePath(userApi.curUser.productType));
     // Устанавливаем логин
-    $("#loginDropdown").text(curUser.login);
+    $("#loginDropdown").text(userApi.curUser.login);
     // Устанавливаем тип пользователя и имя
-    $("#userTypeName").text(translateTypeToString(curUser.productType)+" "+curUser.name);
+    $("#userTypeName").text(translateTypeToString(userApi.curUser.productType)+" "+userApi.curUser.name);
     // Устанавливаем количество товара пользователя
-    $("#productLabel").text(translateProductCountToRussian(curUser.productAmount, curUser.productType));
+    $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
     // Устанавливаем количество меда пользователя
-    $("#honeyLabel").text(curUser.honeyAmount+" л меда");
+    $("#honeyLabel").text(userApi.curUser.honeyAmount+" л меда");
 });
 
 // Изображение пчелы при выводе меда
@@ -200,7 +197,7 @@ showAccSettingsBttn.onclick = function(event){
     // Если пароль корректный, открываем настройки
     if(wasPapaProud){
         // TODO сделать проверку корректности пароля
-        if(pswdInput.value!=curUser.password){
+        if(pswdInput.value!=userApi.curUser.password){
             makePapaProud(pswdInput.parentNode, false);
             pswdInputHelp.innerHTML = "Неправильный пароль";
         }
@@ -248,15 +245,19 @@ saveNewPswdBttn.onclick = function(event){
     if(!wasPapaProud)
         return false;
     else{
-        if(curpswdInput.value!=curUser.password){
+        if(curpswdInput.value!=userApi.curUser.password){
             makePapaProud(curpswdInput.parentNode, false);
             curpswdInputHelp.innerHTML = "Неправильный пароль";
         }
         else{
-            // TODO отправить запрос на сервер для обновления пароля
+            ;
             /* ЗАКОММЕНТИРОВАНО ДО НАЧАЛА ПОДДЕРЖКИ НА СЕРВЕРЕ
-            curUser.password = newpswdInput.value;
-            localStorage.currentUser = JSON.stringify(curUser);*/
+            userApi.updatePassword(newpswdInput.value, function (result) {
+                if(result == true) {
+                    var div = document.querySelector("#pswdDiv");    
+                    div.style.visibility = "hidden";
+                }
+            }*/
         }
         
     }
