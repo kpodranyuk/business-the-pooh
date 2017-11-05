@@ -114,7 +114,7 @@ router.post('/get-honey-info', function (req, res) {
 	var login = req.body.login;
 	// Получаем у бд баланс пользователя
 	db.getUserBalance(login, function (result) {
-		if (result == null) {
+		if (result.length==0) {
 			res.json({ success: false, message: 'Не удалось получить баланс данного пользователя' });
 		}
 		else {
@@ -123,7 +123,7 @@ router.post('/get-honey-info', function (req, res) {
 			var canGet = 0;			// Мед, который можно вывести
 			var alreadyGot = 0;		// Мед, который уже был выведен за сегодня
 			db.getTodaysOperations(login, function (result) {
-				if (result == null) {
+				if (result.length==0) {
 					res.json({ success: false, message: 'Не удалось получить историю операций за текущий день у данного пользователя' });
 				}
 				else {
