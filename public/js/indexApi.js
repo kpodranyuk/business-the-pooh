@@ -24,9 +24,7 @@ export function sendRegist(){
             if(response.success == true){
                 console.log("ПОЛЬЗОВАТЕЛЬ ЗАРЕГИСТРИРОВАН!!!");
                 // Запоминаем пользователя в браузере
-                localStorage.setItem('currentUser', JSON.stringify(response.user));
-                // Переходим на страницу личного кабинета
-                window.location = "userLk.html"
+                localStorage.currentUser = JSON.stringify(response.user);
             }
             else{
                 console.log(response.message);
@@ -54,4 +52,38 @@ function convertUserTypeToString(){
         return "P";
     if (val == "pig")
         return "B";
+}
+
+
+/**
+ * Залогинить пользователя
+ */
+export function logIn() {
+    // Запрос
+    var req = $.ajax({
+        method: "POST",
+        url: '/login',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            login : $("#enterInputLogin").val(),
+            password : $("#enterInputPass").val()
+        },   
+        success: function(response){
+            if(response.success == true) {
+                console.log("ПОЛЬЗОВАТЕЛЬ ВОШЕЛ В СИСТЕМУ!!!");
+                // Запоминаем пользователя в браузере
+                localStorage.currentUser = JSON.stringify(response.user);
+            } else {
+                console.log(response.message);
+                // TODO сделать вывод сообщения в поле под логином
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ АВТОРИЗАЦИИ");
+            console.log(response);
+        }
+    });
 }
