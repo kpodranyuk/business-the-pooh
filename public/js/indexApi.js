@@ -25,6 +25,7 @@ export function sendRegist(){
                 console.log("ПОЛЬЗОВАТЕЛЬ ЗАРЕГИСТРИРОВАН!!!");
                 // Запоминаем пользователя в браузере
                 localStorage.currentUser = JSON.stringify(response.user);
+                goToLk(response.user.isAdmin);
             }
             else{
                 console.log(response.message);
@@ -76,6 +77,7 @@ export function logIn() {
                 console.log("ПОЛЬЗОВАТЕЛЬ ВОШЕЛ В СИСТЕМУ!!!");
                 // Запоминаем пользователя в браузере
                 localStorage.currentUser = JSON.stringify(response.user);
+                goToLk(response.user.isAdmin);
             } else {
                 console.log(response.message);
                 // TODO сделать вывод сообщения в поле под логином
@@ -86,4 +88,15 @@ export function logIn() {
             console.log(response);
         }
     });
+}
+
+function goToLk(isAdmin) {
+    console.log("LK");
+    var url = '';
+    if (isAdmin)
+        url = '/poohLk.html';
+    else 
+        url = '/userLk.html';
+
+    window.location = url;
 }
