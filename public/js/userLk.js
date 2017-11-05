@@ -1,13 +1,12 @@
 import * as userApi from "./userLkApi.js";
 
+var curUser = [];
+curUser = JSON.parse(localStorage.currentUser);
+
 // По загрузке документа заполняем элементы, отображающие информацию о пользователе
 $(document).ready(function(){
-    // TODO установить информацию о пользователе
     // TODO сделать функцию для работы с localStorage
-    var curUser = [];
-    // Проверяем работу localStorage.currentUser
-    curUser = JSON.parse(localStorage.currentUser);
-    console.log(curUser.name);
+    // Устанавливаем информацию о пользователе
     // userImage loginDropdown userTypeName productLabel honeyLabel
     // Устанавливаем изображение
     $("#userImage").attr("src",getUserImagePath(curUser.productType));
@@ -201,7 +200,13 @@ showAccSettingsBttn.onclick = function(event){
     // Если пароль корректный, открываем настройки
     if(wasPapaProud){
         // TODO сделать проверку корректности пароля
-        $('#pills a[href="#trueAcc"]').tab('show');
+        if(pswdInput.value!=curUser.password){
+            makePapaProud(pswdInput.parentNode, false);
+            pswdInputHelp.innerHTML = "Неправильный пароль";
+        }
+        else{
+            $('#pills a[href="#trueAcc"]').tab('show');
+        }
     }
 }
 
