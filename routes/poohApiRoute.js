@@ -29,6 +29,8 @@ router.post('/last-op-day', function (req, res) {
 router.post('/get-commission', function (req, res) {
 	db.getCommission(req.body.promotion, function (poohZP, dateOperation) {
 
+		// Вызвать событие, информирующее что Пух снял комиссию
+		req.io.sockets.emit('get-comission', {});
 		// Сформировать новую операцию
 		var operation = new Operation(0, 'E', dateOperation, 'H', 0, 0, poohZP, 0);
 		dbc.insertNewOperation(operation, "superpooh", function (success) {

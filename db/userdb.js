@@ -264,7 +264,6 @@ function buyHoney(user, countPots, callback) {
                 });
                 return con.rollback(function () { console.error(error.message); });
             } else {
-                // Вызвать событие, информирующее что у пчел поменялся баланс
                 // обновить данные у пользователя(баланс) и рассчитать комиссию
                 user.buyHoney(countPots);
                 var comission = ((countPots * 0.25) * (user.promotion.percent / 100)).toFixed(5);
