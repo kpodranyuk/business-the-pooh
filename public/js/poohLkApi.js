@@ -21,6 +21,7 @@ export function lastOperationDay(callback) {
             if(response.success == true){
                 console.log("получен список пользователей");
                 // Передаем пользователей для их отображения
+                console.log(response.result);
                 callback(response.result);
             } else {
                 console.log("Произошла какая то ошибка, нет соединения к БД, или не правильный запрос");

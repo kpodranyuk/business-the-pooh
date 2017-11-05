@@ -40,11 +40,11 @@ myHistoryPillBttn.onclick = function(event){
 // Вкладка История
 historyPillBttn.onclick = function(event){
     console.log("Нажата кнопка История в панели меню");
-    // Очистить таблицу
     // Получить данные с сервера
     poohApi.lastOperationDay(function(result) {
         // Вставить новые данные
-    })
+        insertNewDataFotUsersHistory(result);
+    });
 }
 
 // Вкладка Вывод меда
@@ -119,8 +119,27 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
     }    
 }
 
+
+/**
+ * Вставить новые данные о пеользователях за прошлый оп. день.
+ * {mass} data - массив объектов, содержащих информацию за прошлый операционный день
+ */
+function insertNewDataFotUsersHistory(data) {
+    // Очистить таблицу
+    var tableBody = $("#usersHistoryBuyingLastDay");
+    tableBody.empty();
+    for (var i = 0; i < data.length; i++) {
+        var row = "<tr>";
+        row += "<td>"+new Date(data[i].date).toLocaleString()+"</td>";
+        row += "<td>"+data[i].loginUser+"</td>";
+        row += "<td>"+data[i].comission+"</td>";
+        row += "</tr>"
+        tableBody.append(row);
+    }
+}
+
+
 /*   СОБЫТИЯ    */
-socket.emit('connection', {});
 socket.emit('join', {username: 'Администратор Пух'});
 
 // Настал новый операционный день
