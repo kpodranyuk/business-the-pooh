@@ -72,7 +72,6 @@ regBttn.onclick=function(event){
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
 function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
-    console.log("I'm in isSecondPswdTheSame");
     if(pswd1!=pswd2){
         errorPlace.innerHTML = "Пароли не совпадают";
         return false;
@@ -87,7 +86,6 @@ function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
 function isCorrectName(name, errorPlace){
-    console.log("I'm in isCorrectName");
     var reg = new RegExp(`^([А-Яа-я]{2,20})|([A-Za-z]{2,20})$`, '');
     if (name==null){
         errorPlace.innerHTML = "Введите имя, пустое поле";
@@ -117,7 +115,6 @@ function isCorrectName(name, errorPlace){
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
 function isCorrectLogin(login, errorPlace){
-    console.log("I'm in isCorrectLogin");
     var reg = new RegExp(`^[A-Za-z0-9]{2,20}$`, '');
     if (login==null){
         errorPlace.innerHTML = "Введите логин, пустое поле";
@@ -148,7 +145,6 @@ function isCorrectLogin(login, errorPlace){
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
 function isCorrectPassword(pswd, errorPlace){
-    console.log("I'm in isCorrectPassword");
     var reg = new RegExp(`^[A-Za-z0-9]{8,32}$`, '');
     if (pswd==null){
         errorPlace.innerHTML = "Введите пароль, пустое поле";
