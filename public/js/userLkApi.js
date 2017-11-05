@@ -1,5 +1,6 @@
 export var curUser = [];
 curUser = JSON.parse(localStorage.currentUser);
+console.log(curUser);
 
 /**
  * Отправить на сервер запрос об обновлении пароля
@@ -75,6 +76,47 @@ export function buyHoneyInfo(callback){
             console.log("ОШИБКА ПРИ ПОЛУЧЕНИИ ИНФОРМАЦИИ ДЛЯ ПОКУПКИ");
             console.log(response);
             callback(null);
+        }, 
+        complete: function(){
+
+        }        
+    });
+}
+
+/**
+ * Отправить на сервер запрос об информации для покупки меда
+ */
+export function buyHoney(amount, callback){
+    // Формируем запрос
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/user/buy-honey',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            user : JSON.stringify(curUser),
+            promotion: JSON.stringify(curUser.promotion),
+            countPots : amount
+        },   
+        success: function(response){
+            if(response.success == true){
+                console.log("МЕД КУПЛЕН");
+                console.log(response);
+                curUser = response.user;
+                localStorage.currentUser = JSON.stringify(curUser);
+                callback(true);
+            }
+            else{
+                console.log(response.message);
+                callback(false);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ПОКУПКЕ МЕДА");
+            console.log(response);
+            callback(false);
         }, 
         complete: function(){
 
