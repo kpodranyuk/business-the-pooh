@@ -397,17 +397,17 @@
           <div class="row content" style="background-color: #fff0a3 ">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
               <div class="col-md-3" style="padding: 0pt;">
-                <img class="img-responsive" src="images/users/owl.png" style="max-width: 100%; max-height: 50pt" />
+                <img class="img-responsive" src="images/users/owl.png" id="userImage" style="max-width: 100%; max-height: 50pt" />
               </div>
               <div class="col-md-9" style="padding-left: 5pt;">
                 <div class="dropdown">
-                  <a class="dropdown-toggle" id="menu1" data-toggle="dropdown" style="font-size:15pt; color:black">Логин
+                  <a class="dropdown-toggle" id="loginDropdown" data-toggle="dropdown" style="font-size:15pt; color:black">Логин
                   <span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="loginDropdown">
                       <li role="presentation" id="logOut" style="font-size:10pt; color:black"><a role="menuitem" tabindex="-1" href="#" >Выйти</a></li>
                     </ul>
                 </div>
-                <b style="font-size:12pt; color:black">Совунья Имя</b>
+                <b style="font-size:12pt; color:black" id="userTypeName">Совунья Имя</b>
               </div>
             </div>
           </div>
@@ -418,9 +418,9 @@
                 <b style="font-size:14pt; color:black">Баланс:</b>
               </div>
               <div class="col-md-8" style="margin-left: 15pt">
-                <i href="" style="font-size:14pt; color:black">25 горшочков</i>
+                <i href="" id="productLabel" style="font-size:14pt; color:black">25 горшочков</i>
                 <br>
-                <i href="" style="font-size:14pt; color:black">0 л меда</i>
+                <i href="" id="honeyLabel" style="font-size:14pt; color:black">0 л меда</i>
               </div>
             </div>
           </div>
@@ -469,6 +469,7 @@
           </div>
       </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->

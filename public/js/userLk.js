@@ -1,5 +1,22 @@
 import * as userApi from "./userLkApi.js";
 
+// По загрузке документа заполняем элементы, отображающие информацию о пользователе
+$(document).ready(function(){
+    // TODO сделать функцию для работы с localStorage
+    // Устанавливаем информацию о пользователе
+    // userImage loginDropdown userTypeName productLabel honeyLabel
+    // Устанавливаем изображение
+    $("#userImage").attr("src",getUserImagePath(userApi.curUser.productType));
+    // Устанавливаем логин
+    $("#loginDropdown").text(userApi.curUser.login);
+    // Устанавливаем тип пользователя и имя
+    $("#userTypeName").text(translateTypeToString(userApi.curUser.productType)+" "+userApi.curUser.name);
+    // Устанавливаем количество товара пользователя
+    $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
+    // Устанавливаем количество меда пользователя
+    $("#honeyLabel").text(userApi.curUser.honeyAmount+" л меда");
+});
+
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
 
@@ -180,7 +197,13 @@ showAccSettingsBttn.onclick = function(event){
     // Если пароль корректный, открываем настройки
     if(wasPapaProud){
         // TODO сделать проверку корректности пароля
-        $('#pills a[href="#trueAcc"]').tab('show');
+        if(pswdInput.value!=userApi.curUser.password){
+            makePapaProud(pswdInput.parentNode, false);
+            pswdInputHelp.innerHTML = "Неправильный пароль";
+        }
+        else{
+            $('#pills a[href="#trueAcc"]').tab('show');
+        }
     }
 }
 
@@ -221,6 +244,23 @@ saveNewPswdBttn.onclick = function(event){
     // TODO сделать обновление пароля
     if(!wasPapaProud)
         return false;
+    else{
+        if(curpswdInput.value!=userApi.curUser.password){
+            makePapaProud(curpswdInput.parentNode, false);
+            curpswdInputHelp.innerHTML = "Неправильный пароль";
+        }
+        else{
+            ;
+            /* ЗАКОММЕНТИРОВАНО ДО НАЧАЛА ПОДДЕРЖКИ НА СЕРВЕРЕ
+            userApi.updatePassword(newpswdInput.value, function (result) {
+                if(result == true) {
+                    var div = document.querySelector("#pswdDiv");    
+                    div.style.visibility = "hidden";
+                }
+            }*/
+        }
+        
+    }
     var div = document.querySelector("#pswdDiv");    
     div.style.visibility = "hidden";
 }
@@ -394,4 +434,76 @@ function clearMakeNewPswdInputs(){
     newRepeatPswdInputHelp.innerHTML = "";
     newRepeatPswdInput.parentNode.classList.remove("has-error");
     newRepeatPswdInput.parentNode.classList.remove("has-success");
+}
+
+/**
+ * Конвертировать количество товара у пользователя в строку
+ * @param {int} count - количество товара пользователя
+ * @param {string} userType - тип пользователя
+ */
+function translateProductCountToRussian(count, userType){
+    var countStr = count + '';
+    var strlen = countStr.length;
+    // 1 _
+    // Если последняя цифра 1 и это не 11..
+    if(countStr.charAt(countStr.length-1)==1 && countStr.endsWith("11")==false){
+        if (userType == "B")
+            return countStr+" шарик";
+        if (userType == "P")
+            return countStr+" горшочек";
+        if (userType == "F")
+            return countStr+" цветок";
+    }
+    // 2-4 а/чка/тка
+    // Если последняя цифра 2-4 и это не 11-14..
+    else if(countStr.charAt(countStr.length-1)==2 && countStr.endsWith("12")==false 
+        || countStr.charAt(countStr.length-1)==3 && countStr.endsWith("13")==false
+        || countStr.charAt(countStr.length-1)==4 && countStr.endsWith("14")==false){
+        if (userType == "B")
+            return countStr+" шарика";
+        if (userType == "P")
+            return countStr+" горшочка";
+        if (userType == "F")
+            return countStr+" цветка";
+    }
+    // 5-20 ов/чков/тков
+    // Если последняя цифра 5-0...
+    else{
+        if (userType == "B")
+            return countStr+" шариков";
+        if (userType == "P")
+            return countStr+" горшочков";
+        if (userType == "F")
+            return countStr+" цветков";
+    }
+}
+
+/**
+ * Конвертировать типа пользователя в строку
+ * @param {string} userType - тип пользователя
+ */
+function translateTypeToString(userType){
+    if (userType == "B")
+        return "Пятачок";
+    if (userType == "P")
+        return "Совунья";
+    if (userType == "F")
+        return "Кролик";
+    if (userType == "H")
+        return "Винни Пух";
+}
+
+/**
+ * Получить путь к изображению пользователя
+ * @param {string} userType - тип пользователя
+ */
+function getUserImagePath(userType){
+    if (userType == "B")
+        return "images/users/pig.png";
+    if (userType == "P")
+        return "images/users/owl.png";
+    if (userType == "F")
+        return "images/users/rabbit.png";
+    if (userType == "H")
+        return "images/pooh.png";
 }
