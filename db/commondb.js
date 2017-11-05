@@ -201,12 +201,15 @@ function generateNewPots(callback) {
     con.beginTransaction(function (err) {
         if (err) { throw err; }
 
-        con.query("UPDATE Bees SET potsCount=FLOOR(honeyInPot+12.5), honeyInPot=honeyInPot+12.5 WHERE id=1", function (error, result, fields) {
+        con.query("UPDATE Bees SET potsCount=FLOOR((honeyInPot+12.5)/0.25), honeyInPot=honeyInPot+12.5 WHERE id=1", function (error, result, fields) {
             if (error) {
                 callback(false);
                 return con.rollback(function () { console.error(error.message); });
             } else {
-                callback(true);
+                con.commit(function (error) {
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                    callback(true);
+                });
             }
         });
     });

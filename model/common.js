@@ -20,7 +20,7 @@ function updateOperationDay(io) {
         db.generateNewPots(function (success) {
             if (success) {
                 console.log("Пчелы выставили на продажу еще 50 баночек меда.");
-                io.socket.emit('new-oper-day', {});
+                io.sockets.emit('new-oper-day', {});
             } else {
                 console.log("Пчелы не смогли выставить на продажу новый мед.");
             }

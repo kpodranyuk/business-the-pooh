@@ -48,7 +48,8 @@ app.use('/api/user', userApiRoute);
 app.use('/api/common', commonApiRoute);
 app.use('/api/pooh', poohApiRoute);
 
-io.on('connection', function (socket) {
+// Сокеты для генерации событий для клиента
+io.sockets.on('connection', function (socket) {
   console.log('Client connected to socket server.');
   socket.on('join', function (data) {
     socket.join(data.username);
@@ -57,6 +58,7 @@ io.on('connection', function (socket) {
 
 });
 
+// Обновляем операционный день
 setInterval(function() {
   common.updateOperationDay(io);
 }, 1200);
