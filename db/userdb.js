@@ -53,6 +53,33 @@ function getIndexProductType(productType) {
 }
 
 /**
+* Обновлять пароль пользователя в БД
+* @param {string} loginUser - логин пользователя
+* @param {string} passwordUser - пароль пользователя
+* @param {function} функция обратного вызова
+*/
+function updatePassword(loginUser, passwordUser, callback) {
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        var sql = "UPDATE User SET password=" + mysql.escape(passwordUser) + "WHERE login=" + mysql.escape(loginUse);
+        con.query(sql, function (error, result) {
+            if (error) {
+                con.commit(function (error) {
+                    callback(false);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (error) {
+                    callback(true);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+            }
+        });
+    });
+}
+
+/**
  * Зарегистрировать нового пользователя
  * @param {string} loginUser - логин пользователя
  * @param {string} passwordUser - пароль пользователя
@@ -64,6 +91,7 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
 
     // Начинаем транзакцию 
     con.beginTransaction(function (err) {
+
         if (err) { throw err; }
 
         // Смотрим тип продукта
@@ -168,7 +196,7 @@ function loginUser(login, password, callback) {
             }
         });
     });
-}   
+}
 
 /**
 * Получить все операции ввода средств пользователем за текущий день
@@ -251,11 +279,11 @@ function enterUserProduct(login, product, callback) {
  */
 function buyHoney(user, countPots, callback) {
     // Начинаем транзакцию 
-    con.beginTransaction(function (err){
+    con.beginTransaction(function (err) {
         if (err) { throw err; }
 
         // обновить кол-во меда и горшочков у пчел
-        con.query("UPDATE Bees SET potsCount=potsCount-"+countPots+", honeyInPot=honeyInPot-("+(countPots*0.25).toFixed(5)+") WHERE id=1", function(error, result, fields) {
+        con.query("UPDATE Bees SET potsCount=potsCount-" + countPots + ", honeyInPot=honeyInPot-(" + (countPots * 0.25).toFixed(5) + ") WHERE id=1", function (error, result, fields) {
             if (error) {
                 console.log(error.message);
                 con.commit(function (error) {
@@ -269,8 +297,8 @@ function buyHoney(user, countPots, callback) {
                 var comission = ((countPots * 0.25) * (user.promotion.percent / 100)).toFixed(5);
 
                 // вставить в базу обновленные данные о балансе пользователя
-                con.query("UPDATE User SET productAmount="+user.productAmount+", honeyAmount="+user.honeyAmount+" WHERE login="+mysql.escape(user.login), function(error, result, fields) {
-                    if(error) {
+                con.query("UPDATE User SET productAmount=" + user.productAmount + ", honeyAmount=" + user.honeyAmount + " WHERE login=" + mysql.escape(user.login), function (error, result, fields) {
+                    if (error) {
                         console.log(error.message);
                         con.commit(function (error) {
                             callback(null, null);
@@ -281,8 +309,8 @@ function buyHoney(user, countPots, callback) {
                         // рассчитать новую скидку для следующей покупки
                         user.calculateNewPromotion();
                         // вставить в базу обновленную скидку
-                        con.query("UPDATE Promotion SET operationsCount="+user.promotion.operationsCount+", operationsToNext="+user.promotion.operationsToNext+", percent="+user.promotion.percent+" WHERE idPromotion="+user.promotion.id, function(error, result, fields) {
-                            if(error) {
+                        con.query("UPDATE Promotion SET operationsCount=" + user.promotion.operationsCount + ", operationsToNext=" + user.promotion.operationsToNext + ", percent=" + user.promotion.percent + " WHERE idPromotion=" + user.promotion.id, function (error, result, fields) {
+                            if (error) {
                                 console.log(error.message);
                                 con.commit(function (error) {
                                     callback(null, null);
@@ -291,7 +319,7 @@ function buyHoney(user, countPots, callback) {
                                 return con.rollback(function () { console.error(error.message); });
                             } else {
                                 callback(user, comission);
-                                con.commit(function(error){
+                                con.commit(function (error) {
                                     if (error) return con.rollback(function () { console.error(error.message); });
                                 });
                             }
@@ -313,8 +341,8 @@ function buyHoney(user, countPots, callback) {
  */
 function getInformationForBuying(callback) {
     // получить информцию сколько у пчел горшочков
-       // Начинаем транзакцию 
-       con.beginTransaction(function (error) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Сделать выборку из БД информации о количестве горшков у пчёл
         var sql = "Select potsCount from bees";
@@ -337,7 +365,6 @@ function getInformationForBuying(callback) {
     });
 }
 
-
 module.exports.enterUserProduct = enterUserProduct;
 module.exports.getTodaysEnterOperations = getTodaysEnterOperations;
 module.exports.registrationUser = registrationUser;
@@ -345,3 +372,5 @@ module.exports.loginUser = loginUser;
 module.exports.getIndexProductType = getIndexProductType;
 module.exports.getInformationForBuying = getInformationForBuying;
 module.exports.buyHoney = buyHoney;
+module.exports.updatePassword = updatePassword;
+
