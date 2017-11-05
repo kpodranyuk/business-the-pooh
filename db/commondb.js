@@ -192,6 +192,27 @@ function insertNewOperation(operation, login, callback) {
 }
 
 
+/**
+ * 
+ * @param {function} callback - функция, возвращающая успешность 
+ */
+function generateNewPots(callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (err) {
+        if (err) { throw err; }
+
+        con.query("UPDATE Bees SET potsCount=FLOOR(honeyInPot+12.5), honeyInPot=honeyInPot+12.5 WHERE id=1", function (error, result, fields) {
+            if (error) {
+                callback(false);
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                callback(true);
+            }
+        });
+    });
+}
+
+
 module.exports.getUserBalance = getUserBalance;
 module.exports.withdrawUserHoney = withdrawUserHoney;
 module.exports.getTodaysOperations = getTodaysOperations;
