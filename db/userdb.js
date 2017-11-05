@@ -101,8 +101,58 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
  * @param {function} функция, отправляющая созданного пользователя
  */
 function loginUser(login, password, callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (err) {
+        if (err) { throw err; }
+        var sql = " Select * from user where login= "
+            + mysql.escape(login) + " And password= " + mysql.escape(password);
+        con.query(sql, function (error, results, fields) {
+            if (error) {
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                if (results.length == 0) {
+                    con.commit(function (error) {
+                        callback(null);
+                        if (error) return con.rollback(function () { console.error(error.message); });
+                    });
+                }
+                else {
+                    // Получаем скидку пользователя
+                    var sql = "Select * from promotion where idPromotion=" + mysql.escape(results[0].idPromotion);
+                    con.query(sql, function (error, promotiRes, fields) {
+                        if (error) {
+                            con.commit(function (error) {
+                                callback(null);
+                                if (error) return con.rollback(function () { console.error(error.message); });
+                            });
+                            return con.rollback(function () { console.error(error.message); });
+                        } else {
 
-}
+                            // Создаем пользователя и скидку для него
+                            var user = new User(results[0].login, results[0].name, getStringProductType(results[0].idProductType));
+                            user.promotion = new Promotion(results[0].idPromotion);
+                            user.promotion.operationsToNext = promotiRes[0].operationsToNext;
+                            user.promotion.percent = promotiRes[0].percent;
+                            user.promotion.operationsCount = promotiRes[0].operationsCount;
+                            user.password = results[0].password;
+                            user.honeyAmount = results[0].honeyAmount;
+                            user.productAmount = results[0].productAmount;
+                            user.isAdmin = results[0].isAdmin;
+                            con.commit(function (error) {
+                                callback(user);
+                                if (error) return con.rollback(function () { console.error(error.message); });
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    });
+}   
 
 /**
 * Получить все операции ввода средств пользователем за текущий день
