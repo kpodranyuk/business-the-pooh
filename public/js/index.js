@@ -18,8 +18,13 @@ enterBttn.onclick=function(event){
     // enterpassHelp - подпись под инпутом пароля при входе
     var passwdHelp = document.querySelector("#enterpassHelp");
     wasPapaProud = wasPapaProud && makePapaProud(passwd.parentNode, isCorrectPassword(passwd.value, passwdHelp));
-    if(!wasPapaProud)
+    if(!wasPapaProud) {
         return false;
+    } else {
+        indexApi.logIn();
+        return false;
+    }
+    return false;
 }
 
 // agreeCheck - "Согласен с уловиями..."
@@ -61,8 +66,13 @@ regBttn.onclick=function(event){
 
     // Проверить что нажат чекбокс    
     wasPapaProud = wasPapaProud && agree.checked;
-    if(!wasPapaProud)
+    if(!wasPapaProud) {
         return false;
+    } else {
+        indexApi.sendRegist();
+        return false;
+    }
+    return false;
 }
 
 /**
