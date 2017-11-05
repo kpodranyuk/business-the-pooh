@@ -15,6 +15,7 @@ $(document).ready(function(){
     $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
     // Устанавливаем количество меда пользователя
     $("#honeyLabel").text(userApi.curUser.honeyAmount+" л меда");
+    enterPillBttn.click();
 });
 
 // Изображение пчелы при выводе меда
@@ -55,6 +56,19 @@ var inAnime = anime({
         var wasPapaProud = false;
         wasPapaProud = isCorrectProductAmount(productCount.value, productCountHelp);
         makePapaProud(productCount.parentNode, wasPapaProud);
+        if(wasPapaProud){
+            // Отправить запрос на сервер
+            userApi.enterProduct(productCount.value, function(result){
+                if(result){
+                    var thxForEnter = document.querySelector("#thxForEnter");
+                    thxForEnter.style.visibility = "visible";  
+                    // Устанавливаем количество товара пользователя
+                    $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
+                }
+                
+            });
+              
+        }
       }
 });
 /* КНОПКИ МЕНЮ */
@@ -73,8 +87,30 @@ var settingsPillBttn = document.querySelector("#settingsPill");
 // Вкладка Купить
 buyPillBttn.onclick = function(event){
     // TODO получить от сервера количество горшочков для покупки и добавить в селект
-    var sel = document.querySelector("#sel1");
-    sel.value = 1;
+    userApi.buyHoneyInfo(function (result) {
+        var maxPots = 0;
+        console.log(result);
+        if(result != null) {
+            maxPots = result;
+            var sel = document.querySelector("#selectPots");
+            var selHelp = document.querySelector("#selectPotsHelp");
+            if(maxPots<1){
+                sel.value = "";
+                makePapaProud(sel.parentNode, false);
+                selHelp.innerHTML = "Недостаточно средств для покупки";
+                potsInBuyBttn.disabled = true;
+                return false;
+            }
+            else{
+                sel.parentNode.classList.remove("has-error");
+                sel.parentNode.classList.remove("has-success");
+                selHelp.innerHTML = "Не более "+ maxPots;
+                potsInBuyBttn.disabled = false;
+                $("#selectPots").attr('min',1);
+                $("#selectPots").attr('max',maxPots);
+            }
+        }
+    });    
     // Прячем div'ы
     var div2 = document.querySelector("#secondStep");
     div2.style.visibility = "hidden";
@@ -92,16 +128,34 @@ historyPillBttn.onclick = function(event){
 
 // Вкладка Ввод товара
 enterPillBttn.onclick = function(event){
-    // Стираем информацию с инпута
-    var goodsCount = document.querySelector("#goodsInput");
-    goodsCount.value = "";
-    var goodsCountHelp = document.querySelector("#goodsInputHelp");
-    // Задаем строке-помощнику текст по умолчанию
-    goodsCountHelp.innerHTML = "Не более 50 товаров в день";
-    // Удаляем классы корректности с родительской формы
-    goodsCount.parentNode.classList.remove("has-error");
-    goodsCount.parentNode.classList.remove("has-success");
-    
+    var thxForEnter = document.querySelector("#thxForEnter");
+    thxForEnter.style.visibility = "hidden";    
+    // TODO получить от сервера количество товара для ввода и ограничить инпут
+    userApi.enterProductInfo(function (result) {
+        var maxProduct = 0;
+        console.log(result);
+        if(result != null) {
+            maxProduct = result;
+            var inp = document.querySelector("#goodsInput");
+            inp.value = "";
+            var inpHelp = document.querySelector("#goodsInputHelp");
+            if(maxProduct<1){
+                inp.value = "";
+                makePapaProud(inp.parentNode, false);
+                inpHelp.innerHTML = "Вы исчерпали ежедневный лимит ввода товара в виде 50 штук";
+                honeyInBttn.disabled = true;
+                return false;
+            }
+            else{
+                inp.parentNode.classList.remove("has-error");
+                inp.parentNode.classList.remove("has-success");
+                inpHelp.innerHTML = "Не более "+ maxProduct;
+                honeyInBttn.disabled = false;
+                $("#goodsInput").attr('min',1);
+                $("#goodsInput").attr('max',maxProduct);
+            }
+        }
+    });      
 }
 
 // Вкладка Вывод меда

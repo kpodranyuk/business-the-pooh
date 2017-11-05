@@ -61,15 +61,11 @@
                   <div class="row content my-row" style="display: table">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" style="background-color:white">
                       <div class="form-group">
-                        <label for="sel1">
+                        <label for="selectPots">
                           <h3> Выберите желаемое количество горшочков мёда для покупки:</h3>
                         </label>
-                        <select class="form-control" id="sel1">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                        </select>
+                        <input type="number" class="form-control" id="selectPots" aria-describedby="selectPotsHelp" placeholder="1">
+                        <small id="selectPotsHelp" class="control-label form-text text-muted">Не более 50 товаров в день</small>
                       </div>
                       <div class="row content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
@@ -194,7 +190,7 @@
                       <div class="row content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
                           <label>
-                            <i>Спасибо!
+                            <i id="thxForEnter" style="visibility:hidden">Спасибо!
                               <br> Средства введены в систему.</i>
                           </label>
                         </div>
@@ -229,7 +225,7 @@
                       <div class="row content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
                           <label>
-                            <i>Спасибо!
+                            <i id="thxForGet" style="visibility:hidden">Спасибо!
                               <br> Мёд выведен из системы.</i>
                           </label>
                         </div>
