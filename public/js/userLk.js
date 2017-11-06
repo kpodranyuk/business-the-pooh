@@ -137,7 +137,45 @@ buyPillBttn.onclick = function(event){
 // Вкладка История
 historyPillBttn.onclick = function(event){
     console.log("Нажата кнопка История в панели меню");
+    function getWordForTypeOperation(type) {
+        if (type == 'E') {
+            return "Ввод";
+        } else if (type == 'G') {
+            return "Вывод";
+        } else if (type == 'B') {
+            return "Покупка";
+        }
+    }
     // TODO обновить информацию с сервера
+    userApi.getOperations(function(operations) {
+        var tableBody = $("#operationsHistory");
+        tableBody.empty();
+        for (var i = 0; i < operations.length; i++) {
+            var row = "<tr>";
+            var productAmount = "--", 
+                honeyPots = "-", 
+                honeyCount = "-", 
+                comission = "--";
+            var datatime = new Date(operations[i].datatime).toLocaleString();
+            var type = getWordForTypeOperation(operations[i].type);
+            if (type == "Покупка") {
+                productAmount = operations[i].productAmount + " шт";
+                honeyPots = operations[i].honeyPots + " шт";
+                honeyCount = "/" + operations[i].honeyCount + " л";
+                comission = operations[i].comission + " л";
+            } else if (type == "Ввод") {
+                productAmount = operations[i].productAmount + " шт";
+            } else if (type == "Вывод") {
+                honeyCount = operations[i].honeyCount + " л";
+                honeyPots = "";
+            }
+
+            row += "<td>"+datatime+"</td>"+"<td>"+type+"</td>"+"<td>"+productAmount+"</td>";
+            row += "<td>"+honeyPots+honeyCount+"</td>" + "<td>"+comission+"</td>"
+            row += "</tr>";
+            tableBody.append(row);
+        }
+    });
 }
 
 // Вкладка Ввод товара
