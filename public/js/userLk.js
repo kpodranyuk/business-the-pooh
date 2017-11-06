@@ -16,11 +16,19 @@ $(document).ready(function(){
     enterPillBttn.click();
 });
 
+function translateHoney(honey){
+    console.log(honey.toString());
+    var hon = honey.toString();
+    if(hon == "0")
+        return hon;
+    return (parseFloat(hon.replace(",", "."))).toString();
+}
+
 function setUserBalance(){
     // Устанавливаем количество товара пользователя
     $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
     // Устанавливаем количество меда пользователя
-    $("#honeyLabel").text((parseFloat(userApi.curUser.honeyAmount.replace(",", "."))).toString()+" л меда");
+    $("#honeyLabel").text(translateHoney(userApi.curUser.honeyAmount).toString()+" л меда");
 }
 
 // Изображение пчелы при выводе меда
