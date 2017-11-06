@@ -114,7 +114,7 @@ function getCommission(promotion, callback) {
                 for(var i = 0; i < result.length; i++) {
                     sumCommission += result[i].comission;
                 }
-                var poohZP = sumCommission * (promotion.percent / 100);
+                var poohZP = (Number(sumCommission)) * Number((promotion.percent / 100));
                 var beeZP = sumCommission - poohZP;
                 var dateOperation = null;
 
