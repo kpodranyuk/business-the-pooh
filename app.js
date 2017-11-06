@@ -56,6 +56,10 @@ io.sockets.on('connection', function (socket) {
     socket.join(data.username);
     console.log("Client " + data.username + " Joined");
   });
+  socket.on('leave', function (data) {
+    socket.leave(data.username);
+    console.log("Client " + data.username + " Left");
+  });
 
 });
 
