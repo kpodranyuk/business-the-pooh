@@ -3,6 +3,7 @@ import * as userApi from "./userLkApi.js";
 // Создание сокетного соединения
 var socket = io.connect();
 var currentPill = "enterPill";
+var maxPots = 0;
 
 // По загрузке документа заполняем элементы, отображающие информацию о пользователе
 $(document).ready(function(){
@@ -121,7 +122,7 @@ buyPillBttn.onclick = function(event){
     currentPill = "buyPill";
     // TODO получить от сервера количество горшочков для покупки и добавить в селект
     userApi.buyHoneyInfo(function (result) {
-        var maxPots = 0;
+        maxPots = 0;
         console.log(result);
         if(result != null) {
             maxPots = result;
@@ -323,8 +324,8 @@ potsInBuyBttn.onclick = function(event){
         // Добавляем информацию о покупке на виджеты
         $("#potsCountToBuy").text($("#selectPots").val() + " шт.");
         // TODO узнать текущий курс
-        $("#productCountToBuy").text(Number($("#selectPots").val())*getCourse(userApi.curUser.productType) + " шт.");
-        $("#comissionSizeForBuy").text(Number($("#selectPots").val())*0.25*(Number(userApi.curUser.promotion.percent)/100));
+        $("#productCountToBuy").text((Number($("#selectPots").val())*getCourse(userApi.curUser.productType)).toString() + " шт.");
+        $("#comissionSizeForBuy").text((+(((Number($("#selectPots").val())*0.25*(Number(userApi.curUser.promotion.percent)/100))).toFixed(5))).toString());
         var div = document.querySelector("#secondStep");
         div.style.visibility = "visible";
         var bttnsDiv = document.querySelector("#buyButtons");
@@ -753,7 +754,13 @@ socket.on('buy-honey', function(data) {
     console.log("Сработало событие покупки меда у пчел");
     if (currentPill == "buyPill" && userApi.curUser.login != data.username) {
         // Обновляем информацию во вкладке покупки меда
-        buyPillBttn.click();
+        userApi.buyHoneyInfo(function(result) {
+            var pots = result;
+            if (maxPots != pots) {
+                maxPots = pots;
+                buyPillBttn.click();
+            }
+        });
     }
 });
 
