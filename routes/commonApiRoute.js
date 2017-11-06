@@ -119,14 +119,14 @@ router.post('/get-honey-info', function (req, res) {
 		}
 		else {
 			var honeyCount = result[0].honeyAmount;	// Количество меда у пользователя
-			var comissioned = 0;	// Мед "под комиссией" - его нельзя снять
-			var canGet = 0;			// Мед, который можно вывести
-			var alreadyGot = 0;		// Мед, который уже был выведен за сегодня
 			db.getTodaysOperations(login, function (result) {
 				if (result == null) {
 					res.json({ success: false, message: 'Не удалось получить историю операций за текущий день у данного пользователя' });
 				}
 				else {
+					var comissioned = 0;	// Мед "под комиссией" - его нельзя снять
+					var canGet = 0;			// Мед, который можно вывести
+					var alreadyGot = 0;		// Мед, который уже был выведен за сегодня
 					// Для каждой операции..					
 					for (var i = 0; i < result.length; i++) {
 						// Определить "комиссионный мед", который трогать нельзя
@@ -137,16 +137,15 @@ router.post('/get-honey-info', function (req, res) {
 					}
 					// Определяем свободное количество меда
 					var freeHoney = (honeyCount - (comissioned + alreadyGot)).toFixed(5);
-					if (alreadyGot < 5) {
-						canGet = (5 - alreadyGot - comissioned).toFixed(5);
-						if (canGet > freeHoney) {
-							canGet = freeHoney;
-						}
+					if (freeHoney> 5.0){
+						freeHoney = 5.0;
+					}						
+					else if (freeHoney< 0){
+						freeHoney = 0.0;
 					}
-					
 					res.json({
 						success: true,
-						honeyToGet: canGet
+						honeyToGet: freeHoney
 					});
 				}
 			});
