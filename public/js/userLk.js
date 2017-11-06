@@ -62,6 +62,7 @@ var outAnime = anime({
                     thxForEnter.style.visibility = "visible";  
                     // Устанавливаем количество товара пользователя
                     setUserBalance();
+                    honeyOutBttn.disabled = true;
                 }
             });
         }
@@ -91,6 +92,7 @@ var inAnime = anime({
                     thxForEnter.style.visibility = "visible";  
                     // Устанавливаем количество товара пользователя
                     setUserBalance();
+                    honeyInBttn.disabled = true;
                 }
             });
         }
@@ -299,7 +301,7 @@ potsInBuyBttn.onclick = function(event){
     // Добавляем информацию о покупке на виджеты
     $("#potsCountToBuy").text($("#selectPots").val() + " шт.");
     // TODO узнать текущий курс
-    $("#productCountToBuy").text(Number($("#selectPots").val())*5 + " шт.");
+    $("#productCountToBuy").text(Number($("#selectPots").val())*getCourse(userApi.curUser.productType) + " шт.");
     $("#comissionSizeForBuy").text(Number($("#selectPots").val())*0.25*(Number(userApi.curUser.promotion.percent)/100));
     var div = document.querySelector("#secondStep");
     div.style.visibility = "visible";
@@ -313,12 +315,13 @@ makeBuyBttn.onclick = function(event){
         if(result == true){
             setUserBalance();
             $("#comissionSize").text($("#comissionSizeForBuy").val());
+            potsInBuyBttn.disabled = true;
+            var div = document.querySelector("#thirdStep");
+            div.style.visibility = "visible";
+            var bttnsDiv = document.querySelector("#buyButtons");
+            bttnsDiv.style.visibility = "hidden";
         }
     });
-    var div = document.querySelector("#thirdStep");
-    div.style.visibility = "visible";
-    var bttnsDiv = document.querySelector("#buyButtons");
-    bttnsDiv.style.visibility = "hidden";
 }
 
 // Отмена операции покупки
@@ -492,7 +495,8 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
 function isCorrectProductAmount(productAmount, errorPlace){
-    var reg = new RegExp(`^[1-9]|([1-5][0-9])$`, '');
+    console.log(productAmount);
+    var reg = new RegExp(`^([1-9]{1}|([1-5]{1}[0-9]{1}))$`, '');
     if (productAmount==null){
         errorPlace.innerHTML = "Введите количество товара, пустое поле";
         return false;
@@ -655,6 +659,19 @@ function getUserImagePath(userType){
         return "images/users/rabbit.png";
     if (userType == "H")
         return "images/pooh.png";
+}
+
+/**
+ * Получить стоимость одного товара пользователя в зависимости от его типа
+ * @param {string} userType - тип пользователя
+ */
+function getCourse(userType){
+    if (userType == "B")
+        return 10;
+    if (userType == "P")
+        return 5;
+    if (userType == "F")
+        return 10;
 }
 
 
