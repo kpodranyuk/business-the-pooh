@@ -20,7 +20,7 @@ function setUserBalance(){
     // Устанавливаем количество товара пользователя
     $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
     // Устанавливаем количество меда пользователя
-    $("#honeyLabel").text(userApi.curUser.honeyAmount+" л меда");
+    $("#honeyLabel").text((parseFloat(userApi.curUser.honeyAmount.replace(",", "."))).toString()+" л меда");
 }
 
 // Изображение пчелы при выводе меда
@@ -43,7 +43,18 @@ var outAnime = anime({
         var wasPapaProud = false;
         wasPapaProud = isCorrectHoneyAmount(honeyCount.value, honeyCountHelp);
         makePapaProud(honeyCount.parentNode, wasPapaProud);
-      }
+        if(wasPapaProud){
+            // Отправить запрос на сервер
+            userApi.getHoney(honeyCount.value, function(result){
+                if(result){
+                    var thxForEnter = document.querySelector("#thxForGet");
+                    thxForEnter.style.visibility = "visible";  
+                    // Устанавливаем количество товара пользователя
+                    setUserBalance();
+                }
+            });
+        }
+    }
 });
 
 // Анимация пчелы при вводе товара
@@ -68,13 +79,11 @@ var inAnime = anime({
                     var thxForEnter = document.querySelector("#thxForEnter");
                     thxForEnter.style.visibility = "visible";  
                     // Устанавливаем количество товара пользователя
-                    $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
+                    setUserBalance();
                 }
-                
             });
-              
         }
-      }
+    }
 });
 /* КНОПКИ МЕНЮ */
 // buyPill - Купить
@@ -154,7 +163,7 @@ enterPillBttn.onclick = function(event){
             else{
                 inp.parentNode.classList.remove("has-error");
                 inp.parentNode.classList.remove("has-success");
-                inpHelp.innerHTML = "Не более "+ maxProduct;
+                inpHelp.innerHTML = "Не более "+ maxProduct + " шт";
                 honeyInBttn.disabled = false;
                 $("#goodsInput").attr('min',1);
                 $("#goodsInput").attr('max',maxProduct);
@@ -165,15 +174,35 @@ enterPillBttn.onclick = function(event){
 
 // Вкладка Вывод меда
 getPillBttn.onclick = function(event){
-    // Стираем информацию с инпута
-    var honeyCount = document.querySelector("#honeyInput");
-    honeyCount.value = "";
-    var honeyCountHelp = document.querySelector("#honeyInputHelp");
-    // Задаем строке-помощнику текст по умолчанию
-    honeyCountHelp.innerHTML = "Не более 5 литров в день";
-    // Удаляем классы корректности с родительской формы
-    honeyCount.parentNode.classList.remove("has-error");
-    honeyCount.parentNode.classList.remove("has-success");
+    var thxForGet = document.querySelector("#thxForGet");
+    thxForGet.style.visibility = "hidden";    
+    // TODO получить от сервера количество товара для ввода и ограничить инпут
+    userApi.getHoneyInfo(function (result) {
+        var maxHoney = 0;
+        console.log(result);
+        if(result != null) {
+            maxHoney = result;
+            var inp = document.querySelector("#honeyInput");
+            inp.value = "";
+            var inpHelp = document.querySelector("#honeyInputHelp");
+            if(maxHoney<0.005){
+                inp.value = "";
+                makePapaProud(inp.parentNode, false);
+                inpHelp.innerHTML = "Невозможно осуществить снятие<br>На Вашем счету недостаточно меда или Вы исчерпали ежедневный лимит вывода меда в виде 5 литров";
+                honeyOutBttn.disabled = true;
+                return false;
+            }
+            else{
+                inp.parentNode.classList.remove("has-error");
+                inp.parentNode.classList.remove("has-success");
+                inpHelp.innerHTML = "Не более "+(parseFloat(maxHoney.replace(",", "."))).toString() + " л";
+                honeyOutBttn.disabled = false;
+                $("#honeyInput").attr('min',0.005);
+                $("#honeyInput").attr('max',maxHoney);
+                $("#honeyInput").attr('step',0.010);
+            }
+        }
+    });
 }
 
 // Вкладка Настройки аккаунта (вход)
