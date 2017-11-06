@@ -645,3 +645,22 @@ function getUserImagePath(userType){
     if (userType == "H")
         return "images/pooh.png";
 }
+
+
+/*   СОБЫТИЯ    */
+socket.emit('join', {username: userApi.curUser.login});
+
+// Настал новый операционный день
+socket.on('new-oper-day', function(data) {
+    console.log("Сработало событие нового операционного дня");
+});
+
+// У пчел кто то купил мед
+socket.on('buy-honey', function(data) {
+    console.log("Сработало событие покупки меда у пчел");
+});
+
+// Пух снял комиссию с пользователей
+socket.on('get-comission', function(data) {
+    console.log("Сработало событие снятия комиссии с пользователей");
+});
