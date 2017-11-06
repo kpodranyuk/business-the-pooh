@@ -338,13 +338,13 @@ export function getUserBalance(callback){
             }
             else{
                 console.log("Возможно потеряна связь с БД");
-                callback(null, null);
+                callback();
             }
         },
         error: function(response){
             console.log("ОШИБКА ПРИ ПОЛУЧЕНИИ ИНФОРМАЦИИ ДЛЯ ВЫВОДА МЕДА");
             console.log(response);
-            callback(null, null);
+            callback();
         }      
     });
 }
