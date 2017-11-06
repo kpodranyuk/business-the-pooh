@@ -204,7 +204,7 @@ function insertNewDataFotUsersHistory(data, success) {
             var row = "<tr>";
             row += "<td>"+new Date(data[i].date).toLocaleString()+"</td>";
             row += "<td>"+data[i].loginUser+"</td>";
-            row += "<td>"+data[i].comission+"</td>";
+            row += "<td>"+(+(data[i].comission.toFixed(5)))+"</td>";
             row += "</tr>"
             tableBody.append(row);
         }
@@ -227,7 +227,7 @@ function insertDataAfterGetComission(balance, poohZP) {
     tableBody.empty();
    // Вставить информацию сколько Пух за сегодня заработал и его новый баланс
    $("#honeyAmount").text(translateHoney(poohApi.curUser.honeyAmount)+" л меда");
-   $("#poohZP").text(poohZP);
+   $("#poohZP").text(+(poohZP.toFixed(5)));
 }
 
 
@@ -243,7 +243,7 @@ function insertNewDataFotMyHistory(data) {
         var row = "<tr>";
         row += "<td>"+new Date(data[i].datatime).toLocaleString()+"</td>";
         row += "<td>"+getWordForTypeOperation(data[i].type)+"</td>";
-        row += "<td>"+data[i].honeyCount+"</td>";
+        row += "<td>"+(+((data[i].honeyCount).toFixed(5)))+"</td>";
         row += "</tr>"
         tableBody.append(row);
     }
