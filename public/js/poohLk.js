@@ -187,12 +187,14 @@ function insertNewDataFotUsersHistory(data, success) {
     console.log(data);
     console.log(success);
     // Очистить таблицу
-    var bttn = document.querySelector("#getComission");
-    bttn.disabled = !success;
+    comissionButton.disabled = !success;
     if (success) {
         var tableBody = $("#usersHistoryBuyingLastDay");
         tableBody.empty();
         $("#poohZP").empty();
+        if (data.length == 0) {
+            comissionButton.disabled = true;
+        }
         for (var i = 0; i < data.length; i++) {
             var row = "<tr>";
             row += "<td>"+new Date(data[i].date).toLocaleString()+"</td>";
