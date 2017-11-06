@@ -37,6 +37,7 @@ router.post('/get-commission', function (req, res) {
 				poohZP: 0
 			});
 		} else {
+			global.getComissionToday = true;
 			// Вызвать событие, информирующее что Пух снял комиссию
 			req.io.sockets.emit('get-comission', {});
 			// Сформировать новую операцию

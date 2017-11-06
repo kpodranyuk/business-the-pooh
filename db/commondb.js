@@ -63,11 +63,11 @@ function getTodaysOperations(loginUser, callback) {
         // Опеределить временные рамки текущего операционного дня с помощью класса OperationDay
         var opDay = new OperationDay(new Date());
         // Сделать выборку из БД всех операций за текущий день
-        var sql = "SELECT o.idOperation, o.type as type, o.date, o.productAmount, "
+        var sql = "SELECT o.idOperation, o.type as type, o.date as date, o.productAmount, "
             + "o.honeyCount as honeyCount, o.honeyPots, o.idProductType,o.comission as comission "
             + "FROM operation o LEFT OUTER JOIN deal d "
             + "ON o.idOperation = d.idOperation where d.loginUser = " + mysql.escape(loginUser)
-            + " AND o.date BETWEEN " + mysql.escape(opDay.startDay.toLocaleString()) + " AND " + mysql.escape(opDay.endDay.toLocaleString());
+            + " AND o.date BETWEEN " + mysql.escape(opDay.getLastOperationDay().startDay.toLocaleString()) + " AND " + mysql.escape(opDay.endDay.toLocaleString());
         con.query(sql, function (error, result, fields) {
 
             if (error) {

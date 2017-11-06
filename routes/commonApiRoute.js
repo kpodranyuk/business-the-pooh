@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../db/commondb.js');
 var Operation = require('../model/operation.js');
+var OperationDay = require('../model/operationday');
 /**
  * Все совершенные операции
  */
@@ -127,12 +128,17 @@ router.post('/get-honey-info', function (req, res) {
 					var comissioned = 0;	// Мед "под комиссией" - его нельзя снять
 					var canGet = 0;			// Мед, который можно вывести
 					var alreadyGot = 0;		// Мед, который уже был выведен за сегодня
+					var opDay = new OperationDay(new Date());
 					// Для каждой операции..					
 					for (var i = 0; i < result.length; i++) {
 						// Определить "комиссионный мед", который трогать нельзя
-						comissioned += result[i].comission;
+						if (opDay.includedOnOperationDay(new Date(result[i].date))) {
+							comissioned += result[i].comission;
+						} else if (global.getComissionToday == false){
+							comissioned += result[i].comission;
+						}
 						// Определить количество уже выведенного сегодня меда
-						if (result[i].type == 'G')
+						if (result[i].type == 'G' && opDay.includedOnOperationDay(new Date(result[i].date)))
 							alreadyGot += result[i].honeyCount;
 					}
 					// Определяем свободное количество меда
