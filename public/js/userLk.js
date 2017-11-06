@@ -1,5 +1,8 @@
 import * as userApi from "./userLkApi.js";
 
+// Создание сокетного соединения
+var socket = io.connect();
+
 // По загрузке документа заполняем элементы, отображающие информацию о пользователе
 $(document).ready(function(){
     // TODO сделать функцию для работы с localStorage
