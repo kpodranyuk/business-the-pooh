@@ -30,6 +30,7 @@ export function sendRegist(){
             else{
                 console.log(response.message);
                 // TODO сделать вывод сообщения в поле под логином
+                alert(response.message);
             }
         },
         error: function(response){
@@ -81,6 +82,7 @@ export function logIn() {
             } else {
                 console.log(response.message);
                 // TODO сделать вывод сообщения в поле под логином
+                alert(response.message);
             }
         },
         error: function(response){

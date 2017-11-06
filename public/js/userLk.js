@@ -18,12 +18,6 @@ $(document).ready(function(){
     setUserBalance();
 
     enterPillBttn.click();
-
-    window.onbeforeunload = function (e) {
-        console.log("Выход из браузера");
-        socket.emit('leave', { username: userApi.curUser.login });
-        localStorage.clear();
-    };
 });
 
 function translateHoney(honey){
@@ -485,6 +479,7 @@ openForgetMeBttn.onclick = function(event){
 
 // Деактивировать аккаунт
 forgetMeBttn.onclick = function(event){
+    event.preventDefault();
     // Осуществляем проверку пароля на корректность
     var pswdInput = document.querySelector("#enterPswd");
     var pswdInputHelp = document.querySelector("#enterPswdHelp");
@@ -493,6 +488,10 @@ forgetMeBttn.onclick = function(event){
     makePapaProud(pswdInput.parentNode, wasPapaProud);
     // Если пароль корректный, TODO деактивировать пользователя
     if(!wasPapaProud){
+        console.log("Деактивация");
+        socket.emit('leave', { username: userApi.curUser.login });
+        localStorage.clear();
+        window.location = "/";
         return false;
     }
 }

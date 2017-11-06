@@ -4,12 +4,6 @@ import * as poohApi from "./poohLkApi.js";
 $(document).ready(function(){
     $("#honeyAmount").text(translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
     myHistoryPillBttn.click();
-
-    window.onbeforeunload = function (e) {
-        console.log("Выход из браузера");
-        socket.emit('leave', { username: 'Администратор Пух' });
-        localStorage.clear();
-    };
 });
 
 function translateHoney(honey){
