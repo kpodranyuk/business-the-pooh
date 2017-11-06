@@ -7,7 +7,6 @@ console.log(curUser);
  * @param {function} callback - функция, которая будет получать данные после запроса
  */
 export function lastOperationDay(callback) {
-    console.log("Операции за прошлый операционный день");
     var req = $.ajax({
         method: "POST",
         url: '/api/pooh/last-op-day',
@@ -20,9 +19,10 @@ export function lastOperationDay(callback) {
         success: function(response){
             if(response.success == true){
                 // Передаем пользователей для их отображения
-                callback(response.result);
+                callback(response.result, response.success);
             } else {
-                console.log("Произошла какая то ошибка, нет соединения к БД, или не правильный запрос");
+                console.log("Комиссия снята, или произошла какая то ошибка, нет соединения к БД, или не правильный запрос.");
+                callback(response.result, response.success);
             }
         },
         error: function(response){
@@ -38,7 +38,6 @@ export function lastOperationDay(callback) {
  * @param {function} callback - функция, которая будет получать данные после запроса
  */
 export function getOperations(callback) {
-    console.log("Операции за все время");
     var req = $.ajax({
         method: "POST",
         url: '/api/common/operations',
@@ -59,6 +58,39 @@ export function getOperations(callback) {
         },
         error: function(response){
             console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ПОЛУЧЕНИЕ ОПЕРАЦИИЙ");
+            console.log(response);
+        }
+    });
+};
+
+
+/**
+ * Снять комиссию
+ * @param {function} callback - функция, которая будет получать данные после запроса
+ */
+export function getComission(callback) {
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/pooh/get-commission',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            balance: curUser.honeyAmount,
+            promotion: JSON.stringify(curUser.promotion)
+        },   
+        success: function(response){
+            if(response.success == true){
+                // сохраняем в локальный объект все новые данные
+                // Передаем операции для их отображения
+                callback(response.balance, response.poohZP);
+            } else {
+                console.log("Произошла какая то ошибка, нет соединения к БД, или не правильный запрос");
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА СНЯТИЕ КОМИССИИ");
             console.log(response);
         }
     });

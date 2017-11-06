@@ -27,7 +27,8 @@ router.post('/last-op-day', function (req, res) {
  * Операции пользователей за прошлый операционный день
  */
 router.post('/get-commission', function (req, res) {
-	db.getCommission(req.body.promotion, function (poohZP, dateOperation) {
+	var prom = JSON.parse(req.body.promotion);
+	db.getCommission(prom, function (poohZP, dateOperation) {
 
 		if (dateOperation == null) {
 			res.json({

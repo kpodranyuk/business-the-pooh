@@ -55,9 +55,9 @@ myHistoryPillBttn.onclick = function(event){
 historyPillBttn.onclick = function(event){
     console.log("Нажата кнопка История в панели меню");
     // Получить данные с сервера
-    poohApi.lastOperationDay(function(result) {
+    poohApi.lastOperationDay(function(result, success) {
         // Вставить новые данные
-        insertNewDataFotUsersHistory(result);
+        insertNewDataFotUsersHistory(result, success);
     });
 }
 
@@ -82,6 +82,11 @@ outBttn.onclick=outAnime.restart;
 var comissionButton = document.querySelector("#getComission");
 comissionButton.onclick = function(event){
     console.log("Нажата кнопка сбора комиссии");
+    poohApi.getComission(function(balance, poohZP) {
+        poohApi.curUser.honeyAmount = balance;
+        localStorage.currentUser = JSON.stringify(poohApi.curUser);
+        insertDataAfterGetComission(balance, poohZP);
+    });
 }
 
 // Кнопка выхода из аккаунта
@@ -136,25 +141,50 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
 
 /**
  * Вставить новые данные о пользователях за прошлый оп. день.
- * {mass} data - массив объектов, содержащих информацию за прошлый операционный день
+ * @param {mass} data - массив объектов, содержащих информацию за прошлый операционный день
+ * @param {bool} success - успешность запроса
  */
-function insertNewDataFotUsersHistory(data) {
+function insertNewDataFotUsersHistory(data, success) {
     // Очистить таблицу
-    var tableBody = $("#usersHistoryBuyingLastDay");
-    tableBody.empty();
-    for (var i = 0; i < data.length; i++) {
-        var row = "<tr>";
-        row += "<td>"+new Date(data[i].date).toLocaleString()+"</td>";
-        row += "<td>"+data[i].loginUser+"</td>";
-        row += "<td>"+data[i].comission+"</td>";
-        row += "</tr>"
-        tableBody.append(row);
+    if (success) {
+        $("#getComission").disable = false;
+        var tableBody = $("#usersHistoryBuyingLastDay");
+        tableBody.empty();
+        $("#poohZP").empty();
+        for (var i = 0; i < data.length; i++) {
+            var row = "<tr>";
+            row += "<td>"+new Date(data[i].date).toLocaleString()+"</td>";
+            row += "<td>"+data[i].loginUser+"</td>";
+            row += "<td>"+data[i].comission+"</td>";
+            row += "</tr>"
+            tableBody.append(row);
+        }
+    } else {
+        $("#getComission").disable = true;
     }
 }
 
+
+/**
+ * Вставить новые данные после снятия комиссии
+ * @param {number} balance - текущий баланс Пуха
+ * @param {number} poohZP - зп Пуха на сегодняшний день
+ */
+function insertDataAfterGetComission(balance, poohZP) {
+
+    $("#getComission").disable = true;
+    // Очистить таблицу
+    var tableBody = $("#usersHistoryBuyingLastDay");
+    tableBody.empty();
+   // Вставить информацию сколько Пух за сегодня заработал и его новый баланс
+   $("#honeyAmount").text(poohApi.curUser.honeyAmount+" л меда");
+   $("#poohZP").text(poohZP);
+}
+
+
 /**
  * Вставить новые данные о совершенных операциях
- * {mass} data - массив объектов, содержащих информацию о операциях
+ * @param {mass} data - массив объектов, содержащих информацию о операциях
  */
 function insertNewDataFotMyHistory(data) {
     // Очистить таблицу
@@ -172,7 +202,7 @@ function insertNewDataFotMyHistory(data) {
 
 function getWordForTypeOperation(type) {
     if (type == 'E') {
-        return "Ввод";
+        return "Начисление";
     } else if (type == 'G') {
         return "Вывод";
     }
