@@ -347,7 +347,7 @@ makeBuyBttn.onclick = function(event){
     userApi.buyHoney($("#selectPots").val(), function(result){
         if(result == true){
             setUserBalance();
-            $("#comissionSize").text($("#comissionSizeForBuy").val());
+            $("#comissionSize").text($("#comissionSizeForBuy").text());
             potsInBuyBttn.disabled = true;
             var div = document.querySelector("#thirdStep");
             div.style.visibility = "visible";
