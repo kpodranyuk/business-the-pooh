@@ -275,3 +275,38 @@ export function getHoneyInfo(callback){
         }        
     });
 }
+
+
+/**
+ * Отправить на сервер запрос об получении информации о операциях пользователя
+ */
+export function getOperations(callback){
+    // Формируем запрос
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/common/operations',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            login : curUser.login
+        },   
+        success: function(response){
+            if(response.success == true){
+                console.log("ИНФОРМАЦИЯ ДЛЯ ОТОБРАЖЕНИЯ ВСЕХ ОПЕРАЦИЙ ПОЛУЧЕНА");
+                // Возвращаем список операций
+                callback(response.operations);
+            }
+            else{
+                console.log("Возможно потеряна связь с БД");
+                callback(null);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ПОЛУЧЕНИИ ИНФОРМАЦИИ ДЛЯ ВЫВОДА МЕДА");
+            console.log(response);
+            callback(null);
+        }      
+    });
+}
