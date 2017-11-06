@@ -97,7 +97,7 @@ function withdrawUserHoney(login, honey, callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Обновить поле с количеством меда пользователя
-        var sql = "UPDATE user SET honeyAmount = honeyAmount-" + honey
+        var sql = "UPDATE user SET honeyAmount = honeyAmount-" + (+(honey).toFixed(5))
             + " WHERE login = " + mysql.escape(login);
         con.query(sql, function (error, result, fields) {
 
