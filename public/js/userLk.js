@@ -439,6 +439,9 @@ saveNewPswdBttn.onclick = function(event){
 // Выйти из аккаунта
 logOutBttn.onclick = function(event){
     console.log("Нажата кнопка выхода из аккаунта");
+    socket.emit('leave', { username: userApi.curUser.login });
+    localStorage.clear();
+    window.location = "/";
 }
 
 openForgetMeBttn.onclick = function(event){
@@ -707,7 +710,7 @@ socket.on('new-oper-day', function(data) {
 // У пчел кто то купил мед
 socket.on('buy-honey', function(data) {
     console.log("Сработало событие покупки меда у пчел");
-    if (currentPill == "buyPill") {
+    if (currentPill == "buyPill" && userApi.curUser.login != data.username) {
         // Обновляем информацию во вкладке покупки меда
         buyPillBttn.click();
     }

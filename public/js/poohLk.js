@@ -17,8 +17,7 @@ function translateHoney(honey){
 
 // Создание сокетного соединения
 var socket = io.connect();
-// Переменная отображающая, изменилось ли состояние Пуха(т.е. когда надо подгружать с сервера данные)
-var statePooh = true;
+var currentPill = "myHistoryPill";
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
 
@@ -62,6 +61,7 @@ var getPillBttn = document.querySelector("#getHoneyPill");
 /* ДЕЙСТВИЯ ПО НАЖАТИЮ КНОПОК МЕНЮ */
 // Вкладка Моя история
 myHistoryPillBttn.onclick = function(event){
+    currentPill = "myHistoryPill";
     console.log("Нажата кнопка Моя История в панели меню");
     // Получить данные с сервера
     poohApi.getOperations(function(result){
@@ -72,6 +72,7 @@ myHistoryPillBttn.onclick = function(event){
 
 // Вкладка История
 historyPillBttn.onclick = function(event){
+    currentPill = "usersHistoryPill";
     console.log("Нажата кнопка История в панели меню");
     var thxForComissionWork = document.querySelector("#thxForComissionWork");
     thxForComissionWork.style.visibility = "hidden";  
@@ -84,6 +85,7 @@ historyPillBttn.onclick = function(event){
 
 // Вкладка Вывод меда
 getPillBttn.onclick = function(event){
+    currentPill = "getHoneyPill";
     var thxForGet = document.querySelector("#thxForGet");
     thxForGet.style.visibility = "hidden";    
     // TODO получить от сервера количество товара для ввода и ограничить инпут
@@ -132,6 +134,9 @@ comissionButton.onclick = function(event){
 var logOutBttn = document.querySelector("#logOut");
 logOutBttn.onclick = function(event){
     console.log("Нажата кнопка выхода из аккаунта");
+    socket.emit('leave', { username: 'Администратор Пух' });
+    localStorage.clear();
+    window.location = "/";
 }
 
 /**
@@ -259,4 +264,17 @@ socket.emit('join', {username: 'Администратор Пух'});
 // Настал новый операционный день
 socket.on('new-oper-day', function(data) {
     console.log("Сработало событие нового операционного дня");
+    updatePillAfterEvent();
 });
+
+
+
+function updatePillAfterEvent() {
+    if (currentPill == "usersHistoryPill") {
+        // Обновляем информацию во вкладке исторя за прошлый день
+        historyPillBttn.click();
+    } else if(currentPill == "getHoneyPill") {
+        // Обновляем информацию во вкладке вывода меда
+        getPillBttn.click();
+    }
+}
