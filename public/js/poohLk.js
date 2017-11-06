@@ -8,9 +8,9 @@ $(document).ready(function(){
 
 function translateHoney(honey){
     console.log(honey.toString());
-    var hon = honey;
-    if(hon.toString() == "0")
-        return hon.toString();
+    var hon = honey.toString();
+    if(hon == "0")
+        return hon;
     return (parseFloat(hon.replace(",", "."))).toString();
 }
 
@@ -36,7 +36,18 @@ var outAnime = anime({
         var wasPapaProud = false;
         wasPapaProud = isCorrectHoneyAmount(honeyCount.value, honeyCountHelp);
         makePapaProud(honeyCount.parentNode, wasPapaProud);
-      }
+        if(wasPapaProud){
+            // Отправить запрос на сервер
+            poohApi.getHoney(honeyCount.value, function(result){
+                if(result){
+                    var thxForGet = document.querySelector("#thxForGet");
+                    thxForGet.style.visibility = "visible";  
+                    // Устанавливаем новый баланс Пуха
+                    $("#honeyAmount").text(translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
+                }
+            });
+        }
+    }
 });
 
 /* КНОПКИ МЕНЮ */
@@ -72,15 +83,35 @@ historyPillBttn.onclick = function(event){
 
 // Вкладка Вывод меда
 getPillBttn.onclick = function(event){
-    // Стираем информацию с инпута
-    var honeyCount = document.querySelector("#honeyInput");
-    honeyCount.value = "";
-    var honeyCountHelp = document.querySelector("#honeyInputHelp");
-    // Задаем строке-помощнику текст по умолчанию
-    honeyCountHelp.innerHTML = "Не более 5 литров в день";
-    // Удаляем классы корректности с родительской формы
-    honeyCount.parentNode.classList.remove("has-error");
-    honeyCount.parentNode.classList.remove("has-success");
+    var thxForGet = document.querySelector("#thxForGet");
+    thxForGet.style.visibility = "hidden";    
+    // TODO получить от сервера количество товара для ввода и ограничить инпут
+    poohApi.getHoneyInfo(function (result) {
+        var maxHoney = 0;
+        console.log(result);
+        if(result != null) {
+            maxHoney = result;
+            var inp = document.querySelector("#honeyInput");
+            inp.value = "";
+            var inpHelp = document.querySelector("#honeyInputHelp");
+            if(maxHoney<0.005){
+                inp.value = "";
+                makePapaProud(inp.parentNode, false);
+                inpHelp.innerHTML = "Невозможно осуществить снятие<br>На Вашем счету недостаточно меда или Вы исчерпали ежедневный лимит вывода меда в виде 5 литров";
+                outBttn.disabled = true;
+                return false;
+            }
+            else{
+                inp.parentNode.classList.remove("has-error");
+                inp.parentNode.classList.remove("has-success");
+                inpHelp.innerHTML = "Не более "+(parseFloat(maxHoney.replace(",", "."))).toString() + " л";
+                outBttn.disabled = false;
+                $("#honeyInput").attr('min',0.005);
+                $("#honeyInput").attr('max',maxHoney);
+                $("#honeyInput").attr('step',0.010);
+            }
+        }
+    });
 }
 
 // Кнопка вывода меда
