@@ -89,7 +89,7 @@ router.post('/get-honey', function (req, res) {
 							res.json({
 								success: true,
 								productAmount: result[0].productAmount,
-								honeyAmount: Number(result[0].honeyAmount).toFixed(5),
+								honeyAmount: +(result[0].honeyAmount.toFixed(5)),
 								idProductType: result[0].idProductType
 							});
 						}
@@ -136,14 +136,14 @@ router.post('/get-honey-info', function (req, res) {
 							alreadyGot += result[i].honeyCount;
 					}
 					// Определяем свободное количество меда
-					var freeHoney = (honeyCount - comissioned).toFixed(5);
+					var freeHoney = +((honeyCount - comissioned).toFixed(5));
 					var canGet = 0.0;
 					if(alreadyGot == 5.0){
 						canGet = 0.0;
 					}
 					else{
 						if (freeHoney> 5.0){
-							canGet = (5.0 - alreadyGot).toFixed(5);
+							canGet = +((5.0 - alreadyGot).toFixed(5));
 						}						
 						else if (freeHoney< 0){
 							canGet = 0.0;

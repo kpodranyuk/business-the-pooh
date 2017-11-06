@@ -122,19 +122,19 @@ function getCommission(promotion, callback) {
                 for(var i =0; i < result.length; i++) {
                     var login = result[i].login;
 
-                    con.query("UPDATE user SET honeyAmount = "+ (result[i].honeyAmount - result[i].comission).toFixed(5) +" WHERE login = " + mysql.escape(login), function(error, result, fields) {
+                    con.query("UPDATE user SET honeyAmount = "+ Number((result[i].honeyAmount - result[i].comission).toFixed(5)) +" WHERE login = " + mysql.escape(login), function(error, result, fields) {
                         if(error) console.log(error.message);
                     });
                 }
 
                 // Обновляем баланс Пуха
-                con.query("UPDATE user SET honeyAmount=honeyAmount+" + poohZP.toFixed(5) + " WHERE login=\"superpooh\"", function(error, result, fields) {
+                con.query("UPDATE user SET honeyAmount=honeyAmount+" + Number(poohZP.toFixed(5)) + " WHERE login=\"superpooh\"", function(error, result, fields) {
                     if(error) console.log(error.message);
                     dateOperation = new Date();
                 });
 
                 // Обновляем баланс Пчел
-                con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+"+beeZP.toFixed(5)+")/0.25), " + "honeyInPot=honeyInPot+" + beeZP.toFixed(5) + " WHERE id=1", function(error, result, fields) {
+                con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+"+Number(beeZP.toFixed(5))+")/0.25), " + "honeyInPot=honeyInPot+" + Number(beeZP.toFixed(5)) + " WHERE id=1", function(error, result, fields) {
                     if(error) console.log(error.message);
                     con.commit(function (err) {
                         if (err) return con.rollback(function () { console.error(err.message); });

@@ -283,7 +283,7 @@ function buyHoney(user, countPots, callback) {
         if (err) { throw err; }
 
         // обновить кол-во меда и горшочков у пчел
-        con.query("UPDATE Bees SET potsCount=potsCount-" + countPots + ", honeyInPot=honeyInPot-(" + (countPots * 0.25).toFixed(5) + ") WHERE id=1", function (error, result, fields) {
+        con.query("UPDATE Bees SET potsCount=potsCount-" + countPots + ", honeyInPot=honeyInPot-(" + Number((countPots * 0.25).toFixed(5)) + ") WHERE id=1", function (error, result, fields) {
             if (error) {
                 console.log(error.message);
                 con.commit(function (error) {
@@ -294,7 +294,7 @@ function buyHoney(user, countPots, callback) {
             } else {
                 // обновить данные у пользователя(баланс) и рассчитать комиссию
                 user.buyHoney(countPots);
-                var comission = ((countPots * 0.25) * (user.promotion.percent / 100)).toFixed(5);
+                var comission = +(((countPots * 0.25) * (user.promotion.percent / 100)).toFixed(5));
 
                 // вставить в базу обновленные данные о балансе пользователя
                 con.query("UPDATE User SET productAmount=" + user.productAmount + ", honeyAmount=" + user.honeyAmount + " WHERE login=" + mysql.escape(user.login), function (error, result, fields) {

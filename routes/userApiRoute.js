@@ -29,7 +29,7 @@ router.post('/buy-honey', function (req, res) {
 			// Вызвать событие, информирующее что у пчел поменялся баланс
 			req.io.sockets.emit('buy-honey', {});
 			// Вставить новую операцию
-			var operation = new Operation(1, 'B', new Date(), newUserData.productType, getRate(newUserData.productType) * req.body.countPots, req.body.countPots, (req.body.countPots*0.25).toFixed(5), comission);
+			var operation = new Operation(1, 'B', new Date(), newUserData.productType, getRate(newUserData.productType) * req.body.countPots, req.body.countPots, +((req.body.countPots*0.25).toFixed(5)), comission);
 			dbo.insertNewOperation(operation, newUserData.login, function(success) {
 				if (success) {
 					res.json({
