@@ -44,6 +44,7 @@ var outAnime = anime({
                     thxForGet.style.visibility = "visible";  
                     // Устанавливаем новый баланс Пуха
                     $("#honeyAmount").text(translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
+                    outBttn.disabled = true;
                 }
             });
         }
