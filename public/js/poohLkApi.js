@@ -84,6 +84,9 @@ export function getComission(callback) {
             if(response.success == true){
                 // сохраняем в локальный объект все новые данные
                 // Передаем операции для их отображения
+                curUser.honeyAmount = "";
+                curUser.honeyAmount = response.balance;
+                localStorage.currentUser = JSON.stringify(curUser);
                 callback(response.balance, response.poohZP);
             } else {
                 console.log("Произошла какая то ошибка, нет соединения к БД, или не правильный запрос");

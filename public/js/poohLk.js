@@ -2,10 +2,17 @@ import * as poohApi from "./poohLkApi.js";
 
 // По загрузке документа заполняем элементы, отображающие информацию о Пухе
 $(document).ready(function(){
-    
-    $("#honeyAmount").text(poohApi.curUser.honeyAmount+" л меда");
+    $("#honeyAmount").text(translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
     myHistoryPillBttn.click();
 });
+
+function translateHoney(honey){
+    console.log(honey.toString());
+    var hon = honey;
+    if(hon.toString() == "0")
+        return hon.toString();
+    return (parseFloat(hon.replace(",", "."))).toString();
+}
 
 
 // Создание сокетного соединения
@@ -54,6 +61,8 @@ myHistoryPillBttn.onclick = function(event){
 // Вкладка История
 historyPillBttn.onclick = function(event){
     console.log("Нажата кнопка История в панели меню");
+    var thxForComissionWork = document.querySelector("#thxForComissionWork");
+    thxForComissionWork.style.visibility = "hidden";  
     // Получить данные с сервера
     poohApi.lastOperationDay(function(result, success) {
         // Вставить новые данные
@@ -83,8 +92,6 @@ var comissionButton = document.querySelector("#getComission");
 comissionButton.onclick = function(event){
     console.log("Нажата кнопка сбора комиссии");
     poohApi.getComission(function(balance, poohZP) {
-        poohApi.curUser.honeyAmount = balance;
-        localStorage.currentUser = JSON.stringify(poohApi.curUser);
         insertDataAfterGetComission(balance, poohZP);
     });
 }
@@ -145,9 +152,12 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
  * @param {bool} success - успешность запроса
  */
 function insertNewDataFotUsersHistory(data, success) {
+    console.log(data);
+    console.log(success);
     // Очистить таблицу
+    var bttn = document.querySelector("#getComission");
+    bttn.disabled = !success;
     if (success) {
-        $("#getComission").disable = false;
         var tableBody = $("#usersHistoryBuyingLastDay");
         tableBody.empty();
         $("#poohZP").empty();
@@ -159,8 +169,6 @@ function insertNewDataFotUsersHistory(data, success) {
             row += "</tr>"
             tableBody.append(row);
         }
-    } else {
-        $("#getComission").disable = true;
     }
 }
 
@@ -171,13 +179,15 @@ function insertNewDataFotUsersHistory(data, success) {
  * @param {number} poohZP - зп Пуха на сегодняшний день
  */
 function insertDataAfterGetComission(balance, poohZP) {
+    var thxForComissionWork = document.querySelector("#thxForComissionWork");
+    thxForComissionWork.style.visibility = "visible"; 
 
-    $("#getComission").disable = true;
+    comissionButton.disabled = true;
     // Очистить таблицу
     var tableBody = $("#usersHistoryBuyingLastDay");
     tableBody.empty();
    // Вставить информацию сколько Пух за сегодня заработал и его новый баланс
-   $("#honeyAmount").text(poohApi.curUser.honeyAmount+" л меда");
+   $("#honeyAmount").text(translateHoney(poohApi.curUser.honeyAmount)+" л меда");
    $("#poohZP").text(poohZP);
 }
 

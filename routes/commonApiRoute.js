@@ -137,15 +137,24 @@ router.post('/get-honey-info', function (req, res) {
 					}
 					// Определяем свободное количество меда
 					var freeHoney = (honeyCount - (comissioned + alreadyGot)).toFixed(5);
-					if (freeHoney> 5.0){
-						freeHoney = 5.0;
-					}						
-					else if (freeHoney< 0){
-						freeHoney = 0.0;
+					var canGet = 0.0;
+					if(alreadyGot == 5.0){
+						canGet = 0.0;
 					}
+					else{
+						if (freeHoney> 5.0){
+							canGet = (5.0 - alreadyGot).toFixed(5);
+						}						
+						else if (freeHoney< 0){
+							canGet = 0.0;
+						}
+						else if (freeHoney<= 5.0){
+							canGet = freeHoney;
+						}
+					}					
 					res.json({
 						success: true,
-						honeyToGet: freeHoney
+						honeyToGet: canGet
 					});
 				}
 			});
