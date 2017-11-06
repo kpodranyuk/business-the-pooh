@@ -487,13 +487,20 @@ forgetMeBttn.onclick = function(event){
     wasPapaProud = isCorrectPassword(pswdInput.value, pswdInputHelp);
     makePapaProud(pswdInput.parentNode, wasPapaProud);
     // Если пароль корректный, TODO деактивировать пользователя
-    if(!wasPapaProud){
-        console.log("Деактивация");
-        socket.emit('leave', { username: userApi.curUser.login });
-        localStorage.clear();
-        window.location = "/";
-        return false;
+    if(wasPapaProud){
+		if(pswdInput.value == userApi.curUser.password){
+			console.log("Деактивация");
+			socket.emit('leave', { username: userApi.curUser.login });
+			localStorage.clear();
+			window.location = "/";
+		}
+		else{
+			makePapaProud(pswdInput.parentNode, false);
+			pswdInputHelp.innerHTML = "Неверный пароль";
+			return false;
+		}        
     }
+	return false;
 }
 
 /**
