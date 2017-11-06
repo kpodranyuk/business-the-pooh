@@ -53,7 +53,7 @@ var outAnime = anime({
         var honeyCount = document.querySelector("#honeyInput");
         var honeyCountHelp = document.querySelector("#honeyInputHelp");
         var wasPapaProud = false;
-        wasPapaProud = isCorrectHoneyAmount(honeyCount.value, honeyCountHelp);
+        wasPapaProud = isCorrectHoneyAmount(honeyCount.value, $("#honeyInput").attr('min'), $("#honeyInput").attr('max'), honeyCountHelp);
         makePapaProud(honeyCount.parentNode, wasPapaProud);
         if(wasPapaProud){
             // Отправить запрос на сервер
@@ -83,7 +83,7 @@ var inAnime = anime({
         var productCount = document.querySelector("#goodsInput");
         var productCountHelp = document.querySelector("#goodsInputHelp");
         var wasPapaProud = false;
-        wasPapaProud = isCorrectProductAmount(productCount.value, productCountHelp);
+        wasPapaProud = isCorrectProductAmount(productCount.value, $("#goodsInput").attr('min'), $("#goodsInput").attr('max'), productCountHelp);
         makePapaProud(productCount.parentNode, wasPapaProud);
         if(wasPapaProud){
             // Отправить запрос на сервер
@@ -315,17 +315,31 @@ var forgetMeBttn = document.querySelector("#forgetMeSubmit");
 /* ДЕЙСТВИЯ ПО НАЖАТИЮ КНОПОК */
 // Выбрано количество горшочков для покупки
 potsInBuyBttn.onclick = function(event){
-    if($("#selectPots").val() == "")
-        return false;
-    // Добавляем информацию о покупке на виджеты
-    $("#potsCountToBuy").text($("#selectPots").val() + " шт.");
-    // TODO узнать текущий курс
-    $("#productCountToBuy").text(Number($("#selectPots").val())*getCourse(userApi.curUser.productType) + " шт.");
-    $("#comissionSizeForBuy").text(Number($("#selectPots").val())*0.25*(Number(userApi.curUser.promotion.percent)/100));
-    var div = document.querySelector("#secondStep");
-    div.style.visibility = "visible";
-    var bttnsDiv = document.querySelector("#buyButtons");
-    bttnsDiv.style.visibility = "visible";
+    var papa = isCorrectPotsCount(Number($("#selectPots").val()), 
+    $("#selectPots").attr('min'), 
+    $("#selectPots").attr('max'), 
+    document.querySelector("#selectPotsHelp"));
+    if (papa){
+        // Добавляем информацию о покупке на виджеты
+        $("#potsCountToBuy").text($("#selectPots").val() + " шт.");
+        // TODO узнать текущий курс
+        $("#productCountToBuy").text(Number($("#selectPots").val())*getCourse(userApi.curUser.productType) + " шт.");
+        $("#comissionSizeForBuy").text(Number($("#selectPots").val())*0.25*(Number(userApi.curUser.promotion.percent)/100));
+        var div = document.querySelector("#secondStep");
+        div.style.visibility = "visible";
+        var bttnsDiv = document.querySelector("#buyButtons");
+        bttnsDiv.style.visibility = "visible";
+    }
+}
+
+function isCorrectPotsCount(count, min, max, errorPlace){
+    if(count >= min && count <= max){
+        errorPlace.innerHTML = "Горшочки выбраны";
+        return true;
+    }
+    errorPlace.innerHTML = "Количество горшочков не должно быть меньше " + min.toString()
+    + " и больше " + max.toString();            
+    return false;
 }
 
 // Подтверждение операции покупки
@@ -486,17 +500,20 @@ function makePapaProud(parentForm, isProud){
 /**
  * Проверить корректность количества меда для вывода
  * @param {string} honeyAmount - значение, введенное пользователем
+ * @param {number} min - минимально возможное значение
+ * @param {number} max - максимально возможное значение
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
-function isCorrectHoneyAmount(honeyAmount, errorPlace){
+function isCorrectHoneyAmount(honeyAmount, min, max, errorPlace){
     var reg = new RegExp(`^[0-5]([.,][0-9]{1,3})?$`, '');
     if (honeyAmount==null){
         errorPlace.innerHTML = "Введите количество меда, пустое поле";
         return false;
     } 
     if(reg.test(honeyAmount)){
-        if (parseFloat(honeyAmount)<0.005 || parseFloat(honeyAmount)>5.0){
-            errorPlace.innerHTML = "Количество меда не должно быть меньше 0.005 и больше 5.0";
+        if (parseFloat(honeyAmount)<min || parseFloat(honeyAmount)>max){
+            errorPlace.innerHTML = "Количество меда не должно быть меньше " + min.toString()
+            + " и больше " + max.toString();            
             return false;
         }
         errorPlace.innerHTML = "Корректное количество меда";
@@ -511,9 +528,11 @@ function isCorrectHoneyAmount(honeyAmount, errorPlace){
 /**
  * Проверить корректность количества товара для ввода
  * @param {string} productAmount - значение, введенное пользователем
+ * @param {number} min - минимально возможное значение
+ * @param {number} max - максимально возможное значение
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
-function isCorrectProductAmount(productAmount, errorPlace){
+function isCorrectProductAmount(productAmount, min, max, errorPlace){
     console.log(productAmount);
     var reg = new RegExp(`^([1-9]{1}|([1-5]{1}[0-9]{1}))$`, '');
     if (productAmount==null){
@@ -521,8 +540,9 @@ function isCorrectProductAmount(productAmount, errorPlace){
         return false;
     } 
     if(reg.test(productAmount)){
-        if (parseInt(productAmount)<1 || parseInt(productAmount)>50){
-            errorPlace.innerHTML = "Количество товара не должно быть меньше 1 и больше 50";
+        if (parseInt(productAmount)<min || parseInt(productAmount)>max){
+            errorPlace.innerHTML = "Количество товара не должно быть меньше " + min.toString()
+            + " и больше " + max.toString();
             return false;
         }
         errorPlace.innerHTML = "Корректное количество товара";
