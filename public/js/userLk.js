@@ -2,6 +2,7 @@ import * as userApi from "./userLkApi.js";
 
 // Создание сокетного соединения
 var socket = io.connect();
+var currentPill = "enterPill";
 
 // По загрузке документа заполняем элементы, отображающие информацию о пользователе
 $(document).ready(function(){
@@ -109,10 +110,15 @@ var enterPillBttn = document.querySelector("#enterPill");
 var getPillBttn = document.querySelector("#getPill");
 // settingsPill - Настройки аккаунта (ввод пароля)
 var settingsPillBttn = document.querySelector("#settingsPill");
+// accPill - Аккаунт
+var accPillBttn = document.querySelector("#accPill");
+// helpPill - О сервисе
+var helpPillBttn = document.querySelector("#helpPill");
 
 /* ДЕЙСТВИЯ ПО НАЖАТИЮ КНОПОК МЕНЮ */
 // Вкладка Купить
 buyPillBttn.onclick = function(event){
+    currentPill = "buyPill";
     // TODO получить от сервера количество горшочков для покупки и добавить в селект
     userApi.buyHoneyInfo(function (result) {
         var maxPots = 0;
@@ -149,6 +155,7 @@ buyPillBttn.onclick = function(event){
 
 // Вкладка История
 historyPillBttn.onclick = function(event){
+    currentPill = "historyPill";
     console.log("Нажата кнопка История в панели меню");
     function getWordForTypeOperation(type) {
         if (type == 'E') {
@@ -193,6 +200,7 @@ historyPillBttn.onclick = function(event){
 
 // Вкладка Ввод товара
 enterPillBttn.onclick = function(event){
+    currentPill = "enterPill";
     var thxForEnter = document.querySelector("#thxForEnter");
     thxForEnter.style.visibility = "hidden";    
     // TODO получить от сервера количество товара для ввода и ограничить инпут
@@ -225,6 +233,7 @@ enterPillBttn.onclick = function(event){
 
 // Вкладка Вывод меда
 getPillBttn.onclick = function(event){
+    currentPill = "getPill";
     var thxForGet = document.querySelector("#thxForGet");
     thxForGet.style.visibility = "hidden";    
     // TODO получить от сервера количество товара для ввода и ограничить инпут
@@ -258,6 +267,7 @@ getPillBttn.onclick = function(event){
 
 // Вкладка Настройки аккаунта (вход)
 settingsPillBttn.onclick = function(event){
+    currentPill = "settingsPill";
     // Стираем информацию с инпута и строки-помощника
     var pswdInput = document.querySelector("#passwordInput");
     pswdInput.value = "";
@@ -266,6 +276,15 @@ settingsPillBttn.onclick = function(event){
     // Удаляем классы корректности с родительской формы
     pswdInput.parentNode.classList.remove("has-error");
     pswdInput.parentNode.classList.remove("has-success");
+}
+
+// Вкладка Аккаунт
+accPillBttn.onclick = function(event) {
+    currentPill = "accPill";
+}
+// Вкладка О сервисе
+helpPillBttn.onclick = function(event) {
+    currentPill = "helpPill";
 }
 
 
@@ -681,14 +700,39 @@ socket.emit('join', {username: userApi.curUser.login});
 // Настал новый операционный день
 socket.on('new-oper-day', function(data) {
     console.log("Сработало событие нового операционного дня");
+    // В зависимости от вкладки будем выбирать что обновлять
+    updatePillAfterEvent();
 });
 
 // У пчел кто то купил мед
 socket.on('buy-honey', function(data) {
     console.log("Сработало событие покупки меда у пчел");
+    if (currentPill == "buyPill") {
+        // Обновляем информацию во вкладке покупки меда
+        buyPillBttn.click();
+    }
 });
 
 // Пух снял комиссию с пользователей
 socket.on('get-comission', function(data) {
     console.log("Сработало событие снятия комиссии с пользователей");
+    // Подгружаем обновленный баланс с сервера
+    userApi.getUserBalance(function() {
+        setUserBalance();
+        updatePillAfterEvent();
+    });
+
 });
+
+function updatePillAfterEvent() {
+    if (currentPill == "buyPill") {
+        // Обновляем информацию во вкладке покупки меда
+        buyPillBttn.click();
+    } else if (currentPill == "enterPill") {
+        // Обновляем информацию во вкладке ввода товара
+        enterPillBttn.click();
+    } else if(currentPill == "getPill") {
+        // Обновляем информацию во вкладке вывода меда
+        getPillBttn.click();
+    }
+}

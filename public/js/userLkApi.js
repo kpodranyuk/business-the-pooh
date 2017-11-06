@@ -310,3 +310,41 @@ export function getOperations(callback){
         }      
     });
 }
+
+
+/**
+ * Отправить на сервер запрос об получении баланса пользователя
+ */
+export function getUserBalance(callback){
+    // Формируем запрос
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/user/get-balance',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            login : curUser.login
+        },   
+        success: function(response){
+            if(response.success == true){
+                console.log("ИНФОРМАЦИЯ ДЛЯ ОБНОВЛЕНИЯ БАЛАНСА ПОЛУЧЕНА");
+                // Возвращаем новый баланс
+                curUser.honeyAmount = response.honeyAmount;
+                curUser.productAmount = response.productAmount;
+                localStorage.currentUser = JSON.stringify(curUser);
+                callback();
+            }
+            else{
+                console.log("Возможно потеряна связь с БД");
+                callback(null, null);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ПОЛУЧЕНИИ ИНФОРМАЦИИ ДЛЯ ВЫВОДА МЕДА");
+            console.log(response);
+            callback(null, null);
+        }      
+    });
+}
