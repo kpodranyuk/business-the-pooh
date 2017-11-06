@@ -18,6 +18,12 @@ $(document).ready(function(){
     setUserBalance();
 
     enterPillBttn.click();
+
+    window.onbeforeunload = function (e) {
+        console.log("Выход из браузера");
+        socket.emit('leave', { username: userApi.curUser.login });
+        localStorage.clear();
+    };
 });
 
 function translateHoney(honey){
