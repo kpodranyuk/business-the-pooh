@@ -115,13 +115,13 @@ router.post('/get-honey-info', function (req, res) {
 	var login = req.body.login;
 	// Получаем у бд баланс пользователя
 	db.getUserBalance(login, function (result) {
-		if (result == null) {
+		if (result.length==0) {
 			res.json({ success: false, message: 'Не удалось получить баланс данного пользователя' });
 		}
 		else {
 			var honeyCount = result[0].honeyAmount;	// Количество меда у пользователя
 			db.getTodaysOperations(login, function (result) {
-				if (result == null) {
+				if (result.length==0) {
 					res.json({ success: false, message: 'Не удалось получить историю операций за текущий день у данного пользователя' });
 				}
 				else {
