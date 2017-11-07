@@ -61,4 +61,4 @@ INSERT INTO Deal(loginUser, idOperation) VALUES('super_owl44', 9);
 
 # Винни
 INSERT INTO Operation(type, date, productAmount, honeyPots, honeyCount, comission, idProductType) 
-VALUES('E', '2017-11-1 22:1:43', 0, 0,  0.15, 0, (select idProductType from ProductType where type='H'));
+VALUES('E', '2017-11-6 13:01:43', 0, 0,  0.15, 0, (select idProductType from ProductType where type='H'));
