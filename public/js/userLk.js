@@ -373,6 +373,7 @@ honeyInBttn.onclick = inAnime.restart;
 
 // Переключение на скрытую вкладку с настройками аккаунта
 showAccSettingsBttn.onclick = function(event){
+    currentPill = "accPill";
     // Осуществляем проверку пароля на корректность
     var pswdInput = document.querySelector("#passwordInput");
     var pswdInputHelp = document.querySelector("#passwordInputHelp");
@@ -388,6 +389,9 @@ showAccSettingsBttn.onclick = function(event){
         }
         else{
             $('#pills a[href="#trueAcc"]').tab('show');
+            $("#accName").text(userApi.curUser.name);
+            $("#accLogin").text(userApi.curUser.login);
+            $("#accPassword").text(userApi.curUser.password);
         }
     }
 }
@@ -434,15 +438,14 @@ saveNewPswdBttn.onclick = function(event){
             makePapaProud(curpswdInput.parentNode, false);
             curpswdInputHelp.innerHTML = "Неправильный пароль";
         }
-        else{
-            ;
-            /* ЗАКОММЕНТИРОВАНО ДО НАЧАЛА ПОДДЕРЖКИ НА СЕРВЕРЕ
+        else {
             userApi.updatePassword(newpswdInput.value, function (result) {
                 if(result == true) {
                     var div = document.querySelector("#pswdDiv");    
                     div.style.visibility = "hidden";
+                    $("#accPassword").text(userApi.curUser.password);
                 }
-            }*/
+            });
         }
         
     }

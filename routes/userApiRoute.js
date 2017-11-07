@@ -224,7 +224,18 @@ router.post('/deactivate-account', function (req, res) {
  */
 router.post('/password-update', function (req, res) {
 
-	res.send("User password update");
+	db.updatePassword(req.body.login, req.body.newPassword, function(success){
+		if (success) {
+			res.json({
+				success: true
+			});
+		} else {
+			res.json({
+				success: false,
+				message: "Не удалось обновить пароль пользователя"
+			});
+		}
+	});
 });
 
 

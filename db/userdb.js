@@ -61,7 +61,7 @@ function getIndexProductType(productType) {
 function updatePassword(loginUser, passwordUser, callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
-        var sql = "UPDATE User SET password=" + mysql.escape(passwordUser) + "WHERE login=" + mysql.escape(loginUse);
+        var sql = "UPDATE User SET password=" + mysql.escape(passwordUser) + " WHERE login=" + mysql.escape(loginUser);
         con.query(sql, function (error, result) {
             if (error) {
                 con.commit(function (error) {
