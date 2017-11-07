@@ -107,7 +107,7 @@ getPillBttn.onclick = function(event){
             else{
                 inp.parentNode.classList.remove("has-error");
                 inp.parentNode.classList.remove("has-success");
-                inpHelp.innerHTML = "Не более "+(parseFloat(maxHoney.replace(",", "."))).toString() + " л";
+                inpHelp.innerHTML = "Не более "+(parseFloat((maxHoney.toString()).replace(",", "."))).toString() + " л";
                 outBttn.disabled = false;
                 $("#honeyInput").attr('min',0.005);
                 $("#honeyInput").attr('max',maxHoney);
