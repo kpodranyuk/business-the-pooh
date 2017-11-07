@@ -391,7 +391,10 @@ showAccSettingsBttn.onclick = function(event){
             $('#pills a[href="#trueAcc"]').tab('show');
             $("#accName").text(userApi.curUser.name);
             $("#accLogin").text(userApi.curUser.login);
-            $("#accPassword").text(userApi.curUser.password);
+            var pass = "";
+            for (var i = 0 ; i < userApi.curUser.password.length; i++)
+                pass += "*";
+            $("#accPassword").text(pass);
         }
     }
 }
@@ -443,7 +446,10 @@ saveNewPswdBttn.onclick = function(event){
                 if(result == true) {
                     var div = document.querySelector("#pswdDiv");    
                     div.style.visibility = "hidden";
-                    $("#accPassword").text(userApi.curUser.password);
+                    var pass = "";
+                    for (var i = 0 ; i < userApi.curUser.password.length; i++)
+                        pass += "*";
+                    $("#accPassword").text(pass);
                 }
             });
         }
