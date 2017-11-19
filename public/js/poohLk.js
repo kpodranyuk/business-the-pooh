@@ -1,19 +1,12 @@
 import * as poohApi from "./poohLkApi.js";
+import * as commonLk from "./commonLk.js";
+import {makePapaProud, forgetPapasPride} from "./formControl.js";
 
 // По загрузке документа заполняем элементы, отображающие информацию о Пухе
 $(document).ready(function(){
-    $("#honeyAmount").text(translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
+    $("#honeyAmount").text(commonLk.translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
     myHistoryPillBttn.click();
 });
-
-function translateHoney(honey){
-    console.log(honey.toString());
-    var hon = honey.toString();
-    if(hon == "0")
-        return hon;
-    return (parseFloat(hon.replace(",", "."))).toString();
-}
-
 
 // Создание сокетного соединения
 var socket = io.connect();
@@ -33,7 +26,7 @@ var outAnime = anime({
         var honeyCount = document.querySelector("#honeyInput");
         var honeyCountHelp = document.querySelector("#honeyInputHelp");
         var wasPapaProud = false;
-        wasPapaProud = isCorrectHoneyAmount(honeyCount.value, honeyCountHelp);
+        wasPapaProud = commonLk.isCorrectHoneyAmount(honeyCount.value, honeyCountHelp);
         makePapaProud(honeyCount.parentNode, wasPapaProud);
         if(wasPapaProud){
             // Отправить запрос на сервер
@@ -42,7 +35,7 @@ var outAnime = anime({
                     var thxForGet = document.querySelector("#thxForGet");
                     thxForGet.style.visibility = "visible";  
                     // Устанавливаем новый баланс Пуха
-                    $("#honeyAmount").text(translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
+                    $("#honeyAmount").text(commonLk.translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
                     outBttn.disabled = true;
                 }
             });
@@ -140,50 +133,6 @@ logOutBttn.onclick = function(event){
 }
 
 /**
- * Добавить подсветку формы ввода данных в зависимости от корректности данных
- * @param {any} parentForm - форма ввода данных
- * @param {boolean} isProud - корректные ли данные
- */
-function makePapaProud(parentForm, isProud){
-    if(isProud){
-        parentForm.classList.remove("has-error");
-        parentForm.classList.add("has-success");
-        return true;
-    }
-    else{
-        parentForm.classList.remove("has-success");
-        parentForm.classList.add("has-error");
-        return false;
-    }
-}
-
-/**
- * Проверить корректность количества меда для вывода
- * @param {string} honeyAmount - значение, введенное пользователем
- * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
- */
-function isCorrectHoneyAmount(honeyAmount, errorPlace){
-    var reg = new RegExp(`^[0-5]([.,][0-9]{1,3})?$`, '');
-    if (honeyAmount==null){
-        errorPlace.innerHTML = "Введите количество меда, пустое поле";
-        return false;
-    } 
-    if(reg.test(honeyAmount)){
-        if (parseFloat(honeyAmount)<0.005 || parseFloat(honeyAmount)>5.0){
-            errorPlace.innerHTML = "Количество меда не должно быть меньше 0.005 и больше 5.0";
-            return false;
-        }
-        errorPlace.innerHTML = "Корректное количество меда";
-        return true;
-    }
-    else {
-        errorPlace.innerHTML = "Некорректное количество меда.<br>Количество меда должно быть положительным числом не больше 5";
-        return false;
-    }    
-}
-
-
-/**
  * Вставить новые данные о пользователях за прошлый оп. день.
  * @param {mass} data - массив объектов, содержащих информацию за прошлый операционный день
  * @param {bool} success - успешность запроса
@@ -225,9 +174,9 @@ function insertDataAfterGetComission(balance, poohZP) {
     // Очистить таблицу
     var tableBody = $("#usersHistoryBuyingLastDay");
     tableBody.empty();
-   // Вставить информацию сколько Пух за сегодня заработал и его новый баланс
-   $("#honeyAmount").text(translateHoney(poohApi.curUser.honeyAmount)+" л меда");
-   $("#poohZP").text(+(poohZP.toFixed(5)));
+    // Вставить информацию сколько Пух за сегодня заработал и его новый баланс
+    $("#honeyAmount").text(commonLk.translateHoney(poohApi.curUser.honeyAmount)+" л меда");
+    $("#poohZP").text(+(poohZP.toFixed(5)));
 }
 
 
