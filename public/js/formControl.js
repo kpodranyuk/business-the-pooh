@@ -21,6 +21,15 @@ function makePapaProud(parentForm, isProud){
 }
 
 /**
+ * Удалить подсветку формы ввода данных
+ * @param {any} parentForm - форма ввода данных
+ */
+function forgetPapasPride(parentForm){
+    parentForm.classList.remove("has-error");
+    parentForm.classList.remove("has-success");
+}
+
+/**
  * Проверить корректность пароля
  * @param {string} pswd - пароль, введенный пользователем
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
