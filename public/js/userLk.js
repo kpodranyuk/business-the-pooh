@@ -130,8 +130,7 @@ buyPillBttn.onclick = function(event){
                 return false;
             }
             else{
-                sel.parentNode.classList.remove("has-error");
-                sel.parentNode.classList.remove("has-success");
+                forgetPapasPride(sel.parentNode);
                 selHelp.innerHTML = "Не более "+ maxPots;
                 potsInBuyBttn.disabled = false;
                 $("#selectPots").attr('min',1);
@@ -215,8 +214,7 @@ enterPillBttn.onclick = function(event){
                 return false;
             }
             else{
-                inp.parentNode.classList.remove("has-error");
-                inp.parentNode.classList.remove("has-success");
+                forgetPapasPride(inp.parentNode);
                 inpHelp.innerHTML = "Не более "+ maxProduct + " шт";
                 honeyInBttn.disabled = false;
                 $("#goodsInput").attr('min',1);
@@ -248,8 +246,7 @@ getPillBttn.onclick = function(event){
                 return false;
             }
             else{
-                inp.parentNode.classList.remove("has-error");
-                inp.parentNode.classList.remove("has-success");
+                forgetPapasPride(inp.parentNode);
                 inpHelp.innerHTML = "Не более "+(parseFloat((maxHoney.toString()).replace(",", "."))).toString() + " л";
                 honeyOutBttn.disabled = false;
                 $("#honeyInput").attr('min',0.005);
@@ -269,8 +266,7 @@ settingsPillBttn.onclick = function(event){
     var pswdInputHelp = document.querySelector("#passwordInputHelp");
     pswdInputHelp.innerHTML = "";
     // Удаляем классы корректности с родительской формы
-    pswdInput.parentNode.classList.remove("has-error");
-    pswdInput.parentNode.classList.remove("has-success");
+    forgetPapasPride(pswdInput.parentNode);
 }
 
 // Вкладка Аккаунт
@@ -468,8 +464,7 @@ openForgetMeBttn.onclick = function(event){
     pswdInput.value = "";
     var pswdInputHelp = document.querySelector("#enterPswdHelp");
     pswdInputHelp.innerHTML = "";
-    pswdInput.parentNode.classList.remove("has-error");
-    pswdInput.parentNode.classList.remove("has-success");
+    forgetPapasPride(pswdInput.parentNode);
 }
 
 // Деактивировать аккаунт
@@ -508,24 +503,21 @@ function clearMakeNewPswdInputs(){
     curpswdInput.value = "";
     var curpswdInputHelp = document.querySelector("#oldPswdInputHelp");
     curpswdInputHelp.innerHTML = "";
-    curpswdInput.parentNode.classList.remove("has-error");
-    curpswdInput.parentNode.classList.remove("has-success");
+    forgetPapasPride(curpswdInput.parentNode);
 
     // Затем новый
     var newpswdInput = document.querySelector("#newPswdInput");
     newpswdInput.value = "";
     var newpswdInputHelp = document.querySelector("#newPswdInputHelp");
     newpswdInputHelp.innerHTML = "";
-    newpswdInput.parentNode.classList.remove("has-error");
-    newpswdInput.parentNode.classList.remove("has-success");
+    forgetPapasPride(newpswdInput.parentNode);
 
     // Затем повтор нового
     var newRepeatPswdInput = document.querySelector("#newPswdInputRepeat");
     newRepeatPswdInput.value = "";
     var newRepeatPswdInputHelp = document.querySelector("#newPswdInputRepeatHelp");
     newRepeatPswdInputHelp.innerHTML = "";
-    newRepeatPswdInput.parentNode.classList.remove("has-error");
-    newRepeatPswdInput.parentNode.classList.remove("has-success");
+    forgetPapasPride(newRepeatPswdInput.parentNode);
 }
 
 /**

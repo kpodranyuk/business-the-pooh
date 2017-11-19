@@ -98,8 +98,7 @@ getPillBttn.onclick = function(event){
                 return false;
             }
             else{
-                inp.parentNode.classList.remove("has-error");
-                inp.parentNode.classList.remove("has-success");
+                forgetPapasPride(inp.parentNode);
                 inpHelp.innerHTML = "Не более "+(parseFloat((maxHoney.toString()).replace(",", "."))).toString() + " л";
                 outBttn.disabled = false;
                 $("#honeyInput").attr('min',0.005);
