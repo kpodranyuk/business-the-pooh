@@ -26,7 +26,7 @@ var outAnime = anime({
         var honeyCount = document.querySelector("#honeyInput");
         var honeyCountHelp = document.querySelector("#honeyInputHelp");
         var wasPapaProud = false;
-        wasPapaProud = commonLk.isCorrectHoneyAmount(honeyCount.value, honeyCountHelp);
+        wasPapaProud = commonLk.isCorrectHoneyAmount(honeyCount.value, $("#honeyInput").attr('min'), $("#honeyInput").attr('max'), honeyCountHelp);
         makePapaProud(honeyCount.parentNode, wasPapaProud);
         if(wasPapaProud){
             // Отправить запрос на сервер
