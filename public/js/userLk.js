@@ -1,4 +1,6 @@
 import * as userApi from "./userLkApi.js";
+import * as commonLk from "./commonLk.js";
+import {makePapaProud, forgetPapasPride, isCorrectPassword, isSecondPswdTheSame} from "./formControl.js";
 
 // Создание сокетного соединения
 var socket = io.connect();
@@ -21,19 +23,11 @@ $(document).ready(function(){
     enterPillBttn.click();
 });
 
-function translateHoney(honey){
-    console.log(honey.toString());
-    var hon = honey.toString();
-    if(hon == "0")
-        return hon;
-    return (parseFloat(hon.replace(",", "."))).toString();
-}
-
 function setUserBalance(){
     // Устанавливаем количество товара пользователя
     $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
     // Устанавливаем количество меда пользователя
-    $("#honeyLabel").text(translateHoney(userApi.curUser.honeyAmount).toString()+" л меда");
+    $("#honeyLabel").text(commonLk.translateHoney(userApi.curUser.honeyAmount).toString()+" л меда");
 }
 
 // Изображение пчелы при выводе меда
@@ -54,7 +48,7 @@ var outAnime = anime({
         var honeyCount = document.querySelector("#honeyInput");
         var honeyCountHelp = document.querySelector("#honeyInputHelp");
         var wasPapaProud = false;
-        wasPapaProud = isCorrectHoneyAmount(honeyCount.value, $("#honeyInput").attr('min'), $("#honeyInput").attr('max'), honeyCountHelp);
+        wasPapaProud = commonLk.isCorrectHoneyAmount(honeyCount.value, $("#honeyInput").attr('min'), $("#honeyInput").attr('max'), honeyCountHelp);
         makePapaProud(honeyCount.parentNode, wasPapaProud);
         if(wasPapaProud){
             // Отправить запрос на сервер
@@ -84,7 +78,7 @@ var inAnime = anime({
         var productCount = document.querySelector("#goodsInput");
         var productCountHelp = document.querySelector("#goodsInputHelp");
         var wasPapaProud = false;
-        wasPapaProud = isCorrectProductAmount(productCount.value, $("#goodsInput").attr('min'), $("#goodsInput").attr('max'), productCountHelp);
+        wasPapaProud = commonLk.isCorrectProductAmount(productCount.value, $("#goodsInput").attr('min'), $("#goodsInput").attr('max'), productCountHelp);
         makePapaProud(productCount.parentNode, wasPapaProud);
         if(wasPapaProud){
             // Отправить запрос на сервер
@@ -502,125 +496,6 @@ forgetMeBttn.onclick = function(event){
 		}        
     }
 	return false;
-}
-
-/**
- * Добавить подсветку формы ввода данных в зависимости от корректности данных
- * @param {any} parentForm - форма ввода данных
- * @param {boolean} isProud - корректные ли данные
- */
-function makePapaProud(parentForm, isProud){
-    if(isProud){
-        parentForm.classList.remove("has-error");
-        parentForm.classList.add("has-success");
-        return true;
-    }
-    else{
-        parentForm.classList.remove("has-success");
-        parentForm.classList.add("has-error");
-        return false;
-    }
-}
-
-/**
- * Проверить корректность количества меда для вывода
- * @param {string} honeyAmount - значение, введенное пользователем
- * @param {number} min - минимально возможное значение
- * @param {number} max - максимально возможное значение
- * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
- */
-function isCorrectHoneyAmount(honeyAmount, min, max, errorPlace){
-    var reg = new RegExp(`^[0-5]([.,][0-9]{1,3})?$`, '');
-    if (honeyAmount==null){
-        errorPlace.innerHTML = "Введите количество меда, пустое поле";
-        return false;
-    } 
-    if(reg.test(honeyAmount)){
-        if (parseFloat(honeyAmount)<min || parseFloat(honeyAmount)>max){
-            errorPlace.innerHTML = "Количество меда не должно быть меньше " + min.toString()
-            + " и больше " + max.toString();            
-            return false;
-        }
-        errorPlace.innerHTML = "Корректное количество меда";
-        return true;
-    }
-    else {
-        errorPlace.innerHTML = "Некорректное количество меда.<br>Количество меда должно быть положительным числом меньше 5";
-        return false;
-    }    
-}
-
-/**
- * Проверить корректность количества товара для ввода
- * @param {string} productAmount - значение, введенное пользователем
- * @param {number} min - минимально возможное значение
- * @param {number} max - максимально возможное значение
- * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
- */
-function isCorrectProductAmount(productAmount, min, max, errorPlace){
-    console.log(productAmount);
-    var reg = new RegExp(`^([1-9]{1}|([1-5]{1}[0-9]{1}))$`, '');
-    if (productAmount==null){
-        errorPlace.innerHTML = "Введите количество товара, пустое поле";
-        return false;
-    } 
-    if(reg.test(productAmount)){
-        if (parseInt(productAmount)<min || parseInt(productAmount)>max){
-            errorPlace.innerHTML = "Количество товара не должно быть меньше " + min.toString()
-            + " и больше " + max.toString();
-            return false;
-        }
-        errorPlace.innerHTML = "Корректное количество товара";
-        return true;
-    }
-    else {
-        errorPlace.innerHTML = "Некорректное количество товара.<br>Количество товара должно быть положительным целым числом не больше 50";
-        return false;
-    }    
-}
-
-/**
- * Проверить корректность пароля
- * @param {string} pswd - пароль, введенный пользователем
- * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
- */
-function isCorrectPassword(pswd, errorPlace){
-    var reg = new RegExp(`^[A-Za-z0-9]{8,32}$`, '');
-    if (pswd==null){
-        errorPlace.innerHTML = "Введите пароль, пустое поле";
-        return false;
-    }
-    if (pswd.length>32){
-        errorPlace.innerHTML = "Пароль не должен быть длиньше 32 символов";
-        return false;
-    }
-    if (pswd.length<8){
-        errorPlace.innerHTML = "Пароль не должен быть короче 8 символов";
-        return false;
-    }    
-    if(reg.test(pswd)){
-        errorPlace.innerHTML = "Корректный пароль";
-        return true;
-    }
-    else {
-        errorPlace.innerHTML = "Некорректный пароль. Пароль должен содержать от 8 до 32 символов английского алфавита и/или цифр";
-        return false;
-    }  
-}
-
-/**
- * Проверить совпадают ли два пароля
- * @param {string} pswd1 - первый пароль
- * @param {string} pswd2 - второй пароль
- * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
- */
-function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
-    if(pswd1!=pswd2){
-        errorPlace.innerHTML = "Пароли не совпадают";
-        return false;
-    }
-    errorPlace.innerHTML = "Пароли совпадают";
-    return true;
 }
 
 /**
