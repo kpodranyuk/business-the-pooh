@@ -7,7 +7,7 @@
  * @param {any} parentForm - форма ввода данных
  * @param {boolean} isProud - корректные ли данные
  */
-function makePapaProud(parentForm, isProud){
+export function makePapaProud(parentForm, isProud){
     if(isProud){
         parentForm.classList.remove("has-error");
         parentForm.classList.add("has-success");
@@ -24,7 +24,7 @@ function makePapaProud(parentForm, isProud){
  * Удалить подсветку формы ввода данных
  * @param {any} parentForm - форма ввода данных
  */
-function forgetPapasPride(parentForm){
+export function forgetPapasPride(parentForm){
     parentForm.classList.remove("has-error");
     parentForm.classList.remove("has-success");
 }
@@ -34,7 +34,7 @@ function forgetPapasPride(parentForm){
  * @param {string} pswd - пароль, введенный пользователем
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
-function isCorrectPassword(pswd, errorPlace){
+export function isCorrectPassword(pswd, errorPlace){
     var reg = new RegExp(`^[A-Za-z0-9]{8,32}$`, '');
     if (pswd==null){
         errorPlace.innerHTML = "Введите пароль, пустое поле";
@@ -63,7 +63,7 @@ function isCorrectPassword(pswd, errorPlace){
  * @param {string} login - логин, введенный пользователем
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
-function isCorrectLogin(login, errorPlace){
+export function isCorrectLogin(login, errorPlace){
     var reg = new RegExp(`^[A-Za-z0-9]{2,20}$`, '');
     if (login==null){
         errorPlace.innerHTML = "Введите логин, пустое поле";
@@ -93,7 +93,7 @@ function isCorrectLogin(login, errorPlace){
  * @param {string} name - имя, введенное пользователем
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
-function isCorrectName(name, errorPlace){
+export function isCorrectName(name, errorPlace){
     var reg = new RegExp(`^([А-Яа-я]{2,20})|([A-Za-z]{2,20})$`, '');
     if (name==null){
         errorPlace.innerHTML = "Введите имя, пустое поле";
@@ -123,7 +123,7 @@ function isCorrectName(name, errorPlace){
  * @param {string} pswd2 - второй пароль
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
-function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
+export function isSecondPswdTheSame(pswd1, pswd2, errorPlace){
     if(pswd1!=pswd2){
         errorPlace.innerHTML = "Пароли не совпадают";
         return false;
