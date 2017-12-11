@@ -1,5 +1,4 @@
 var mysql = require('mysql');
-var config = require('./config');
 var OperationDay = require('../model/operationday');
 var con = require("./connection");
 

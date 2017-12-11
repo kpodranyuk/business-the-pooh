@@ -1,5 +1,4 @@
 var mysql = require('mysql');
-var config = require('./config');
 var User = require('../model/usermodel');
 var Promotion = require('../model/promotion');
 var OperationDay = require('../model/operationday.js');
