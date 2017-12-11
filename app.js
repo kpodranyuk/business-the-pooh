@@ -5,11 +5,13 @@ var bodyParser = require('body-parser');
 var indexRoute = require('./routes/indexRoute');
 var userRoute = require('./routes/userRoute');
 var poohRoute = require('./routes/poohRoute');
+var adminRoute = require('./routes/adminRoute');
 var loginRoute = require('./routes/loginRoute');
 var registerRoute = require('./routes/registerRoute');
 var userApiRoute = require('./routes/userApiRoute');
 var commonApiRoute = require('./routes/commonApiRoute');
 var poohApiRoute = require('./routes/poohApiRoute');
+var adminApiRoute = require('./routes/adminApiRoute');
 var common = require('./model/common');
 
 
@@ -43,11 +45,13 @@ app.use(function (req, res, next) {
 app.use('/', indexRoute);
 app.use('/userLk', userRoute);
 app.use('/poohLk', poohRoute);
+app.use('/adminLk', adminRoute);
 app.use('/login', loginRoute);
 app.use('/register', registerRoute);
 app.use('/api/user', userApiRoute);
 app.use('/api/common', commonApiRoute);
 app.use('/api/pooh', poohApiRoute);
+app.use('/api/admin', adminApiRoute);
 
 // Сокеты для генерации событий для клиента
 io.sockets.on('connection', function (socket) {
