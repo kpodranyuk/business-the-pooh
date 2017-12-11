@@ -67,6 +67,3 @@ io.sockets.on('connection', function (socket) {
 setInterval(function() {
   common.updateOperationDay(io);
 }, 1200);
-
-var getComissionToday = false;
-global.getComissionToday = getComissionToday;

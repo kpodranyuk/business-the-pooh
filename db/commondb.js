@@ -1,24 +1,9 @@
 var mysql = require('mysql');
-var config = require('./config');
 var OperationDay = require('../model/operationday.js');
 var Operation = require('../model/operation');
-var userdb = require("./userdb");
+var common = require("../model/common");
+var con = require("./connection");
 
-var con = mysql.createConnection({
-    host: config["host"],
-    port: config["port"],
-    user: config["user"],
-    password: config["password"],
-    database: config["database"]
-});
-
-con.connect(function (error) {
-    if (error) {
-        console.log("Не удалось подключиться к БД");
-    } else {
-        console.log("Удалось подключиться к БД");
-    }
-});
 
 /**
  * Получить историю операций
@@ -97,7 +82,7 @@ function withdrawUserHoney(login, honey, callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Обновить поле с количеством меда пользователя
-        var sql = "UPDATE user SET honeyAmount = honeyAmount-" + (+(honey).toFixed(5))
+        var sql = "UPDATE user SET honeyAmount = honeyAmount-" + Number((honey).toFixed(5))
             + " WHERE login = " + mysql.escape(login);
         con.query(sql, function (error, result, fields) {
 
@@ -163,7 +148,7 @@ function insertNewOperation(operation, login, callback) {
         if (err) { throw err; }
 
         // Вставляем новую операцию
-        var values = [[operation.type, operation.datatime, operation.productAmount, operation.honeyPots, operation.honeyCount, operation.comission, userdb.getIndexProductType(operation.productType)]];
+        var values = [[operation.type, operation.datatime, operation.productAmount, operation.honeyPots, operation.honeyCount, operation.comission, common.getIndexProductType(operation.productType)]];
         con.query("INSERT INTO Operation(type, date, productAmount, honeyPots, honeyCount, comission, idProductType) VALUES " + mysql.escape(values), function (error, result, fields) {
             if (error) {
                 con.commit(function (error) {

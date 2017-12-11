@@ -3,54 +3,9 @@ var config = require('./config');
 var User = require('../model/usermodel');
 var Promotion = require('../model/promotion');
 var OperationDay = require('../model/operationday.js');
+var con = require("./connection");
+var common = require('../model/common');
 
-var con = mysql.createConnection({
-    host: config["host"],
-    port: config["port"],
-    user: config["user"],
-    password: config["password"],
-    database: config["database"]
-});
-
-con.connect(function (err) {
-    if (err) {
-        console.log("Не удалось подключиться к БД");
-    } else {
-        console.log("Удалось подключиться к БД");
-    }
-});
-
-/**
- * Получить тип продукта по индексу
- * @param {number} productType - тип продукта пользователя(1,2,3,4)
- */
-function getStringProductType(productType) {
-    if (productType == 1)
-        return "F";
-    else if (productType == 2)
-        return "B";
-    else if (productType == 3)
-        return "P";
-    else if (productType == 4)
-        return "H";
-    else
-        return null;
-}
-
-/**
- * Получить индекс типа продукта из БД
- * @param {string} productType - тип продукта пользователя('F','B','P','H')
- */
-function getIndexProductType(productType) {
-    if (productType == 'F')
-        return 1;
-    else if (productType == 'B')
-        return 2;
-    else if (productType == 'P')
-        return 3;
-    else
-        return 4;
-}
 
 /**
 * Обновлять пароль пользователя в БД
@@ -95,7 +50,7 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
         if (err) { throw err; }
 
         // Смотрим тип продукта
-        var type = getIndexProductType(productTypeUser);
+        var type = common.getIndexProductType(productTypeUser);
         // Вставляем пользователя  
         var values = [[loginUser, passwordUser, nameUser, false, 0, 0, type, 1]];
         var sql = "INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount, idProductType, idPromotion) VALUES ";
@@ -177,7 +132,7 @@ function loginUser(login, password, callback) {
                         } else {
 
                             // Создаем пользователя и скидку для него
-                            var user = new User(results[0].login, results[0].name, getStringProductType(results[0].idProductType));
+                            var user = new User(results[0].login, results[0].name, common.getStringProductType(results[0].idProductType));
                             user.promotion = new Promotion(results[0].idPromotion);
                             user.promotion.operationsToNext = promotiRes[0].operationsToNext;
                             user.promotion.percent = promotiRes[0].percent;
@@ -369,7 +324,6 @@ module.exports.enterUserProduct = enterUserProduct;
 module.exports.getTodaysEnterOperations = getTodaysEnterOperations;
 module.exports.registrationUser = registrationUser;
 module.exports.loginUser = loginUser;
-module.exports.getIndexProductType = getIndexProductType;
 module.exports.getInformationForBuying = getInformationForBuying;
 module.exports.buyHoney = buyHoney;
 module.exports.updatePassword = updatePassword;

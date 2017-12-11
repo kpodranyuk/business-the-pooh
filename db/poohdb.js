@@ -1,22 +1,7 @@
 var mysql = require('mysql');
 var config = require('./config');
 var OperationDay = require('../model/operationday');
-
-var con = mysql.createConnection({
-    host: config["host"],
-    port: config["port"],
-    user: config["user"],
-    password: config["password"],
-    database: config["database"]
-});
-
-con.connect(function (error) {
-    if (error) {
-        console.log("Не удалось подключиться к БД");
-    } else {
-        console.log("Удалось подключиться к БД");
-    }
-});
+var con = require("./connection");
 
 /**
  * Получить историю операций за прошлый день
@@ -146,6 +131,42 @@ function getCommission(promotion, callback) {
     });
 }
 
+/**
+ * Получал ли Пух ЗП за прошлый день
+ * @param {function} функция, отправляющая ответ получал или нет
+ */
+function getZPLastDayPooh(callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (err) {
+        if (err) { throw err; }
+
+        var day = new OperationDay(new Date());
+        day = day.getLastOperationDay();
+        var sql = "SELECT * FROM operation o LEFT OUTER JOIN deal d ON o.idOperation = d.idOperation"
+            + " where d.loginUser=\"superpooh\" AND o.type= \"E\""
+            + " AND o.date BETWEEN " + mysql.escape(day.startDay.toLocaleString())
+            + " AND " + mysql.escape(day.endDay.toLocaleString());
+        con.query(sql, function (error, result, fields) {
+            if (error) {
+                con.commit(function (err) {
+                    callback(null);
+                    if (err) return con.rollback(function () { console.error(err.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (err) {
+                    if (err) return con.rollback(function () { console.error(err.message); });
+                    if (result.length != 0)
+                        callback(true);
+                    else
+                        callback(false);
+                });
+            }
+        });
+     });
+}
+
 
 module.exports.getCommission = getCommission;
 module.exports.getHistoryForLastDay = getHistoryForLastDay;
+module.exports.getZPLastDayPooh = getZPLastDayPooh;
