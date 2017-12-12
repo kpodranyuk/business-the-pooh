@@ -2,7 +2,7 @@ var mysql = require('mysql');
 var con = require("./connection");
 
 /**
- * Получение информации о текущем курсе товаров
+ * Получить информацию о текущем курсе товаров
  * @param {function} функция, отправляющая информацию о курсе
  */
 function getExchangeRateInfo(callback) {
@@ -20,5 +20,15 @@ function editProduct(productName, newProductName, newExchangeRate, callback) {
 
 }
 
-module.exports.editProduct = editProduct;
+/**
+ * Получить информацию о типе пользователя
+ * @param {string} userType - тип пользователя
+ * @param {function} функция, отправляющая информацию о типе пользователя
+ */
+function getUserTypeInfo(userType, callback) {
+    
+}
+
 module.exports.getExchangeRateInfo = getExchangeRateInfo;
+module.exports.editProduct = editProduct;
+module.exports.getUserTypeInfo = getUserTypeInfo;
