@@ -21,14 +21,13 @@ function editProduct(productName, newProductName, newExchangeRate, callback) {
 }
 
 /**
- * Получить информацию о типе пользователя
- * @param {string} userType - тип пользователя
- * @param {function} функция, отправляющая информацию о типе пользователя
+ * Получить информацию о всех типах пользователей
+ * @param {function} функция, отправляющая информацию о всех типах пользователей
  */
-function getUserTypeInfo(userType, callback) {
+function getUserTypesInfo(callback) {
     
 }
 
 module.exports.getExchangeRateInfo = getExchangeRateInfo;
 module.exports.editProduct = editProduct;
-module.exports.getUserTypeInfo = getUserTypeInfo;
+module.exports.getUserTypesInfo = getUserTypesInfo;
