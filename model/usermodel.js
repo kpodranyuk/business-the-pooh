@@ -2,17 +2,17 @@
  * Класс пользователя для модели
  * @param {string} login - логин пользователя 
  * @param {string} name - имя пользователя
- * @param {string} productType - тип продукта('F','B','P','H')
  */
-function User(login, name, productType) {
+function User(login, name) {
     this.login = login;
     this.password = "";
     this.name = name;
     this.isAdmin = false;
-    this.productType = productType;
+    this.isDeactivation = false;
     this.productAmount = 0;
     this.honeyAmount = 0;
     this.promotion = null;
+    this.userType = null;
 
     /**
      * Купить мед
