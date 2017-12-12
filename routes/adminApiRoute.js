@@ -69,7 +69,17 @@ router.post('/edit-product', function (req, res) {
  * Получить информацию о всех типах пользователей
  */
 router.post('/user-type-info', function (req, res) {
-
+    db.getUserTypesInfo(function (result) {
+        if (result == null) {
+            res.json({ success: false, message: 'Не удалось получить информацию о типах пользователей' });
+        }
+        else {
+            res.json({
+                success: true,
+                products: result
+            });
+        }
+    });
 });
 
 
