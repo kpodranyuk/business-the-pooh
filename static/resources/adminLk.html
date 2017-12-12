@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Медоварня Бизнеспух</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="css/lkstyle.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <div id="my-row" class="row content">
+      <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9 panel" style="background-color: rgb(255, 239, 160); padding-bottom:5pt; padding-top:20pt">
+        <img class="img-responsive" src="images/main_long.png" />
+      </div>
+      <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 panel" style="background-color: #f5e7a5; padding-bottom:20pt; padding-top:20pt">
+        <!-- Пользователь -->
+        <div class="container-fluid">
+          <div class="row content" style="background-color: #fff0a3 ">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="col-md-3" style="padding: 0pt;">
+                <img class="img-responsive" src="images/honey_logo.png" style="max-width: 100%; max-height: 50pt" />
+              </div>
+              <div class="col-md-9" style="padding-left: 5pt;">
+                <div class="dropdown">
+                  <a class="dropdown-toggle" id="menu1" data-toggle="dropdown" style="font-size:15pt; color:black">Администратор
+                    <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                      <li role="presentation" style="font-size:10pt; color:black" id="logOut">
+                        <a role="menuitem" tabindex="-1" href="#">Выйти</a>
+                      </li>
+                    </ul>
+                </div>
+                <b style="font-size:12pt; color:black">Медовая Мама</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row content">
+      <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12" style="background-color: rgb(255, 241, 184); padding-bottom:40pt; padding-top:20pt">
+        <!-- Пиллс -->
+        <ul class="nav nav-pills" style="background-color: #f2f2f2; margin-top: 7pt; margin-right: 0pt; padding:7pt">
+          <li class="active">
+            <a data-toggle="pill" href="#goods" id="goodsPill">Товары системы</a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#userTypes" id="userTypesPill">Типы пользователей</a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#userDiscount" id="userDiscountPill">Скидки системы</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div id="goods" class="tab-pane fade in active">
+            <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
+              <div class="row content">
+                <h2>Список товаров, зарегистрированных в системе</h2>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped table-hover" style="background-color:lightgoldenrodyellow">
+                    <thead>
+                      <tr>
+                        <th>Название</th>
+                        <th>Предмет обмена</th>
+                        <th>Курс обмена (кол-во шт. за 1 горшочек меда)</th>
+                      </tr>
+                    </thead>
+                    <tbody id="goodsTableBody">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="userTypes" class="tab-pane fade">
+            <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
+              <div class="row content">
+                <h2>Типы пользователей, зарегистрированные в системе</h2>
+                <div class="row text-center" style="padding-bottom:10pt">
+                  <button type="submit" id="addNewUserType" class="btn btn-md btn-primary">Добавить новый тип</button>
+                </div>
+              </div>
+              <div class="row content">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped table-hover" style="background-color:lightgoldenrodyellow">
+                    <thead>
+                      <tr>
+                        <th>Название</th>
+                        <th>Товар</th>
+                      </tr>
+                    </thead>
+                    <tbody id="userTypesTableBody">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="userDiscount" class="tab-pane fade">
+            <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
+              <div class="row content">
+                <h2>Система скидок для новых покупателей</h2>
+              </div>
+              <div class="row content my-row" style="display: table">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" id="discountInfoTableDiv" style="background-color:white">
+                  <label for="headerDiscountInfo">
+                    <h3> Текущий размер комиссии при покупке (в процентах):</h3>
+                  </label>
+                  <div class="table-responsive" id="discountInfoTable">
+                    <table class="table" style="background-color:white">
+                      <tbody>
+                        <tr>
+                          <td>0-5 покупок:</td>
+                          <td>
+                            <b>
+                              <label id="startD">15</label>
+                            </b>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>6-15 покупок: </td>
+                          <td>
+                            <b>
+                              <label id="secondD">10</label>
+                            </b>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>От 16 покупок:</td>
+                          <td>
+                            <b>
+                              <label id="thirdD">5</label>
+                            </b>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="row content" id="buyButtons">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                      <button class="btn btn-md btn-primary" id="editDiscount">Редактировать</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" id="discountInfoTableDiv" style="background-color:white">
+                  <label for="headerDiscountInfo">
+                    <h3> Установите размер комиссии при покупке (в процентах):</h3>
+                  </label>
+                  <div class="table-responsive" id="discountInfoTable">
+                    <table class="table" style="background-color:white">
+                      <tbody>
+                        <tr>
+                          <td>0-5 покупок:</td>
+                          <td>
+                            <input type="number" class="form-control" id="startDInput" aria-describedby="startDInputHelp" placeholder="15" required>
+                            <small id="startDInputHelp" class="control-label form-text text-muted">Целое неотрицательное число меньше 100</small>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>6-15 покупок: </td>
+                          <td>
+                            <input type="number" class="form-control" id="secondDInput" aria-describedby="secondDInputHelp" placeholder="10" required>
+                            <small id="secondDInputHelp" class="control-label form-text text-muted">Целое неотрицательное число меньше 100</small>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>От 16 покупок:</td>
+                          <td>
+                            <input type="number" class="form-control" id="thirdDInput" aria-describedby="thirdDInputHelp" placeholder="5" required>
+                            <small id="thirdDInputHelp" class="control-label form-text text-muted">Целое неотрицательное число меньше 100</small>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="row" id="buyButtons">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                      <button class="btn btn-md btn-primary" id="saveDiscount">Подтвердить</button>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                      <button class="btn btn-md btn-default" id="cancelNewDiscount">Отмена</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" id="discountInfoChangedDiv" style="background-color:white">
+                  <div class="row content">
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 panel"></div>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 panel" style="font-size:12pt; text-align:center">
+                      <label>
+                        <h3>Завершение операции</h3>
+                      </label>
+                      <br>
+                      <i>
+                        Обновлена система скидок для новых покупателей.
+                        <br> Все пользователи, зарегистрированные после данного изменения, будут иметь эту систему скидок.
+                      </i>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 panel"></div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js'></script>
+  <script src="js/adminLk.js" type="module"></script>
+</body>
+
+</html>
