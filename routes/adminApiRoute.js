@@ -24,40 +24,26 @@ router.post('/exchange-rate-info', function (req, res) {
 
 
 /**
- * Отредактировать товар
+ * Отредактировать тип товара
  */
 router.post('/edit-product', function (req, res) {
-    // Получаем id товара
+    // Получаем id типа товара
     var idProduct = req.body.idProduct;
-    // Новое имя товара
+    // Новое имя типа товара
     var newProductName = req.body.newName;
-    // Новый курс товара
+    // Новый курс товара нового типа
     var newExchangeRate = req.body.rate;
-    // Если необходимо изменить имя товара
-    if (newProductName != null) {
-        db.editProductName(idProduct, newProductName, function (result) {
-            if (result == true) {
-                res.json({ success: false, message: 'Не удалось изменить имя товара' });
-            }
-        });
-    }
-    // Если необходимо изменить курс товара
-    if (newExchangeRate != null) {
-        db.editProductRate(idProduct, newExchangeRate, function (result) {
-            if (result != true) {
-                res.json({ success: false, message: 'Не удалось изменить курс товара' });
-            }
-        });
-    }
-    // Получение баланса
-    db.getExchangeRateInfo(function (result) {
+
+    db.editProduct(idProduct, newProductName, newExchangeRate, function (result) {
         if (result == null) {
-            res.json({ success: false, message: 'Не удалось получить информацию о текущем курсе товаров' });
+            res.json({ success: false, message: 'Не удалось редактировать тип товара' });
+        }
+        else if (result == false) {
+            res.json({ success: false, message: 'Тип товара с таким названием уже существует' });
         }
         else {
             res.json({
-                success: true,
-                products: result
+                success: true
             });
         }
     });
