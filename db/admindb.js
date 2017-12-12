@@ -116,7 +116,7 @@ function getUserTypesInfo(callback) {
 /**
  * Удалить определенный тип пользователя
  * @param {string} userType  тип пользователя который следует удалить
- * @param {function} функция, отправляющая информацию о всех типах пользователей
+ * @param {function} функция, отправляющая результат удаления пользователя
  */
 function deleteUserType(userType, callback) {
     // Начинаем транзакцию 
@@ -146,11 +146,11 @@ function deleteUserType(userType, callback) {
                                 callback(true);
                                 if (error) return con.rollback(function () { console.error(error.message); });
                             });
-                         }
+                        }
                     });
                 }
                 else {   // Удалить 
-                    sql = "Delete from usertype where nameUserType = " + mysql.escape(userType);
+                    sql = "Delete from usertype where name = " + mysql.escape(userType);
                     con.query(sql, function (error, result, fields) {
                         if (error) {
                             con.commit(function (error) {
@@ -167,9 +167,56 @@ function deleteUserType(userType, callback) {
                     });
                 }
             }
-     });
-});
+        });
+    });
 
+}
+/**
+ * Добавить определенный тип пользователя
+ * @param {string} userType  тип пользователя который следует удалить
+ * @param {int} idProduct  тип товара
+ * @param {function} функция, отправляющая результат добавления пользователя
+ */
+function deleteUserType(userType, callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Узнать существует ли тип с таким же названием
+        var sql = "Select name from usertype where name = " + mysql.escape(userType);
+        con.query(sql, function (error, result, fields) {
+            if (error) {
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+            } else {
+                if (result.length != 0) {
+                    con.commit(function (error) {
+                        callback(false);
+                        if (error) return con.rollback(function () { console.error(error.message); });
+                    });
+                }
+                else {
+                    // Добавить
+                    sql = "INSERT INTO usertype(name, isDeleted, productType) VALUES (" + mysql.escape(userType) + ", 0, " + mysql.escape(idProduct) + ")";
+                    con.query(sql, function (error, result, fields) {
+                        if (error) {
+                            con.commit(function (error) {
+                                callback(null);
+                                if (error) return con.rollback(function () { console.error(error.message); });
+                            });
+                            return con.rollback(function () { console.error(error.message); });
+                        } else {
+                            con.commit(function (error) {
+                                callback(true);
+                                if (error) return con.rollback(function () { console.error(error.message); });
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    });
 }
 
 module.exports.getExchangeRateInfo = getExchangeRateInfo;
