@@ -173,7 +173,7 @@ function deleteUserType(userType, callback) {
 }
 /**
  * Добавить определенный тип пользователя
- * @param {string} userType  тип пользователя который следует удалить
+ * @param {string} userType  тип пользователя который следует  добавить
  * @param {int} idProduct  тип товара
  * @param {function} функция, отправляющая результат добавления пользователя
  */
@@ -219,9 +219,60 @@ function addUserType(userType, idProduct, callback) {
     });
 }
 
+/**
+ * Редактировать тип пользователя
+ * @param {string} userType  тип пользователя который следует редактировать
+ * @param {string} newUserType  новое название для типа пользователя
+ * @param {int} idProduct  тип товара
+ * @param {function} функция, отправляющая результат редактирования пользователя
+ */
+
+function editUserType(userType, idProduct, callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Узнать существует ли тип с таким же названием
+        var sql = "Select name from usertype where name = " + mysql.escape(newUserType);
+        con.query(sql, function (error, result, fields) {
+            if (error) {
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+            } else {
+                if (result.length != 0 && userType!=newUserType) {
+                    con.commit(function (error) {
+                        callback(false);
+                        if (error) return con.rollback(function () { console.error(error.message); });
+                    });
+                }
+                else {
+                    // Редактировать
+                    sql = "UPDATE usertype SET name = " + mysql.escape(newUserType)+ ",  productType = " + mysql.escape(idProduct) + " where name = " + mysql.escape(userType);
+                    con.query(sql, function (error, result, fields) {
+                        if (error) {
+                            con.commit(function (error) {
+                                callback(null);
+                                if (error) return con.rollback(function () { console.error(error.message); });
+                            });
+                            return con.rollback(function () { console.error(error.message); });
+                        } else {
+                            con.commit(function (error) {
+                                callback(true);
+                                if (error) return con.rollback(function () { console.error(error.message); });
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    });
+}
+
 module.exports.getExchangeRateInfo = getExchangeRateInfo;
 module.exports.editProductName = editProductName;
 module.exports.editProductRate = editProductRate;
 module.exports.getUserTypesInfo = getUserTypesInfo;
 module.exports.deleteUserType = deleteUserType;
 module.exports.addUserType = addUserType;
+module.exports.editUserType = editUserType;
