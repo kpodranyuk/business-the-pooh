@@ -37,7 +37,6 @@ function getExchangeRateInfo(callback) {
  */
 function editProductName(idProduct, newProductName, callback) {
     // Начинаем транзакцию 
-
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Обновить имя товара
@@ -66,19 +65,23 @@ function editProductName(idProduct, newProductName, callback) {
  * @param {function} функция, отправляющая результат редактирования
  */
 function editProductRate(idProduct, newExchangeRate, callback) {
-    // Обновить имя товара
-    var sql = "UPDATE producttype SET rate = " + mysql.escape(newExchangeRate) + " where idProductType = " + mysql.escape(idProduct) + " and name<>\"Мед\"";
-    con.query(sql, function (error, result, fields) {
-        if (error) {
-            console.log(error.message);
-            con.commit(function (error) {
-                callback(null);
-                if (error) return con.rollback(function () { console.error(error.message); });
-            });
-            callback(true);
-            return con.rollback(function () { console.error(error.message); });
-        }
-    })
+    // Начинаем транзакцию 
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Обновить курс товара
+        var sql = "UPDATE producttype SET rate = " + mysql.escape(newExchangeRate) + " where idProductType = " + mysql.escape(idProduct) + " and name<>\"Мед\"";
+        con.query(sql, function (error, result, fields) {
+            if (error) {
+                console.log(error.message);
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                callback(true);
+                return con.rollback(function () { console.error(error.message); });
+            }
+        })
+    });
 }
 
 
