@@ -30,15 +30,57 @@ function getExchangeRateInfo(callback) {
 }
 
 /**
- * Отредактировать товар
- * @param {string} productName - название товара
+ * Отредактировать название товара
+ * @param {int} idProduct - id товара
  * @param {string} newProductName - новое название товара
- * @param {int} newExchangeRate - новый курс обмена
- * @param {function} функция, отправляющая новую информацию о товаре
+ * @param {function} функция, отправляющая результат редактирования
  */
-function editProduct(productName, newProductName, newExchangeRate, callback) {
+function editProductName(idProduct, newProductName, callback) {
+    // Начинаем транзакцию 
+
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Обновить имя товара
+        var sql = "UPDATE producttype SET name = " + mysql.escape(newProductName) + " where idProductType = " + mysql.escape(idProduct) + " and name<>\"Мед\"";
+        con.query(sql, function (error, result, fields) {
+            if (error) {
+                console.log(error.message);
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                callback(true);
+                return con.rollback(function () { console.error(error.message); });
+
+            }
+        });
+
+
+    });
 
 }
+/**
+ * Отредактировать курс товара
+ * @param {int} idProduct - id товара
+ * @param {int} newExchangeRate - новый курс обмена
+ * @param {function} функция, отправляющая результат редактирования
+ */
+function editProductRate(idProduct, newExchangeRate, callback) {
+    // Обновить имя товара
+    var sql = "UPDATE producttype SET rate = " + mysql.escape(newExchangeRate) + " where idProductType = " + mysql.escape(idProduct) + " and name<>\"Мед\"";
+    con.query(sql, function (error, result, fields) {
+        if (error) {
+            console.log(error.message);
+            con.commit(function (error) {
+                callback(null);
+                if (error) return con.rollback(function () { console.error(error.message); });
+            });
+            callback(true);
+            return con.rollback(function () { console.error(error.message); });
+        }
+    })
+}
+
 
 /**
  * Получить информацию о всех типах пользователей
@@ -49,5 +91,6 @@ function getUserTypesInfo(callback) {
 }
 
 module.exports.getExchangeRateInfo = getExchangeRateInfo;
-module.exports.editProduct = editProduct;
+module.exports.editProductName = editProductName;
+module.exports.editProductRate = editProductRate;
 module.exports.getUserTypesInfo = getUserTypesInfo;
