@@ -51,31 +51,5 @@ function User(login, name) {
     }
 }
 
-
-/**
- * Класс пользователя для модели
- * @param {string} name - логин пользователя 
- * @param {bool} isDeleted - имя пользователя
- */
-function UserType(name, isDeleted, productType) {
-    this.name = name;
-    this.isDeleted = isDeleted;
-    this.productType = productType;
-}
-
-/**
- * 
- * @param {string} type 
- * @param {string} name 
- * @param {number} rate 
- */
-function ProductType(type, name, rate) {
-    this.type = type;
-    this.name = name;
-    this.rate = rate;
-}
-
-module.exports = UserType;
 module.exports = User;
-module.exports = ProductType;
 
