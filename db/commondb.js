@@ -3,6 +3,10 @@ var OperationDay = require('../model/operationday.js');
 var Operation = require('../model/operation');
 var common = require("../model/common");
 var con = require("./connection");
+var User = require('../model/usermodel');
+var UserType = require('../model/usertype');
+var ProductType = require('../model/producttype');
+var Promotion = require('../model/promotion');
 
 
 /**
@@ -201,9 +205,71 @@ function generateNewPots(callback) {
 }
 
 
+/**
+ * Получить пользователя
+ * @param {string} login - логин пользователя
+ * @param {function} callback - функция, возвращающая пользователя
+ */
+function getUser(login, callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (err) {
+        if (err) { throw err; }
+
+        // Получаем самого юзера
+        con.query("SELECT * FROM User where login=" + mysql.escape(login), function (error, result) {
+            if (error) {
+                callback(null);
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+
+                var user = new User(login, result[0].name);
+                user.password = result[0].password;
+                user.honeyAmount = result[0].honeyAmount;
+                user.productAmount = result[0].productAmount;
+                user.isAdmin = result[0].isAdmin;
+                user.isDeactivation = result[0].isDeactivation;
+
+                // Его скидку
+                con.query("SELECT * FROM Promotion where idPromotion=" + mysql.escape(result[0].idPromotion), function (error, resP) {
+                    if (error) {
+                        callback(null);
+                        return con.rollback(function () { console.error(error.message); });
+                    } else {
+                        var promotion = new Promotion(resP[0].idPromotion);
+                        promotion.operationsToNext = resP[0].operationsToNext;
+                        promotion.percent = resP[0].percent;
+                        promotion.operationsCount = resP[0].operationsCount;
+                        user.promotion = promotion;
+
+                        // Тип пользователя и его тип продукта
+                        var sql ="SELECT * FROM UserType u LEFT JOIN ProductType p ON"
+                            +" u.productType = p.idProductType where u.name =" + mysql.escape(result[0].nameUserType);
+                        con.query(sql, function(error, res) {
+                            if (error) {
+                                callback(null);
+                                return con.rollback(function () { console.error(error.message); });
+                            } else {
+                                var productType = new ProductType(res[0].type, res[0].name, res[0].rate)
+                                var userType = new UserType(result[0].nameUserType, res[0].isDeleted, productType);
+                                user.userType = userType;
+
+                                con.commit(function (error) {
+                                    if (error) return con.rollback(function () { console.error(error.message); });
+                                    callback(user);
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+}
+
 module.exports.getUserBalance = getUserBalance;
 module.exports.withdrawUserHoney = withdrawUserHoney;
 module.exports.getTodaysOperations = getTodaysOperations;
 module.exports.getAllHistory = getAllHistory;
 module.exports.insertNewOperation = insertNewOperation;
 module.exports.generateNewPots = generateNewPots;
+module.exports.getUser = getUser;
