@@ -6,6 +6,18 @@ var path = require('path');
  * Получение информации о текущем курсе товаров
  */
 router.get('/exchange-rate-info', function (req, res) {
+  
+	db.getExchangeRateInfo( function (result) {
+		if (result == null) {
+			res.json({ success: false, message: 'Не удалось получить информацию о текущем курсе товаров' });
+		}
+		else {
+			res.json({
+				success: true,
+				operations: result
+			});
+		}
+	});
 
 });
 
