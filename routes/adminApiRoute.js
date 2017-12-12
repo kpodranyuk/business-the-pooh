@@ -76,7 +76,7 @@ router.post('/user-type-info', function (req, res) {
         else {
             res.json({
                 success: true,
-                products: result
+                userTypes: result
             });
         }
     });
@@ -96,6 +96,18 @@ router.post('/user-type-edit', function (req, res) {
  */
 router.post('/user-type-delete', function (req, res) {
 
+ // Новое имя товара
+    var userType = req.body.userType;
+    db.deleteUserType(userType,function (result) {
+        if (result == null) {
+            res.json({ success: false, message: 'Не удалось удалить тип пользователя' });
+        }
+        else {
+            res.json({
+                success: true
+            });
+        }
+    });
 });
 
 
