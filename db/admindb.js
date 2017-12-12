@@ -177,7 +177,7 @@ function deleteUserType(userType, callback) {
  * @param {int} idProduct  тип товара
  * @param {function} функция, отправляющая результат добавления пользователя
  */
-function deleteUserType(userType, callback) {
+function addUserType(userType, idProduct, callback) {
     // Начинаем транзакцию 
     con.beginTransaction(function (error) {
         if (error) { throw error; }
@@ -224,3 +224,4 @@ module.exports.editProductName = editProductName;
 module.exports.editProductRate = editProductRate;
 module.exports.getUserTypesInfo = getUserTypesInfo;
 module.exports.deleteUserType = deleteUserType;
+module.exports.addUserType = addUserType;

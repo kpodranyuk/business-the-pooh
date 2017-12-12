@@ -49,7 +49,7 @@ router.post('/edit-product', function (req, res) {
             }
         });
     }
-     // Получение баланса
+    // Получение баланса
     db.getExchangeRateInfo(function (result) {
         if (result == null) {
             res.json({ success: false, message: 'Не удалось получить информацию о текущем курсе товаров' });
@@ -96,9 +96,9 @@ router.post('/user-type-edit', function (req, res) {
  */
 router.post('/user-type-delete', function (req, res) {
 
- // Новое имя товара
+    // Имя типа для удаления
     var userType = req.body.userType;
-    db.deleteUserType(userType,function (result) {
+    db.deleteUserType(userType, function (result) {
         if (result == null) {
             res.json({ success: false, message: 'Не удалось удалить тип пользователя' });
         }
@@ -116,6 +116,21 @@ router.post('/user-type-delete', function (req, res) {
  */
 router.post('/user-type-add', function (req, res) {
 
+    // Имя типа для добавления
+    var userType = req.body.userType;
+    // Тип товара
+    var idProduct = req.body.idProduct;
+
+    db.addUserType(userType, idProduct, function (result) {
+        if (result == null) {
+            res.json({ success: false, message: 'Не удалось добавить тип пользователя' });
+        }
+        else {
+            res.json({
+                success: true
+            });
+        }
+    });
 });
 
 
