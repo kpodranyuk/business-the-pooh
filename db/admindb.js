@@ -90,6 +90,27 @@ function editProductRate(idProduct, newExchangeRate, callback) {
  * @param {function} функция, отправляющая информацию о всех типах пользователей
  */
 function getUserTypesInfo(callback) {
+       // Начинаем транзакцию 
+       con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Сделать выборку из БД информации о всех типах пользователей
+        var sql = "Select * from usertype where name<>\"Винни-Пух\"";
+        con.query(sql, function (error, result, fields) {
+            if (error) {
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (error) {
+                    callback(result);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+
+            }
+        });
+    });
 
 }
 
