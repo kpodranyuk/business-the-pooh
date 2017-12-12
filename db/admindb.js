@@ -227,7 +227,7 @@ function addUserType(userType, idProduct, callback) {
  * @param {function} функция, отправляющая результат редактирования пользователя
  */
 
-function editUserType(userType, idProduct, callback) {
+function editUserType(userType, newUserType, idProduct, callback) {
     // Начинаем транзакцию 
     con.beginTransaction(function (error) {
         if (error) { throw error; }
@@ -240,7 +240,7 @@ function editUserType(userType, idProduct, callback) {
                     if (error) return con.rollback(function () { console.error(error.message); });
                 });
             } else {
-                if (result.length != 0 && userType!=newUserType) {
+                if (result.length != 0 && userType != newUserType) {
                     con.commit(function (error) {
                         callback(false);
                         if (error) return con.rollback(function () { console.error(error.message); });
@@ -248,7 +248,7 @@ function editUserType(userType, idProduct, callback) {
                 }
                 else {
                     // Редактировать
-                    sql = "UPDATE usertype SET name = " + mysql.escape(newUserType)+ ",  productType = " + mysql.escape(idProduct) + " where name = " + mysql.escape(userType);
+                    sql = "UPDATE usertype SET name = " + mysql.escape(newUserType) + ",  productType = " + mysql.escape(idProduct) + " where name = " + mysql.escape(userType);
                     con.query(sql, function (error, result, fields) {
                         if (error) {
                             con.commit(function (error) {

@@ -87,6 +87,27 @@ router.post('/user-type-info', function (req, res) {
  * Отредактировать определенный тип пользователя
  */
 router.post('/user-type-edit', function (req, res) {
+    // Имя типа для редактирования
+    var userType = req.body.userType;
+    // Новое имя
+    var newUserType = req.body.newUserType;
+    // Новый тип
+    var idProduct = req.body.idProduct;
+
+
+    db.editUserType(userType, newUserType, idProduct, function (result) {
+        if (result == null) {
+            res.json({ success: false, message: 'Не удалось редактировать тип пользователя' });
+        }
+        if (result == false) {
+            res.json({ success: false, message: 'Тип с таким названием уже существует' });
+        }
+        else {
+            res.json({
+                success: true
+            });
+        }
+    });
 
 });
 
@@ -124,6 +145,9 @@ router.post('/user-type-add', function (req, res) {
     db.addUserType(userType, idProduct, function (result) {
         if (result == null) {
             res.json({ success: false, message: 'Не удалось добавить тип пользователя' });
+        }
+        if (result == false) {
+            res.json({ success: false, message: 'Тип с таким названием уже существует' });
         }
         else {
             res.json({
