@@ -6,7 +6,27 @@ var con = require("./connection");
  * @param {function} функция, отправляющая информацию о курсе
  */
 function getExchangeRateInfo(callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        // Сделать выборку из БД информации о курсе товаров
+        var sql = "Select idProductType,name,rate from producttype where name<>\"Мед\"";
+        con.query(sql, function (error, result, fields) {
+            if (error) {
+                con.commit(function (error) {
+                    callback(null);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (error) {
+                    callback(result);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
 
+            }
+        });
+    });
 }
 
 /**
@@ -25,7 +45,7 @@ function editProduct(productName, newProductName, newExchangeRate, callback) {
  * @param {function} функция, отправляющая информацию о всех типах пользователей
  */
 function getUserTypesInfo(callback) {
-    
+
 }
 
 module.exports.getExchangeRateInfo = getExchangeRateInfo;
