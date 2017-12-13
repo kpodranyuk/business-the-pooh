@@ -225,6 +225,32 @@ function editProduct(idProduct, newProductName, newExchangeRate, callback) {
     // Начинаем транзакцию 
     con.beginTransaction(function (error) {
         if (error) { throw error; }
+        if(newProductName==null && newExchangeRate==null)
+        {
+            con.commit(function (error) {
+                callback(true);
+                if (error) return con.rollback(function () { console.error(error.message); });
+            });
+        }
+        else if(newProductName==null && newExchangeRate!=null){
+ // Редактировать
+ sql = "UPDATE producttype SET rate = " + mysql.escape(newExchangeRate) + " where idProductType = " + mysql.escape(idProduct);
+ con.query(sql, function (error, result, fields) {
+     if (error) {
+         con.commit(function (error) {
+             callback(null);
+             if (error) return con.rollback(function () { console.error(error.message); });
+         });
+         return con.rollback(function () { console.error(error.message); });
+     } else {
+         con.commit(function (error) {
+             callback(true);
+             if (error) return con.rollback(function () { console.error(error.message); });
+         });
+     }
+ });  
+        }
+        else{
         // Узнать существует ли товар с таким же названием
         var sql = "Select idProductType from producttype where name = " + mysql.escape(newProductName) + " AND  idProductType <> " + mysql.escape(idProduct);
         con.query(sql, function (error, result, fields) {
@@ -242,7 +268,9 @@ function editProduct(idProduct, newProductName, newExchangeRate, callback) {
                 }
                 else {
                     // Редактировать
-                    sql = "UPDATE producttype SET name = " + mysql.escape(newProductName) + ",  rate = " + mysql.escape(newExchangeRate) + " where idProductType = " + mysql.escape(idProduct);
+                    sql = "UPDATE producttype SET name = " + mysql.escape(newProductName);
+                    if(newExchangeRate!=null) sql+=",  rate = " + mysql.escape(newExchangeRate);
+                    sql+=" where idProductType = " + mysql.escape(idProduct);
                     con.query(sql, function (error, result, fields) {
                         if (error) {
                             con.commit(function (error) {
@@ -260,6 +288,7 @@ function editProduct(idProduct, newProductName, newExchangeRate, callback) {
                 }
             }
         });
+    }
     });
 }
 
