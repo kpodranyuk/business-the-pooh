@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = "./data.json";
 var data = {
     pots: 0,
-    promotions: [
+    commission: [
         0,
         0,
         0
@@ -14,7 +14,44 @@ var data = {
 var obj = fs.readFileSync(path);
 obj = JSON.parse(obj);
 data.pots = obj.pots;
-data.promotions[0] = obj.promotions[0];
-data.promotions[1] = obj.promotions[1];
-data.promotions[2] = obj.promotions[2];
+data.commission[0] = obj.commission[0];
+data.commission[1] = obj.commission[1];
+data.commission[2] = obj.commission[2];
 
+/**
+ * Установить новое значение кол-ва выпускаемых горшочков за сутки
+ * @param {number} count 
+ */
+function setNewPots(count) {
+    data.pots = count
+}
+
+/**
+ * Получить кол-во выпускаемых горшочков в сутки
+ * @return кол-во горшочков
+ */
+function getPots() {
+    return data.pots;
+}
+
+/**
+ * Установить новую комиссию
+ * @param {mass} commission 
+ */
+function setNewСommission(commission) {
+    data.commission = commission;
+}
+
+/**
+ * Получить комиссию
+ * @return список комиссии
+ */
+function getCommission() {
+    return data.commission;
+}
+
+
+module.exports.setNewPots = setNewPots;
+module.exports.getPots = getPots;
+module.exports.setNewСommission = getCommission;
+module.exports.setNewСommission = getCommission;
