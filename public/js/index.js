@@ -22,7 +22,7 @@ enterBttn.onclick=function(event){
     // enterpassHelp - подпись под инпутом пароля при входе
     var passwdHelp = document.querySelector("#enterpassHelp");
     wasPapaProud = wasPapaProud && formCtrl.makePapaProud(passwd.parentNode, formCtrl.isCorrectPassword(passwd.value, passwdHelp));
-    if (login == "admin" && passwd == "admin") {
+    if (login.value == "admin" && passwd.value == "adminadmin") {
         localStorage.currentUser.login = "admin";
         window.location = '/adminLk.html';
     } else {

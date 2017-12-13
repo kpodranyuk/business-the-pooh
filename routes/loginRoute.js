@@ -10,7 +10,7 @@ router.post('/', function (req, res) {
 	db.loginUser(login, password, function (success) {
 		if (success == null) {
 			res.json({ success: false, message: 'Не удалось авторизоваться. Пользователь не найден.' });
-		} else if (!success) {
+		} else if (success) {
 			res.json({ success: false, message: 'Данный пользователь деактивирован.' });
 		} else {
 			// Получить все данные о пользователе и отправить их на клиент
