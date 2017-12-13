@@ -61,5 +61,5 @@ function writeDataInFile() {
 
 module.exports.setNewPots = setNewPots;
 module.exports.getPots = getPots;
-module.exports.setNewСommission = getCommission;
-module.exports.setNewСommission = getCommission;
+module.exports.getCommission = getCommission;
+module.exports.setNewСommission = setNewСommission;
