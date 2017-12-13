@@ -23,7 +23,8 @@ data.commission[2] = obj.commission[2];
  * @param {number} count 
  */
 function setNewPots(count) {
-    data.pots = count
+    data.pots = count;
+    writeDataInFile();
 }
 
 /**
@@ -40,6 +41,7 @@ function getPots() {
  */
 function setNewСommission(commission) {
     data.commission = commission;
+    writeDataInFile();
 }
 
 /**
@@ -50,6 +52,12 @@ function getCommission() {
     return data.commission;
 }
 
+/**
+ * Записать данные в файл
+ */
+function writeDataInFile() {
+    fs.writeFileSync(path, JSON.stringify(data));
+}
 
 module.exports.setNewPots = setNewPots;
 module.exports.getPots = getPots;
