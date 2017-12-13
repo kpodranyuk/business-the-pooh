@@ -8,6 +8,31 @@ var dataCommision = require('../model/datapromotionandpots');
 
 
 /**
+ * Деактивировать аккаунт пользователя
+ * @param {string} login 
+ */
+function deactivateAccount(login, callback) {
+    con.beginTransaction(function (error) {
+        if (error) { throw error; }
+        var sql = "UPDATE User SET isDeactivation=1 WHERE login=" + mysql.escape(login);
+        con.query(sql, function (error, result) {
+            if (error) {
+                con.commit(function (error) {
+                    callback(false);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (error) {
+                    callback(true);
+                    if (error) return con.rollback(function () { console.error(error.message); });
+                });
+            }
+        });
+    });
+}
+
+/**
 * Обновлять пароль пользователя в БД
 * @param {string} loginUser - логин пользователя
 * @param {string} passwordUser - пароль пользователя
@@ -329,4 +354,5 @@ module.exports.loginUser = loginUser;
 module.exports.getInformationForBuying = getInformationForBuying;
 module.exports.buyHoney = buyHoney;
 module.exports.updatePassword = updatePassword;
+module.exports.deactivateAccount = deactivateAccount;
 

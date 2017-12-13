@@ -215,7 +215,18 @@ router.post('/entry-product-info', function (req, res) {
  */
 router.post('/deactivate-account', function (req, res) {
 
-	res.send("User deactivate account");
+	db.deactivateAccount(req.body.login, function(success){
+		if (success) {
+			res.json({
+				success: true
+			});
+		} else {
+			res.json({
+				success: false,
+				message: "Не удалось деактивировать пользователя"
+			});
+		}
+	});
 });
 
 
