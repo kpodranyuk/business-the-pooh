@@ -118,9 +118,9 @@ function getUserBalance(login, callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Сделать выборку из БД информации о счете пользователя
-        var sql = "SELECT u.productAmount, u.honeyAmount as honeyAmount, u.idProductType "
-            + "FROM user u "
-            + "WHERE u.login = " + mysql.escape(login);
+        var sql = "SELECT u.productAmount, u.honeyAmount as honeyAmount"
+            + " FROM user u"
+            + " WHERE u.login = " + mysql.escape(login);
         con.query(sql, function (error, result, fields) {
 
             if (error) {

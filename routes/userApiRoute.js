@@ -56,11 +56,9 @@ router.post('/buy-honey-info', function (req, res) {
 		else {
 			var potsCount = result[0].potsCount;
 			var productCount = req.body.productAmount;
-			var rate = 0;
+			var rate = req.body.rate;
 			var count = 0;
 
-			// Узнать курс по продукту
-			rate = getRate(req.body.productType);
 			// Проверить сколько горшочков мёда можно купить
 			var canBuy = potsCount - productCount / rate;
 			if (canBuy > 0) {
@@ -77,22 +75,6 @@ router.post('/buy-honey-info', function (req, res) {
 		}
 	});
 });
-
-/**
- * Получить курс по меду
- * @param {string} productType - тип продукта
- */
-function getRate(productType) {
-	if (productType == 'F' || productType == 'B') {
-		return 10;
-	}
-	else if (productType == 'P') {
-		return 5;
-	}
-	else {
-		return 1;
-	}
-}
 
 
 /**
@@ -112,8 +94,7 @@ router.post('/get-balance', function (req, res) {
 			res.json({
 				success: true,
 				productAmount: result[0].productAmount,
-				honeyAmount: result[0].honeyAmount,
-				idProductType: result[0].idProductType
+				honeyAmount: result[0].honeyAmount
 			});
 		}
 
@@ -157,8 +138,7 @@ router.post('/entry-product', function (req, res) {
 							res.json({
 								success: true,
 								productAmount: result[0].productAmount,
-								honeyAmount: result[0].honeyAmount,
-								idProductType: result[0].idProductType
+								honeyAmount: result[0].honeyAmount
 							});
 						}
 		
