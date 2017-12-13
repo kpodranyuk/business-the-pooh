@@ -10,7 +10,7 @@ function getExchangeRateInfo(callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Сделать выборку из БД информации о курсе товаров
-        var sql = "Select idProductType,name,rate from producttype where name<>\"Мед\"";
+        var sql = "Select * from producttype where name<>\"Мед\"";
         con.query(sql, function (error, result, fields) {
             if (error) {
                 con.commit(function (error) {
