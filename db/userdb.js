@@ -64,10 +64,10 @@ function updatePassword(loginUser, passwordUser, callback) {
  * @param {string} loginUser - логин пользователя
  * @param {string} passwordUser - пароль пользователя
  * @param {string} nameUser - имя пользователя
- * @param {string} productTypeUser - тип продукта пользователя('F','B','P','H')
+ * @param {string} userType - тип пользователя
  * @param {function} функция, отправляющая созданного пользователя
  */
-function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, callback) {
+function registrationUser(loginUser, passwordUser, nameUser, userType, callback) {
 
     // Начинаем транзакцию 
     con.beginTransaction(function (err) {
@@ -75,10 +75,9 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
         if (err) { throw err; }
 
         // Смотрим тип продукта
-        var type = common.getIndexProductType(productTypeUser);
         // Вставляем пользователя  
-        var values = [[loginUser, passwordUser, nameUser, false, 0, 0, type, 1]];
-        var sql = "INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount, idProductType, idPromotion) VALUES ";
+        var values = [[loginUser, passwordUser, nameUser, false, 0, 0, false, 1, userType]];
+        var sql = "INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount, isDeactivation, idPromotion, nameUserType) VALUES ";
         con.query(sql + mysql.escape(values), function (error, results, fields) {
             if (error) {
                 con.commit(function (error) {
@@ -87,29 +86,23 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
                 });
                 return con.rollback(function () { console.error(error.message); });
             } else {
-                // Создаем пользователя и скидку для него
-                var user = new User(loginUser, nameUser, productTypeUser);
-                user.promotion = new Promotion(1);
-                user.promotion.operationsToNext = 5;
-                var commission = dataCommision.getCommission();
-                user.promotion.percent = commission[0];
-                user.promotion.commission = [commission[0], commission[1], commission[2]];
-                user.password = passwordUser;
-                user.honeyAmount = 0;
-                user.productAmount = 0;
-
+    
+                var comission = dataCommision.getCommission();
+                var valuesPromotion = [[0, 10, comission[0], comission[0], comission[1], comission[2]]];
+                var sql = "INSERT INTO Promotion(operationsCount, operationsToNext, percent, firstCommission, secondCommission, thirdCommission)"
+                    +" VALUES ";
                 // Вставляем скидки дл нового пользователя
-                con.query("INSERT INTO Promotion(operationsCount, operationsToNext, percent) VALUES(0, 5, 15)", function (error, results, fields) {
+                con.query(sql + mysql.escape(valuesPromotion), function (error, results, fields) {
                     if (error) return con.rollback(function () { console.error(error.message); });
 
-                    user.promotion.id = results.insertId;
+                    var id = results.insertId;
 
                     // Обновляем id скидки у  пользователя и отправляем в коллбек
-                    con.query("UPDATE User SET idPromotion = " + user.promotion.id + " WHERE login = " + mysql.escape(user.login), function (error, results, fields) {
+                    con.query("UPDATE User SET idPromotion = " + id + " WHERE login = " + mysql.escape(loginUser), function (error, results, fields) {
                         if (error) return con.rollback(function () { console.error(error.message); });
 
                         con.commit(function (error) {
-                            callback(user);
+                            callback(true);
                             if (error) return con.rollback(function () { console.error(error.message); });
                         });
                     });
