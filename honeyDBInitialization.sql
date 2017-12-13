@@ -36,10 +36,14 @@ CREATE TABLE Promotion (
   operationsCount int NOT NULL,
   operationsToNext int NOT NULL,
   percent int NOT NULL,
+  firstCommission double NOT NULL,
+  secondCommission double NOT NULL,
+  thirdCommission double NOT NULL,
   primary key (idPromotion)
 );
 
-INSERT INTO Promotion(operationsCount, operationsToNext, percent) VALUES(0,10,15);
+INSERT INTO Promotion(operationsCount, operationsToNext, percent, firstCommission, secondCommission, thirdCommission) 
+VALUES(0,10,15, 15, 25, 40);
 
 CREATE TABLE Operation (
   idOperation int NOT NULL auto_increment,

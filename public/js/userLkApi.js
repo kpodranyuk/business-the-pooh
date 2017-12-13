@@ -138,7 +138,7 @@ export function enterProduct(amount, callback){
         data: {
             login : curUser.login,
             product : amount,
-            productType : curUser.productType
+            productType : curUser.userType.productType.type
         },   
         success: function(response){
             if(response.success == true){

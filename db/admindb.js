@@ -10,7 +10,7 @@ function getExchangeRateInfo(callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Сделать выборку из БД информации о курсе товаров
-        var sql = "Select idProductType,name,rate from producttype where name<>\"Мед\"";
+        var sql = "Select * from producttype where name<>\"Мед\"";
         con.query(sql, function (error, result, fields) {
             if (error) {
                 con.commit(function (error) {
@@ -223,43 +223,40 @@ function editUserType(userType, newUserType, idProduct, callback) {
 
 function editProduct(idProduct, newProductName, newExchangeRate, callback) {
     // Начинаем транзакцию 
-    con.beginTransaction(function (error) {
-        if (error) { throw error; }
-        // Узнать существует ли товар с таким же названием
-        var sql = "Select idProductType from producttype where name = " + mysql.escape(newProductName) + " AND  idProductType <> " + mysql.escape(idProduct);
-        con.query(sql, function (error, result, fields) {
-            if (error) {
+    // Узнать существует ли товар с таким же названием
+    var sql = "Select idProductType from producttype where name = " + mysql.escape(newProductName) + " AND  idProductType <> " + mysql.escape(idProduct);
+    con.query(sql, function (error, result, fields) {
+        if (error) {
+            con.commit(function (error) {
+                callback(null);
+                if (error) return con.rollback(function () { console.error(error.message); });
+            });
+        } else {
+            if (result.length != 0) {
                 con.commit(function (error) {
-                    callback(null);
+                    callback(false);
                     if (error) return con.rollback(function () { console.error(error.message); });
                 });
-            } else {
-                if (result.length != 0) {
-                    con.commit(function (error) {
-                        callback(false);
-                        if (error) return con.rollback(function () { console.error(error.message); });
-                    });
-                }
-                else {
-                    // Редактировать
-                    sql = "UPDATE producttype SET name = " + mysql.escape(newProductName) + ",  rate = " + mysql.escape(newExchangeRate) + " where idProductType = " + mysql.escape(idProduct);
-                    con.query(sql, function (error, result, fields) {
-                        if (error) {
-                            con.commit(function (error) {
-                                callback(null);
-                                if (error) return con.rollback(function () { console.error(error.message); });
-                            });
-                            return con.rollback(function () { console.error(error.message); });
-                        } else {
-                            con.commit(function (error) {
-                                callback(true);
-                                if (error) return con.rollback(function () { console.error(error.message); });
-                            });
-                        }
-                    });
-                }
             }
-        });
+            else {
+                // Редактировать
+                sql = "UPDATE producttype SET name = " + mysql.escape(newProductName) + ",  rate = " + mysql.escape(newExchangeRate) + " where idProductType = " + mysql.escape(idProduct);
+                con.query(sql, function (error, result, fields) {
+                    if (error) {
+                        con.commit(function (error) {
+                            callback(null);
+                            if (error) return con.rollback(function () { console.error(error.message); });
+                        });
+                        return con.rollback(function () { console.error(error.message); });
+                    } else {
+                        con.commit(function (error) {
+                            callback(true);
+                            if (error) return con.rollback(function () { console.error(error.message); });
+                        });
+                    }
+                });
+            }
+        }
     });
 }
 

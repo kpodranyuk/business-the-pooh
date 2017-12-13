@@ -95,36 +95,39 @@ function getCommission(promotion, callback) {
             } else {
                 // Почтитать сколько литров досталось Пуху а сколько пчелам
                 var sumCommission = 0;
-                for(var i = 0; i < result.length; i++) {
+                for (var i = 0; i < result.length; i++) {
                     sumCommission += result[i].comission;
                 }
-                var poohZP = (Number(sumCommission)) * Number((promotion.percent / 100));
-                var beeZP = sumCommission - poohZP;
+                var poohZP = +(((Number(sumCommission)) * Number((promotion.percent / 100))).toFixed(5));
+                var beeZP = +((sumCommission - poohZP).toFixed(5));
                 var dateOperation = null;
 
                 // Для каждого пользователя обновляем его баланс
-                for(var i =0; i < result.length; i++) {
+                for (var i = 0; i < result.length; i++) {
                     var login = result[i].login;
 
-                    con.query("UPDATE user SET honeyAmount = "+ Number((result[i].honeyAmount - result[i].comission).toFixed(5)) +" WHERE login = " + mysql.escape(login), function(error, result, fields) {
-                        if(error) console.log(error.message);
+                    con.query("UPDATE user SET honeyAmount = " + Number((result[i].honeyAmount - result[i].comission).toFixed(5)) + " WHERE login = " + mysql.escape(login), function (error, result, fields) {
+                        if (error) console.log(error.message);
                     });
+
+                    // костыль из-за асинхронности
+                    if (i == result.length - 1) {
+                        // Обновляем баланс Пуха
+                        con.query("UPDATE user SET honeyAmount=honeyAmount+" + Number(poohZP.toFixed(5)) + " WHERE login=\"superpooh\"", function (error, result, fields) {
+                            if (error) console.log(error.message);
+                            dateOperation = new Date();
+                        });
+
+                        // Обновляем баланс Пчел
+                        con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+" + Number(beeZP.toFixed(5)) + ")/0.25), " + "honeyInPot=honeyInPot+" + Number(beeZP.toFixed(5)) + " WHERE id=1", function (error, result, fields) {
+                            if (error) console.log(error.message);
+                            con.commit(function (err) {
+                                if (err) return con.rollback(function () { console.error(err.message); });
+                                callback(poohZP, dateOperation);
+                            });
+                        });
+                    }
                 }
-
-                // Обновляем баланс Пуха
-                con.query("UPDATE user SET honeyAmount=honeyAmount+" + Number(poohZP.toFixed(5)) + " WHERE login=\"superpooh\"", function(error, result, fields) {
-                    if(error) console.log(error.message);
-                    dateOperation = new Date();
-                });
-
-                // Обновляем баланс Пчел
-                con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+"+Number(beeZP.toFixed(5))+")/0.25), " + "honeyInPot=honeyInPot+" + Number(beeZP.toFixed(5)) + " WHERE id=1", function(error, result, fields) {
-                    if(error) console.log(error.message);
-                    con.commit(function (err) {
-                        if (err) return con.rollback(function () { console.error(err.message); });
-                        callback(poohZP, dateOperation);
-                    });
-                });
             }
         });
     });
@@ -162,7 +165,7 @@ function getZPLastDayPooh(callback) {
                 });
             }
         });
-     });
+    });
 }
 
 

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var db = require('../db/admindb.js');
+var editData = require('../model/datapromotionandpots');
 
 /**
  * Получение информации о текущем курсе товаров
@@ -148,15 +149,49 @@ router.post('/user-type-add', function (req, res) {
  * Редактирование кол-ва выпускаемого пчелами меда в сутки
  */
 router.post('/edit-pots-count', function (req, res) {
-
+    var count = req.body.pots;
+    editData.setNewPots(count);
+    res.json({
+        success: true
+    });
 });
 
 
 /**
- * Редактирование системы поощерения для новых пользователей
+ * Редактирование комисии для новых пользователей
  */
-router.post('/edit-promotion', function (req, res) {
+router.post('/edit-commission', function (req, res) {
+    var comission = req.body.commission;
+    editData.setNewСommission(comission);
+    res.json({
+        success: true
+    });
+});
 
+
+/**
+ * Получение информации о кол-во выпускаемых горшочков
+ */
+router.post('/pots-count-info', function (req, res) {
+    
+    var count = editData.getPots();
+    res.json({
+        success: true,
+        pots: count
+    });
+});
+
+
+/**
+ * Получение информации о комиссии
+ */
+router.post('/commission-info', function (req, res) {
+
+    var comission = editData.getCommission();
+    res.json({
+        success: true,
+        comission: comission
+    });
 });
 
 
