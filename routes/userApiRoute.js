@@ -12,7 +12,7 @@ var Promotion = require('../model/promotion');
 router.post('/buy-honey', function (req, res) {
 
 	var parsedUser = JSON.parse(req.body.user);
-	var user = new User(parsedUser.login, parsedUser.name, parsedUser.productType);	
+	var user = new User(parsedUser.login, parsedUser.name);	
 	user.password = parsedUser.password;
 	user.productAmount = parsedUser.productAmount;
 	user.honeyAmount = parsedUser.honeyAmount;
@@ -20,6 +20,11 @@ router.post('/buy-honey', function (req, res) {
 	user.promotion.operationsCount =  parsedUser.promotion.operationsCount;
 	user.promotion.percent = parsedUser.promotion.percent;
 	user.promotion.operationsToNext = parsedUser.promotion.operationsToNext;
+	user.promotion.commission = parsedUser.promotion.commission;
+
+	user.userType = parsedUser.userType;
+
+	console.log(user);
 
 	// Купить у пчел мед
 	db.buyHoney(user, req.body.countPots, function(newUserData, comission) {
@@ -29,7 +34,7 @@ router.post('/buy-honey', function (req, res) {
 			// Вызвать событие, информирующее что у пчел поменялся баланс
 			req.io.sockets.emit('buy-honey', {username : parsedUser.login});
 			// Вставить новую операцию
-			var operation = new Operation(1, 'B', new Date(), newUserData.productType, getRate(newUserData.productType) * req.body.countPots, req.body.countPots, +((req.body.countPots*0.25).toFixed(5)), comission);
+			var operation = new Operation(1, 'B', new Date(), newUserData.userType.productType.type, newUserData.userType.productType.rate * req.body.countPots, req.body.countPots, +((req.body.countPots*0.25).toFixed(5)), comission);
 			dbo.insertNewOperation(operation, newUserData.login, function(success) {
 				if (success) {
 					res.json({
