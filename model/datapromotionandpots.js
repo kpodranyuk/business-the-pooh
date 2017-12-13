@@ -1,5 +1,5 @@
 var fs = require('fs');
-var path = "./data.json";
+var path = "model/data.json";
 var data = {
     pots: 0,
     commission: [
