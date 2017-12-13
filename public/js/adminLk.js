@@ -39,6 +39,7 @@ var addNewUserTypeBttn = document.querySelector("#addNewUserType");
 addNewUserTypeBttn.onclick = function(event){
     console.log("Нажата кнопка добавления нового типа пользователя");
     // Открыть модальное окно для заполнения формы - ? убрать событие на кнопку из js
+    openUserTypeModal(-1);
 }
 
 // Кнопка редактирования скидочной системы
@@ -66,4 +67,18 @@ cancelNewDiscountBttn.onclick = function(event){
 var logOutBttn = document.querySelector("#logOut");
 logOutBttn.onclick = function(event){
     console.log("Нажата кнопка выхода из аккаунта");
+}
+
+/**
+ * Открыть модальное окно добавления/редактирования типа пользователя
+ * @param {number} currentId - текущий идентификатор записи
+ */
+function openUserTypeModal(currentId){
+    var modalHeader = document.querySelector("#editAddUserTypeModalLabel");
+    if(parseInt(currentId.toString())>-1){
+        modalHeader.innerHTML = "Редактирование типа пользователя";
+    }
+    else{
+        modalHeader.innerHTML = "Добавление типа пользователя";
+    }
 }
