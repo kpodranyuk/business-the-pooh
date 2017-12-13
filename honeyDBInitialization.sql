@@ -36,6 +36,9 @@ CREATE TABLE Promotion (
   operationsCount int NOT NULL,
   operationsToNext int NOT NULL,
   percent int NOT NULL,
+  firstCommission double NOT NULL,
+  secondCommission double NOT NULL,
+  thirdCommission double NOT NULL,
   primary key (idPromotion)
 );
 

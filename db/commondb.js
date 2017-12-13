@@ -239,6 +239,7 @@ function getUser(login, callback) {
                         promotion.operationsToNext = resP[0].operationsToNext;
                         promotion.percent = resP[0].percent;
                         promotion.operationsCount = resP[0].operationsCount;
+                        promotion.commission = [resP[0].firstCommission, resP[0].secondCommission, resP[0].thirdCommission];
                         user.promotion = promotion;
 
                         // Тип пользователя и его тип продукта

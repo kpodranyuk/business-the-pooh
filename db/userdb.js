@@ -4,6 +4,7 @@ var Promotion = require('../model/promotion');
 var OperationDay = require('../model/operationday.js');
 var con = require("./connection");
 var common = require('../model/common');
+var dataCommision = require('../model/datapromotionandpots');
 
 
 /**
@@ -65,7 +66,9 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
                 var user = new User(loginUser, nameUser, productTypeUser);
                 user.promotion = new Promotion(1);
                 user.promotion.operationsToNext = 5;
-                user.promotion.percent = 15;
+                var commission = dataCommision.getCommission();
+                user.promotion.percent = commission[0];
+                user.promotion.commission = [commission[0], commission[1], commission[2]];
                 user.password = passwordUser;
                 user.honeyAmount = 0;
                 user.productAmount = 0;
