@@ -65,7 +65,7 @@ function updatePassword(loginUser, passwordUser, callback) {
  * @param {string} passwordUser - пароль пользователя
  * @param {string} nameUser - имя пользователя
  * @param {string} userType - тип пользователя
- * @param {function} функция, отправляющая созданного пользователя
+ * @param {function} функция, отправляющая успешность создания.
  */
 function registrationUser(loginUser, passwordUser, nameUser, userType, callback) {
 
@@ -117,7 +117,7 @@ function registrationUser(loginUser, passwordUser, nameUser, userType, callback)
  * Залогинить пользователя
  * @param {string} login - логин пользователя
  * @param {string} password - пароль пользователя
- * @param {function} функция, отправляющая созданного пользователя
+ * @param {function} функция, отправляющая успешность входа
  */
 function loginUser(login, password, callback) {
     // Начинаем транзакцию 
@@ -140,32 +140,9 @@ function loginUser(login, password, callback) {
                     });
                 }
                 else {
-                    // Получаем скидку пользователя
-                    var sql = "Select * from promotion where idPromotion=" + mysql.escape(results[0].idPromotion);
-                    con.query(sql, function (error, promotiRes, fields) {
-                        if (error) {
-                            con.commit(function (error) {
-                                callback(null);
-                                if (error) return con.rollback(function () { console.error(error.message); });
-                            });
-                            return con.rollback(function () { console.error(error.message); });
-                        } else {
-
-                            // Создаем пользователя и скидку для него
-                            var user = new User(results[0].login, results[0].name, common.getStringProductType(results[0].idProductType));
-                            user.promotion = new Promotion(results[0].idPromotion);
-                            user.promotion.operationsToNext = promotiRes[0].operationsToNext;
-                            user.promotion.percent = promotiRes[0].percent;
-                            user.promotion.operationsCount = promotiRes[0].operationsCount;
-                            user.password = results[0].password;
-                            user.honeyAmount = results[0].honeyAmount;
-                            user.productAmount = results[0].productAmount;
-                            user.isAdmin = results[0].isAdmin;
-                            con.commit(function (error) {
-                                callback(user);
-                                if (error) return con.rollback(function () { console.error(error.message); });
-                            });
-                        }
+                    con.commit(function (error) {
+                        callback(results[0].isDeactivation);
+                        if (error) return con.rollback(function () { console.error(error.message); });
                     });
                 }
             }

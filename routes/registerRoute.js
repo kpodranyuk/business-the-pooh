@@ -12,8 +12,8 @@ router.post('/', function (req, res) {
 	if (login == "admin") {
 		res.json({ success: false, message: 'Не удалось зарегистрироваться, пользователь с таким логином уже существует' });
 	} else {
-		db.registrationUser(login, password, name, userType, function (user) {
-			if (user == null) {
+		db.registrationUser(login, password, name, userType, function (success) {
+			if (success == null) {
 				res.json({ success: false, message: 'Не удалось зарегистрироваться, пользователь с таким логином уже существует' });
 			}
 			else {
