@@ -20,13 +20,13 @@ goodsPillBttn.onclick = function(event){
     // Получить данные с сервера
 }
 
-// Вкладка Товары системы
+// Вкладка Типы пользователей
 userTypesPillBttn.onclick = function(event){
     console.log("Нажата кнопка Типы пользователей в панели меню");
     // Получить данные с сервера
 }
 
-// Вкладка Товары системы
+// Вкладка Скидки системы
 userDiscountPillBttn.onclick = function(event){
     console.log("Нажата кнопка Скидки системы в панели меню");
     // Получить данные с сервера
