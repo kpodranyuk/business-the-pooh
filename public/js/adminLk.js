@@ -231,6 +231,18 @@ function editUserType(event){
         id = event.target.parentNode.parentNode.parentNode.parentNode.id;
     }
     curIdUserTypes = id;
+    // Добавить информацию о товарах
+    var select = document.querySelector("#goodsTypesSelect");
+    var option;
+    while (select.length > 0) {
+        select.remove(select.length-1);
+    }
+    var pTypes = adminLkApi.data.productTypes;
+    for (var i = 0; i < pTypes.length; i++) {
+        option = document.createElement("option");
+        option.text = pTypes[i].name;
+        select.add(option);
+    }
 }
 
 function removeUserType(){
