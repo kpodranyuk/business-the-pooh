@@ -77,12 +77,14 @@ export function getComission(callback) {
         },        
         dataType: 'json',
         data: {
-            user: JSON.stringify(curUser)
+            user: JSON.stringify(curUser),
+            balance: curUser.honeyAmount
         },   
         success: function(response){
             if(response.success == true){
                 // сохраняем в локальный объект все новые данные
                 // Передаем операции для их отображения
+                curUser = response.user;
                 localStorage.currentUser = JSON.stringify(response.user);
                 callback(response.balance, response.poohZP);
             } else {

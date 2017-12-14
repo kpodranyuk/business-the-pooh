@@ -66,6 +66,7 @@ router.post('/get-commission', function (req, res) {
 			dbc.insertNewOperation(operation, "superpooh", function (success) {
 
 				var balance = req.body.balance + poohZP;
+				console.log(userUp);
 				res.json({
 					success: success,
 					balance: balance,

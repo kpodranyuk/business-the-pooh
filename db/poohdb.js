@@ -88,7 +88,7 @@ function getCommission(user, callback) {
         con.query(sql, function (error, result, fields) {
             if (error) {
                 con.commit(function (err) {
-                    callback(0, null);
+                    callback(0, null, null);
                     if (err) return con.rollback(function () { console.error(err.message); });
                 });
                 return con.rollback(function () { console.error(error.message); });
@@ -102,6 +102,7 @@ function getCommission(user, callback) {
                 var beeZP = +((sumCommission - poohZP).toFixed(5));
                 var dateOperation = null;
 
+                user.honeyAmount += poohZP;
                 // Поощряем Пуха
                 user.encourage();
 
@@ -120,12 +121,16 @@ function getCommission(user, callback) {
                             if (error) console.log(error.message);
                             dateOperation = new Date();
 
-                            // Обновляем баланс Пчел
-                            con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+" + Number(beeZP.toFixed(5)) + ")/0.25), " + "honeyInPot=honeyInPot+" + Number(beeZP.toFixed(5)) + " WHERE id=1", function (error, result, fields) {
+                            // Обновляем поощрение Пуха
+                            con.query("UPDATE Promotion SET operationsCount=" + user.promotion.operationsCount + ", operationsToNext=" + user.promotion.operationsToNext + ", percent=" + user.promotion.percent + " WHERE idPromotion=1", function (error, result, fields) {
                                 if (error) console.log(error.message);
-                                con.commit(function (err) {
-                                    if (err) return con.rollback(function () { console.error(err.message); });
-                                    callback(poohZP, dateOperation);
+                                // Обновляем баланс Пчел
+                                con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+" + Number(beeZP.toFixed(5)) + ")/0.25), " + "honeyInPot=honeyInPot+" + Number(beeZP.toFixed(5)) + " WHERE id=1", function (error, result, fields) {
+                                    if (error) console.log(error.message);
+                                    con.commit(function (err) {
+                                        if (err) return con.rollback(function () { console.error(err.message); });
+                                        callback(poohZP, dateOperation, user);
+                                    });
                                 });
                             });
                         });
@@ -161,9 +166,9 @@ function getZPLastDayPooh(callback) {
             } else {
                 con.commit(function (err) {
                     if (err) return con.rollback(function () { console.error(err.message); });
-                    if (result.length != 0)
+                    if (result.length != 0) 
                         callback(true);
-                    else
+                    else 
                         callback(false);
                 });
             }
