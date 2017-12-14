@@ -5,6 +5,10 @@ $(document).ready(function(){
     // Загружаем данныео товарах системы
 });
 
+/* ГЛОБАЛЬНЫЕ ИДЕНТИФИКАТОРЫ */
+var curIdGoods = 0;
+var curIdUserTypes = 0;
+
 /* КНОПКИ МЕНЮ */
 // goodsPill - Товары системы
 var goodsPillBttn = document.querySelector("#goodsPill");
@@ -154,13 +158,74 @@ logOutBttn.onclick = function(event){
     console.log("Нажата кнопка выхода из аккаунта");
 }
 
+/* КНОПКИ МОДАЛЬНЫХ ОКОН */
+// Сохранить изменения типа товара
+var editGoodsSubmitBttn = document.querySelector("#editGoodsSubmit")
+editGoodsSubmitBttn.onclick = function(event){
+    console.log("Нажата кнопка сохранения изменений в товаре");
+}
+
+// Сохранить изменения в типе пользовател
+var editAddUserTypeSubmitBttn = document.querySelector("#editAddUserTypeSubmit")
+editAddUserTypeSubmitBttn.onclick = function(event){
+    console.log("Нажата кнопка сохранения изменений в типе пользователя");
+}
+
+var _1 = document.querySelector("#idid")
+_1.onclick = editUserType
+
+/* СОБЫТИЯ НА КНОПКИ ТАБЛИЦ */
+function editGoods(){
+    // Нажата кнопка редактирования товара с идентификатором id
+}
+
+function editUserType(){
+    var _1 = document.querySelector("#idid")
+    var id = _1.parentNode.parentNode.parentNode.id;
+    console.log(id);
+    // Нажата кнопка редактирования типа пользователя с идентификатором id
+}
+
+function removeUserType(){
+    // Нажата кнопка удаления типа пользователя с идентификатором id
+    // получить таблицу получить роу.роуИндекс
+    // из таблицы делитРоу с индексом роуИндекс
+}
+
+/**
+ * Вставить данные о типах пользователей
+ * @param {mass} data - массив объектов, содержащих информацию о типах пользователей
+ */
+function insertNewDataForUserTypes(data) {
+    // Очистить таблицу
+    var tableBody = $("#userTypesTableBody");
+    tableBody.empty();
+    var table = document.getElementById("typesTable");
+    for (var i = 0; i < data.length; i++) {
+        if(data[i].isDeleted!=0){
+            var buttons = document.createElement('div');
+            buttons.className = "text-center";
+            createButtonsForUserTypes(buttons);        
+            console.log(buttons);
+            var row = table.insertRow(i);
+            var name = row.insertCell(0); // Название
+            name.innerHTML = data[i].name;
+            var goods = row.insertCell(1); // Товар !!!! Решить вопрос с именем товара
+            var c = row.insertCell(2); // Кнопки
+            c.appendChild(buttons);
+            tableBody.append(row);
+        }
+    }
+}
+
 /**
  * Открыть модальное окно добавления/редактирования типа пользователя
  * @param {number} currentId - текущий идентификатор записи
  */
 function openUserTypeModal(currentId){
     var modalHeader = document.querySelector("#editAddUserTypeModalLabel");
-    if(parseInt(currentId.toString())>-1){
+    curIdUserTypes = parseInt(currentId.toString());
+    if(curIdUserTypes>-1){
         modalHeader.innerHTML = "Редактирование типа пользователя";
     }
     else{
@@ -249,4 +314,35 @@ function clearInputsForCommision() {
     startDInputHelp.innerHTML = "Введите целое число от 1 до 100";
     secondDInputHelp.innerHTML = "Введите целое число от 1 до 100";
     thirdDInputHelp.innerHTML = "Введите целое число от 1 до 100";
+}
+
+function createButtonsForUserTypes(parentDiv) {
+    // Создаем кнопку редактирования
+    // Кнопка
+    var editButton = document.createElement('button');
+    editButton.className = "btn btn-warning";
+    editButton.href = "#editAddUserTypeModal";
+    editButton.setAttribute('data-toggle', "modal");
+    editButton.setAttribute('data-target', "#editAddUserTypeModal");
+    editButton.onclick = editUserType;
+    //Спан с карандашом
+    var editSpan = document.createElement('span');
+    editSpan.className = "glyphicon glyphicon-pencil";
+    editSpan.setAttribute('aria-hidden', "true");
+    // Вкладываем спан в кнопку
+    editButton.appendChild(editSpan);
+    // Вкладываем кнопку в див
+    buttons.appendChild(editButton);
+    // Создаем кнопку удаления
+    // Кнопка
+    var delButton = document.createElement('button');
+    delButton.className = "btn btn-danger";
+    //Спан с крестиком
+    var delSpan = document.createElement('span');
+    delSpan.className = "glyphicon glyphicon-remove";
+    delSpan.setAttribute('aria-hidden', "true");
+    // Вкладываем спан в кнопку
+    delButton.appendChild(delSpan);
+    // Вкладываем кнопку в див
+    parentDiv.appendChild(delButton);
 }
