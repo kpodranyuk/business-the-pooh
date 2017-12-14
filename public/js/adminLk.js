@@ -216,6 +216,7 @@ function insertNewDataForUserTypes(data) {
             var name = row.insertCell(0); // Название
             name.innerHTML = data[i].name;
             var goods = row.insertCell(1); // Товар !!!! Решить вопрос с именем товара
+            goods.innerHTML = findProductName(data[i].productType); // Находим имя товара
             var c = row.insertCell(2); // Кнопки
             c.appendChild(buttons);
             tableBody.append(row);
@@ -404,4 +405,17 @@ function createEditGoodsButton(parentDiv) {
     editButton.appendChild(editSpan);
     // Вкладываем кнопку в див
     buttons.appendChild(editButton);
+}
+
+/**
+ * Получить имя товара по его идентификатору
+ * @param {any} productTypeId - родительский div, лежащий внутри ячейки таблицы
+ */
+function findProductName(productTypeId){
+    var pTypes = adminLkApi.data.productTypes;
+    for (var i = 0; i < pTypes.length; i++) {
+        if(pTypes[i].idProductType === productTypeId)
+            return pTypes[i].name;
+    }
+    return "";
 }
