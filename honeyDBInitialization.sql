@@ -29,17 +29,21 @@ CREATE TABLE UserType (
 );
 
 INSERT INTO UserType(name, isDeleted, productType) 
-VALUES('Кролик', false, 1),('Пятачок', false, 2),('Совунья', false, 3), ('Винни-Пух', false, 4);
+VALUES('Кролик', false, 1),('Пятачок', false, 2),('Совунья', false, 3), ('Винни Пух', false, 4);
 
 CREATE TABLE Promotion (
   idPromotion int NOT NULL auto_increment,
   operationsCount int NOT NULL,
   operationsToNext int NOT NULL,
   percent int NOT NULL,
+  firstCommission double NOT NULL,
+  secondCommission double NOT NULL,
+  thirdCommission double NOT NULL,
   primary key (idPromotion)
 );
 
-INSERT INTO Promotion(operationsCount, operationsToNext, percent) VALUES(0,10,15);
+INSERT INTO Promotion(operationsCount, operationsToNext, percent, firstCommission, secondCommission, thirdCommission) 
+VALUES(0,10,15, 15, 25, 40);
 
 CREATE TABLE Operation (
   idOperation int NOT NULL auto_increment,
@@ -70,7 +74,7 @@ CREATE TABLE User (
 );
 
 INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount, isDeactivation, idPromotion, nameUserType) 
-VALUES('superpooh', 'honeyismylife', 'Администратор', true, 0, 0, false, 1, 'Винни-Пух');
+VALUES('superpooh', 'honeyismylife', 'Администратор', true, 0, 0, false, 1, 'Винни Пух');
 
 CREATE TABLE Deal (
   idDeal int NOT NULL auto_increment,
@@ -93,4 +97,4 @@ CREATE TABLE Bees (
 );
 
 INSERT INTO Bees(id, login, password, potsCount, honeyInPot, idProductType) 
-VALUES(1, 'admin', 'admin', 50, 12.5, (select idProductType from ProductType where type='H'));
+VALUES(1, 'admin', 'adminadmin', 50, 12.5, (select idProductType from ProductType where type='H'));

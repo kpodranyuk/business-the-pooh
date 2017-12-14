@@ -5,6 +5,8 @@ var dbo = require('../db/commondb.js');
 var Operation = require('../model/operation');
 var User = require("../model/usermodel");
 var Promotion = require('../model/promotion');
+var ProductType = require('../model/producttype');
+var UserType = require('../model/usertype');
 
 /**
  * Покупка меда(подтверждение)
@@ -12,7 +14,7 @@ var Promotion = require('../model/promotion');
 router.post('/buy-honey', function (req, res) {
 
 	var parsedUser = JSON.parse(req.body.user);
-	var user = new User(parsedUser.login, parsedUser.name, parsedUser.productType);	
+	var user = new User(parsedUser.login, parsedUser.name);	
 	user.password = parsedUser.password;
 	user.productAmount = parsedUser.productAmount;
 	user.honeyAmount = parsedUser.honeyAmount;
@@ -20,6 +22,13 @@ router.post('/buy-honey', function (req, res) {
 	user.promotion.operationsCount =  parsedUser.promotion.operationsCount;
 	user.promotion.percent = parsedUser.promotion.percent;
 	user.promotion.operationsToNext = parsedUser.promotion.operationsToNext;
+	user.promotion.commission = parsedUser.promotion.commission;
+
+	var productType = new ProductType(parsedUser.userType.productType.type, parsedUser.userType.productType.name, parsedUser.userType.productType.rate);
+
+	user.userType = new UserType(parsedUser.userType.name, parsedUser.userType.isDeleted, productType);
+
+	//console.log(user);
 
 	// Купить у пчел мед
 	db.buyHoney(user, req.body.countPots, function(newUserData, comission) {
@@ -29,7 +38,7 @@ router.post('/buy-honey', function (req, res) {
 			// Вызвать событие, информирующее что у пчел поменялся баланс
 			req.io.sockets.emit('buy-honey', {username : parsedUser.login});
 			// Вставить новую операцию
-			var operation = new Operation(1, 'B', new Date(), newUserData.productType, getRate(newUserData.productType) * req.body.countPots, req.body.countPots, +((req.body.countPots*0.25).toFixed(5)), comission);
+			var operation = new Operation(1, 'B', new Date(), newUserData.userType.productType.type, newUserData.userType.productType.rate * req.body.countPots, req.body.countPots, +((req.body.countPots*0.25).toFixed(5)), comission);
 			dbo.insertNewOperation(operation, newUserData.login, function(success) {
 				if (success) {
 					res.json({
@@ -56,11 +65,9 @@ router.post('/buy-honey-info', function (req, res) {
 		else {
 			var potsCount = result[0].potsCount;
 			var productCount = req.body.productAmount;
-			var rate = 0;
+			var rate = req.body.rate;
 			var count = 0;
 
-			// Узнать курс по продукту
-			rate = getRate(req.body.productType);
 			// Проверить сколько горшочков мёда можно купить
 			var canBuy = potsCount - productCount / rate;
 			if (canBuy > 0) {
@@ -77,22 +84,6 @@ router.post('/buy-honey-info', function (req, res) {
 		}
 	});
 });
-
-/**
- * Получить курс по меду
- * @param {string} productType - тип продукта
- */
-function getRate(productType) {
-	if (productType == 'F' || productType == 'B') {
-		return 10;
-	}
-	else if (productType == 'P') {
-		return 5;
-	}
-	else {
-		return 1;
-	}
-}
 
 
 /**
@@ -112,8 +103,7 @@ router.post('/get-balance', function (req, res) {
 			res.json({
 				success: true,
 				productAmount: result[0].productAmount,
-				honeyAmount: result[0].honeyAmount,
-				idProductType: result[0].idProductType
+				honeyAmount: result[0].honeyAmount
 			});
 		}
 
@@ -157,8 +147,7 @@ router.post('/entry-product', function (req, res) {
 							res.json({
 								success: true,
 								productAmount: result[0].productAmount,
-								honeyAmount: result[0].honeyAmount,
-								idProductType: result[0].idProductType
+								honeyAmount: result[0].honeyAmount
 							});
 						}
 		
@@ -215,7 +204,18 @@ router.post('/entry-product-info', function (req, res) {
  */
 router.post('/deactivate-account', function (req, res) {
 
-	res.send("User deactivate account");
+	db.deactivateAccount(req.body.login, function(success){
+		if (success) {
+			res.json({
+				success: true
+			});
+		} else {
+			res.json({
+				success: false,
+				message: "Не удалось деактивировать пользователя"
+			});
+		}
+	});
 });
 
 

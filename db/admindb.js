@@ -38,7 +38,7 @@ function getUserTypesInfo(callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Сделать выборку из БД информации о всех типах пользователей
-        var sql = "Select * from usertype where name<>\"Винни-Пух\"";
+        var sql = "Select * from usertype where name<>\"Винни Пух\"";
         con.query(sql, function (error, result, fields) {
             if (error) {
                 con.commit(function (error) {

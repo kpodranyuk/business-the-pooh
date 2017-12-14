@@ -1,9 +1,12 @@
 import * as indexApi from "./indexApi.js";
 import * as formCtrl from "./formControl.js";
 
+// подгружаем типы пользователей
+indexApi.getUserType();
+
 // enterSubmit - "Войти в систему"
 var enterBttn = document.querySelector("#enterSubmit");
-enterBttn.onclick=function(event){
+enterBttn.onclick = function (event) {
     // Проверить логин
     // enterInputLogin - инпут логина при входе
     var login = document.querySelector("#enterInputLogin");
@@ -19,24 +22,25 @@ enterBttn.onclick=function(event){
     // enterpassHelp - подпись под инпутом пароля при входе
     var passwdHelp = document.querySelector("#enterpassHelp");
     wasPapaProud = wasPapaProud && formCtrl.makePapaProud(passwd.parentNode, formCtrl.isCorrectPassword(passwd.value, passwdHelp));
-    if(!wasPapaProud) {
+    if (!wasPapaProud) {
         return false;
     } else {
         indexApi.logIn();
         return false;
     }
+
     return false;
 }
 
 // agreeCheck - "Согласен с уловиями..."
 var agree = document.querySelector("#agreeCheck");
-agree.onchange=function(event){
+agree.onchange = function (event) {
     regBttn.disabled = !agree.checked;
 }
 
 // regSubmit - "Зарегистрироваться"
 var regBttn = document.querySelector("#regSubmit");
-regBttn.onclick=function(event){
+regBttn.onclick = function (event) {
     // Проверить логин
     var login = document.querySelector("#regInputLogin");
     var loginHelp = document.querySelector("#regloginHelp");
@@ -48,7 +52,7 @@ regBttn.onclick=function(event){
     var name = document.querySelector("#regInputName");
     var nameHelp = document.querySelector("#regnameHelp");
     var papasLast = formCtrl.isCorrectName(name.value, nameHelp);
-    formCtrl.makePapaProud(name.parentNode, papasLast);    
+    formCtrl.makePapaProud(name.parentNode, papasLast);
     wasPapaProud = wasPapaProud && papasLast;
 
     // Проверить пароль
@@ -67,7 +71,7 @@ regBttn.onclick=function(event){
 
     // Проверить что нажат чекбокс    
     wasPapaProud = wasPapaProud && agree.checked;
-    if(!wasPapaProud) {
+    if (!wasPapaProud) {
         return false;
     } else {
         indexApi.sendRegist();

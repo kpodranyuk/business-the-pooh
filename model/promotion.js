@@ -7,7 +7,7 @@ function Promotion(id) {
     this.operationsCount = 0;
     this.percent = 0;
     this.operationsToNext = 0;
-
+    this.commission = null;
 }
 
 module.exports = Promotion;

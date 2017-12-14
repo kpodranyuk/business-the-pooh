@@ -7,6 +7,7 @@ var User = require('../model/usermodel');
 var UserType = require('../model/usertype');
 var ProductType = require('../model/producttype');
 var Promotion = require('../model/promotion');
+var dataPots = require('../model/datapromotionandpots');
 
 
 /**
@@ -86,7 +87,7 @@ function withdrawUserHoney(login, honey, callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Обновить поле с количеством меда пользователя
-        var sql = "UPDATE user SET honeyAmount = honeyAmount-" + Number((honey).toFixed(5))
+        var sql = "UPDATE user SET honeyAmount = ROUND(honeyAmount-" + honey + ",5)"
             + " WHERE login = " + mysql.escape(login);
         con.query(sql, function (error, result, fields) {
 
@@ -118,9 +119,9 @@ function getUserBalance(login, callback) {
     con.beginTransaction(function (error) {
         if (error) { throw error; }
         // Сделать выборку из БД информации о счете пользователя
-        var sql = "SELECT u.productAmount, u.honeyAmount as honeyAmount, u.idProductType "
-            + "FROM user u "
-            + "WHERE u.login = " + mysql.escape(login);
+        var sql = "SELECT u.productAmount, u.honeyAmount as honeyAmount"
+            + " FROM user u"
+            + " WHERE u.login = " + mysql.escape(login);
         con.query(sql, function (error, result, fields) {
 
             if (error) {
@@ -190,7 +191,8 @@ function generateNewPots(callback) {
     con.beginTransaction(function (err) {
         if (err) { throw err; }
 
-        con.query("UPDATE Bees SET potsCount=FLOOR((honeyInPot+12.5)/0.25), honeyInPot=honeyInPot+12.5 WHERE id=1", function (error, result, fields) {
+        var honey = (dataPots.getPots() * 0.25).toFixed(2);
+        con.query("UPDATE Bees SET potsCount=FLOOR((honeyInPot+"+honey+")/0.25), honeyInPot=honeyInPot+"+honey+" WHERE id=1", function (error, result, fields) {
             if (error) {
                 callback(false);
                 return con.rollback(function () { console.error(error.message); });
@@ -239,6 +241,7 @@ function getUser(login, callback) {
                         promotion.operationsToNext = resP[0].operationsToNext;
                         promotion.percent = resP[0].percent;
                         promotion.operationsCount = resP[0].operationsCount;
+                        promotion.commission = [resP[0].firstCommission, resP[0].secondCommission, resP[0].thirdCommission];
                         user.promotion = promotion;
 
                         // Тип пользователя и его тип продукта

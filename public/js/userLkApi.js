@@ -45,6 +45,43 @@ export function updatePassword(newPassword, callback){
     });
 }
 
+
+/**
+ * Отправить на сервер запрос об деактивации аккаунта
+ */
+export function deactivateAccount(callback){
+
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/user/deactivate-account',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            login : curUser.login
+        },   
+        success: function(response){
+            if(response.success == true){
+                console.log("АККАУНТ ДЕАКТИВИРОВАН");
+                callback(true);
+            }
+            else{
+                console.log(response.message);
+                callback(false);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ДЕАКТИВАЦИИ");
+            console.log(response);
+            callback(false);
+        }, 
+        complete: function(){
+
+        }        
+    });
+}
+
 /**
  * Отправить на сервер запрос об информации для покупки меда
  */
@@ -59,7 +96,7 @@ export function buyHoneyInfo(callback){
         dataType: 'json',
         data: {
             productAmount : curUser.productAmount,
-            productType : curUser.productType
+            rate : curUser.userType.productType.rate
         },   
         success: function(response){
             if(response.success == true){
@@ -138,7 +175,7 @@ export function enterProduct(amount, callback){
         data: {
             login : curUser.login,
             product : amount,
-            productType : curUser.productType
+            productType : curUser.userType.productType.type
         },   
         success: function(response){
             if(response.success == true){

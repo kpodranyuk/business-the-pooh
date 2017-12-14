@@ -18,7 +18,7 @@ export function sendRegist(){
             login : $("#regInputLogin").val(),
             password : $("#regInputPassRepeat").val(),
             name : $("#regInputName").val(),
-            productType : convertUserTypeToString()
+            userType : $("#userType").val()
         },   
         success: function(response){
             if(response.success == true){
@@ -43,19 +43,6 @@ export function sendRegist(){
     });
 }
 
-/**
- * Конвертировать выбранный пользователем тип для хранения в БД
- */
-function convertUserTypeToString(){
-    var val = $("#userType").val();
-    if (val == "rabbit")
-        return "F";
-    if (val == "owl")
-        return "P";
-    if (val == "pig")
-        return "B";
-}
-
 
 /**
  * Залогинить пользователя
@@ -78,7 +65,11 @@ export function logIn() {
                 console.log("ПОЛЬЗОВАТЕЛЬ ВОШЕЛ В СИСТЕМУ!!!");
                 // Запоминаем пользователя в браузере
                 localStorage.currentUser = JSON.stringify(response.user);
-                goToLk(response.user.isAdmin);
+                if (response.user == "admin") {
+                    window.location = '/adminLk.html';
+                } else {
+                    goToLk(response.user.isAdmin);
+                }
             } else {
                 console.log(response.message);
                 // TODO сделать вывод сообщения в поле под логином
@@ -101,4 +92,40 @@ function goToLk(isAdmin) {
         url = '/userLk.html';
 
     window.location = url;
+}
+
+/**
+ * Подгрузить типов пользователей
+ */
+export function getUserType() {
+    // Запрос
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/user-type-info',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',  
+        success: function(response){
+            if(response.success == true) {
+                console.log("получили типов пользователей!!!");
+                // Вставляем их в html
+                $("#userType").empty();
+                for (var i=0; i < response.userTypes.length; i++) {
+                    if (!response.userTypes[i].isDeleted) {
+                        var o = document.createElement("option");
+                        o.value = response.userTypes[i].name;
+                        o.innerHTML = response.userTypes[i].name;
+                        $("#userType").append(o);
+                    }
+                }
+            } else {
+                console.log(response.message);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ЗАГРУЗКЕ ТИПОВ ПОЛЬЗОВАТЕЛЕЙ");
+            console.log(response);
+        }
+    });
 }

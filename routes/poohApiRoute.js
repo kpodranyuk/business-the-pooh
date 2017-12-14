@@ -3,6 +3,10 @@ var router = express.Router();
 var db = require('../db/poohdb.js');
 var dbc = require('../db/commondb');
 var Operation = require('../model/operation');
+var User = require("../model/usermodel");
+var Promotion = require('../model/promotion');
+var ProductType = require('../model/producttype');
+var UserType = require('../model/usertype');
 
 
 /**
@@ -27,8 +31,25 @@ router.post('/last-op-day', function (req, res) {
  * Операции пользователей за прошлый операционный день
  */
 router.post('/get-commission', function (req, res) {
-	var prom = JSON.parse(req.body.promotion);
-	db.getCommission(prom, function (poohZP, dateOperation) {
+	
+	var parsedUser = JSON.parse(req.body.user);
+	var user = new User(parsedUser.login, parsedUser.name);	
+	user.password = parsedUser.password;
+	user.productAmount = parsedUser.productAmount;
+	user.honeyAmount = parsedUser.honeyAmount;
+	user.promotion = new Promotion(parsedUser.promotion.id);
+	user.promotion.operationsCount =  parsedUser.promotion.operationsCount;
+	user.promotion.percent = parsedUser.promotion.percent;
+	user.promotion.operationsToNext = parsedUser.promotion.operationsToNext;
+	user.promotion.commission = parsedUser.promotion.commission;
+
+	var productType = new ProductType(parsedUser.userType.productType.type, parsedUser.userType.productType.name, parsedUser.userType.productType.rate);
+	
+	user.userType = new UserType(parsedUser.userType.name, parsedUser.userType.isDeleted, productType);
+
+	console.log(user);
+
+	db.getCommission(user, function (poohZP, dateOperation, userUp) {
 
 		if (dateOperation == null) {
 			res.json({
@@ -45,11 +66,12 @@ router.post('/get-commission', function (req, res) {
 			dbc.insertNewOperation(operation, "superpooh", function (success) {
 
 				var balance = req.body.balance + poohZP;
-				// TO DO сделать событие по оповещению пользователей обновить свой баланс 
+				console.log(userUp);
 				res.json({
 					success: success,
 					balance: balance,
-					poohZP: poohZP
+					poohZP: poohZP,
+					user: userUp
 				});
 			});
 		}
