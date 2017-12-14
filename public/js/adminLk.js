@@ -4,6 +4,7 @@ import * as adminLkApi from "./adminLkApi.js";
 // По загрузке документа загружаем данные о товарах системы
 $(document).ready(function(){
     // Загружаем данныео товарах системы
+    goodsPillBttn.click();
 });
 
 /* ГЛОБАЛЬНЫЕ ИДЕНТИФИКАТОРЫ */
@@ -25,12 +26,18 @@ var potsPerDayPillBttn = document.querySelector("#potsPerDayPill");
 goodsPillBttn.onclick = function(event){
     console.log("Нажата кнопка Товары системы в панели меню");
     // Получить данные с сервера
+    adminLkApi.getProductTypes(function(productTypes) {
+        insertNewDataForGoods(productTypes);
+    });
 }
 
 // Вкладка Типы пользователей
 userTypesPillBttn.onclick = function(event){
     console.log("Нажата кнопка Типы пользователей в панели меню");
     // Получить данные с сервера
+    adminLkApi.getUserTypes(function(userTypes) {
+        insertNewDataForUserTypes(userTypes);
+    });
 }
 
 // Вкладка Скидки системы
@@ -260,6 +267,7 @@ function insertNewDataForGoods(data) {
         createEditGoodsButton(buttons);        
         console.log(buttons);
         var row = table.insertRow(i);
+        row.id = data[i].idProductType;
         var name = row.insertCell(0); // Название
         name.innerHTML = data[i].name;
         var goods = row.insertCell(1); // Предмет обмена
@@ -425,7 +433,7 @@ function createEditGoodsButton(parentDiv) {
     // Вкладываем спан в кнопку
     editButton.appendChild(editSpan);
     // Вкладываем кнопку в див
-    buttons.appendChild(editButton);
+    parentDiv.appendChild(editButton);
 }
 
 /**
