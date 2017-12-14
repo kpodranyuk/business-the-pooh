@@ -171,18 +171,26 @@ editGoodsSubmitBttn.onclick = function(event){
     // Проверить введенные поля
     var goodsInputName = document.querySelector("#goodsInputName");
     var goodsInputNameHelp = document.querySelector("#goodsInputNameHelp");
-    var wasPapaProud = isCorrectNaming(goodsInputName, goodsInputNameHelp);
+    var wasPapaProud = isCorrectNaming(goodsInputName.value, goodsInputNameHelp);
     makePapaProud(goodsInputName.parentNode, wasPapaProud);
     var papa = wasPapaProud;
 
     var goodsInputCourse = document.querySelector("#goodsInputCourse");
     var goodsInputCourseHelp = document.querySelector("#goodsInputCourseHelp");
-    wasPapaProud = isCorrectInt(goodsInputCourse, goodsInputCourseHelp);
+    wasPapaProud = isCorrectInt(goodsInputCourse.value, goodsInputCourseHelp);
     makePapaProud(goodsInputCourse.parentNode, wasPapaProud);
     papa = wasPapaProud && papa;
     if(papa){
         // Отправить запрос на сервер
+        adminLkApi.editProduct(curIdGoods,goodsInputName.value,goodsInputCourse.value,function(result){
+            if(result){
+                return true;
+                goodsPillBttn.click();
+            }
+        });
     }
+    else
+        return false;
 }
 
 // Сохранить изменения в типе пользовател
@@ -196,9 +204,6 @@ editAddUserTypeSubmitBttn.onclick = function(event){
         // Редактирование типа пользователя
     }
 }
-
-var _1 = document.querySelector("#idid")
-_1.onclick = editUserType
 
 /* СОБЫТИЯ НА КНОПКИ ТАБЛИЦ */
 function editGoods(){
