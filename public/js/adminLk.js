@@ -184,11 +184,16 @@ function editGoods(){
     // Нажата кнопка редактирования товара с идентификатором id
 }
 
-function editUserType(){
-    var _1 = document.querySelector("#idid")
-    var id = _1.parentNode.parentNode.parentNode.id;
-    console.log(id);
+function editUserType(event){
     // Нажата кнопка редактирования типа пользователя с идентификатором id
+    var id = 0;
+    if(event.target.type == "button"){
+        id = event.target.parentNode.parentNode.parentNode.id;
+    }
+    else {
+        id = event.target.parentNode.parentNode.parentNode.parentNode.id;
+    }
+    curIdUserTypes = id;
 }
 
 function removeUserType(){
