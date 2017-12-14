@@ -36,13 +36,7 @@ export function getProductTypes(callback) {
             if(response.success == true){
                 // Заполняем данными
                 data.productTypes = [];
-                for(var i=0; i<response.products.length; i++) {
-                    tmpProductType.idProductType = response.products[i].idProductType;
-                    tmpProductType.name = response.products[i].name;
-                    tmpProductType.type = response.products[i].type;
-                    tmpProductType.rate = response.products[i].rate;
-                    data.productTypes[data.productTypes.length] = tmpProductType;
-                }
+                data.productTypes = response.products;
                 console.log(data);
                 callback(data.productTypes);
             } else {
@@ -112,12 +106,7 @@ export function getUserTypes(callback) {
             if(response.success == true){
                 // Заполняем данными
                 data.userTypes = [];
-                for(var i=0; i<response.userTypes.length; i++) {
-                    tmpUserType.productType = response.userTypes[i].productType;
-                    tmpUserType.name = response.userTypes[i].name;
-                    tmpUserType.isDeleted = response.userTypes[i].isDeleted;
-                    data.userTypes[data.userTypes.length] = tmpUserType;
-                }
+                data.userTypes = response.userTypes;
                 console.log(data);
                 callback(data.userTypes);
             } else {
