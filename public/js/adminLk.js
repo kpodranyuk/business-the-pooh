@@ -1,4 +1,5 @@
 import {makePapaProud, forgetPapasPride} from "./formControl.js";
+import * as adminLkApi from "./adminLkApi.js";
 
 // По загрузке документа загружаем данные о товарах системы
 $(document).ready(function(){
@@ -53,6 +54,10 @@ potsPerDayPillBttn.onclick = function(event){
     // Затереть данные виджетов
     var potsInput = document.querySelector("#potsInput");
     potsInput.value="";
+    // Текущее количество горшочков
+    var potsForNow = document.querySelector("#potsForNow");
+    // ВСТАВИТЬ ЗНАЧЕНИЕ С СЕРВЕРА
+    potsForNow.value="";    
     var potsInputHelp = document.querySelector("#potsInputHelp");
     forgetPapasPride(potsInput.parentNode);
     potsInputHelp.innerHTML = "Не менее 1 горшочка";
@@ -169,6 +174,12 @@ editGoodsSubmitBttn.onclick = function(event){
 var editAddUserTypeSubmitBttn = document.querySelector("#editAddUserTypeSubmit")
 editAddUserTypeSubmitBttn.onclick = function(event){
     console.log("Нажата кнопка сохранения изменений в типе пользователя");
+    if(curIdUserTypes<0){
+        // Добавление типа пользователя
+    }
+    else{
+        // Редактирование типа пользователя
+    }
 }
 
 var _1 = document.querySelector("#idid")
@@ -179,17 +190,32 @@ function editGoods(){
     // Нажата кнопка редактирования товара с идентификатором id
 }
 
-function editUserType(){
-    var _1 = document.querySelector("#idid")
-    var id = _1.parentNode.parentNode.parentNode.id;
-    console.log(id);
+function editUserType(event){
     // Нажата кнопка редактирования типа пользователя с идентификатором id
+    var id = 0;
+    if(event.target.type == "button"){
+        id = event.target.parentNode.parentNode.parentNode.id;
+    }
+    else {
+        id = event.target.parentNode.parentNode.parentNode.parentNode.id;
+    }
+    curIdUserTypes = id;
 }
 
 function removeUserType(){
     // Нажата кнопка удаления типа пользователя с идентификатором id
-    // получить таблицу получить роу.роуИндекс
-    // из таблицы делитРоу с индексом роуИндекс
+    var id = 0;
+    if(event.target.type == "button"){
+        id = event.target.parentNode.parentNode.parentNode.id;
+    }
+    else {
+        id = event.target.parentNode.parentNode.parentNode.parentNode.id;
+    }
+    curIdUserTypes = id;
+    var rowIndex = document.getElementById(id).rowIndex;
+    var table = document.querySelector("#typesTable");
+    table.deleteRow(rowIndex);
+    curIdUserTypes = -1;
 }
 
 /**
@@ -211,6 +237,7 @@ function insertNewDataForUserTypes(data) {
             var name = row.insertCell(0); // Название
             name.innerHTML = data[i].name;
             var goods = row.insertCell(1); // Товар !!!! Решить вопрос с именем товара
+            goods.innerHTML = findProductName(data[i].productType); // Находим имя товара
             var c = row.insertCell(2); // Кнопки
             c.appendChild(buttons);
             tableBody.append(row);
@@ -228,22 +255,20 @@ function insertNewDataForGoods(data) {
     tableBody.empty();
     var table = document.getElementById("goodsTable");
     for (var i = 0; i < data.length; i++) {
-        if(data[i].isDeleted!=0){
-            var buttons = document.createElement('div');
-            buttons.className = "text-center";
-            createEditGoodsButton(buttons);        
-            console.log(buttons);
-            var row = table.insertRow(i);
-            var name = row.insertCell(0); // Название
-            name.innerHTML = data[i].name;
-            var goods = row.insertCell(1); // Предмет обмена
-            goods.innerHTML = data[i].type;
-            var course = row.insertCell(2); // Курс обмена
-            course.innerHTML = data[i].rate;
-            var c = row.insertCell(3); // Кнопки
-            c.appendChild(buttons);
-            tableBody.append(row);
-        }
+        var buttons = document.createElement('div');
+        buttons.className = "text-center";
+        createEditGoodsButton(buttons);        
+        console.log(buttons);
+        var row = table.insertRow(i);
+        var name = row.insertCell(0); // Название
+        name.innerHTML = data[i].name;
+        var goods = row.insertCell(1); // Предмет обмена
+        goods.innerHTML = data[i].type;
+        var course = row.insertCell(2); // Курс обмена
+        course.innerHTML = data[i].rate;
+        var c = row.insertCell(3); // Кнопки
+        c.appendChild(buttons);
+        tableBody.append(row);
     }
 }
 
@@ -401,4 +426,17 @@ function createEditGoodsButton(parentDiv) {
     editButton.appendChild(editSpan);
     // Вкладываем кнопку в див
     buttons.appendChild(editButton);
+}
+
+/**
+ * Получить имя товара по его идентификатору
+ * @param {any} productTypeId - родительский div, лежащий внутри ячейки таблицы
+ */
+function findProductName(productTypeId){
+    var pTypes = adminLkApi.data.productTypes;
+    for (var i = 0; i < pTypes.length; i++) {
+        if(pTypes[i].idProductType === productTypeId)
+            return pTypes[i].name;
+    }
+    return "";
 }
