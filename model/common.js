@@ -1,5 +1,7 @@
 var OperationDay = require('./operationday');
 var db = require('../db/commondb');
+var dataPots = require('./datapromotionandpots');
+var dbp = require('../db/poohdb');
 
 var currentOperationDay = new OperationDay(new Date());
 console.log("Текущий операционный день: начало - " + currentOperationDay.startDay.toLocaleString()
@@ -19,10 +21,22 @@ function updateOperationDay(io) {
         // Сгенерировать новый мед
         db.generateNewPots(function (success) {
             if (success) {
-                console.log("Пчелы выставили на продажу еще 50 баночек меда.");
+                console.log("Пчелы выставили на продажу еще "+dataPots.getPots()+" баночек меда.");
                 io.sockets.emit('new-oper-day', {});
             } else {
                 console.log("Пчелы не смогли выставить на продажу новый мед.");
+            }
+        });
+
+        // Наказать Пуха если он не собрал комиссию(обнулить его поощрительную систему)
+        dbp.getZPLastDayPooh(function (getZP) {
+            if (getZP != null && !getZP) {
+                // Наказать
+                dbp.punish(function (success) {
+                    if (success) {
+                        console.log("Пух наказан");
+                    }
+                });
             }
         });
     }

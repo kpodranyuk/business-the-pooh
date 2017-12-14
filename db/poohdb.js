@@ -68,10 +68,10 @@ function getHistoryForLastDay(callback) {
 
 /**
  * Снять комиссию с пользователей
- * @param {Promotion} promotion - текущая программа поощерения Пуха
+ * @param {User} user - Винни Пух
  * @param {function} функция, отправляющая Пуху его баланс
  */
-function getCommission(promotion, callback) {
+function getCommission(user, callback) {
     // Начинаем транзакцию 
     con.beginTransaction(function (err) {
         if (err) { throw err; }
@@ -88,7 +88,7 @@ function getCommission(promotion, callback) {
         con.query(sql, function (error, result, fields) {
             if (error) {
                 con.commit(function (err) {
-                    callback(0, null);
+                    callback(0, null, null);
                     if (err) return con.rollback(function () { console.error(err.message); });
                 });
                 return con.rollback(function () { console.error(error.message); });
@@ -98,9 +98,13 @@ function getCommission(promotion, callback) {
                 for (var i = 0; i < result.length; i++) {
                     sumCommission += result[i].comission;
                 }
-                var poohZP = +(((Number(sumCommission)) * Number((promotion.percent / 100))).toFixed(5));
+                var poohZP = +(((Number(sumCommission)) * Number((user.promotion.percent / 100))).toFixed(5));
                 var beeZP = +((sumCommission - poohZP).toFixed(5));
                 var dateOperation = null;
+
+                user.honeyAmount += poohZP;
+                // Поощряем Пуха
+                user.encourage();
 
                 // Для каждого пользователя обновляем его баланс
                 for (var i = 0; i < result.length; i++) {
@@ -117,12 +121,16 @@ function getCommission(promotion, callback) {
                             if (error) console.log(error.message);
                             dateOperation = new Date();
 
-                            // Обновляем баланс Пчел
-                            con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+" + Number(beeZP.toFixed(5)) + ")/0.25), " + "honeyInPot=honeyInPot+" + Number(beeZP.toFixed(5)) + " WHERE id=1", function (error, result, fields) {
+                            // Обновляем поощрение Пуха
+                            con.query("UPDATE Promotion SET operationsCount=" + user.promotion.operationsCount + ", operationsToNext=" + user.promotion.operationsToNext + ", percent=" + user.promotion.percent + " WHERE idPromotion=1", function (error, result, fields) {
                                 if (error) console.log(error.message);
-                                con.commit(function (err) {
-                                    if (err) return con.rollback(function () { console.error(err.message); });
-                                    callback(poohZP, dateOperation);
+                                // Обновляем баланс Пчел
+                                con.query("UPDATE bees SET potsCount=FLOOR((honeyInPot+" + Number(beeZP.toFixed(5)) + ")/0.25), " + "honeyInPot=honeyInPot+" + Number(beeZP.toFixed(5)) + " WHERE id=1", function (error, result, fields) {
+                                    if (error) console.log(error.message);
+                                    con.commit(function (err) {
+                                        if (err) return con.rollback(function () { console.error(err.message); });
+                                        callback(poohZP, dateOperation, user);
+                                    });
                                 });
                             });
                         });
@@ -158,7 +166,36 @@ function getZPLastDayPooh(callback) {
             } else {
                 con.commit(function (err) {
                     if (err) return con.rollback(function () { console.error(err.message); });
-                    if (result.length != 0)
+                    if (result.length != 0) 
+                        callback(true);
+                    else 
+                        callback(false);
+                });
+            }
+        });
+    });
+}
+
+/**
+ * Наказать Пуха
+ * @param {function} callback 
+ */
+function punish(callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (err) {
+        if (err) { throw err; }
+
+        con.query("UPDATE Promotion SET operationsCount=0, operationsToNext=10, percent=15 WHERE idPromotion=1", function (error, result, fields) {
+            if (error) {
+                con.commit(function (err) {
+                    callback(null);
+                    if (err) return con.rollback(function () { console.error(err.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (err) {
+                    if (err) return con.rollback(function () { console.error(err.message); });
+                    if (result.affectedRows != 0)
                         callback(true);
                     else
                         callback(false);
@@ -168,7 +205,7 @@ function getZPLastDayPooh(callback) {
     });
 }
 
-
 module.exports.getCommission = getCommission;
 module.exports.getHistoryForLastDay = getHistoryForLastDay;
 module.exports.getZPLastDayPooh = getZPLastDayPooh;
+module.exports.punish = punish;

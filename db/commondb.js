@@ -7,6 +7,7 @@ var User = require('../model/usermodel');
 var UserType = require('../model/usertype');
 var ProductType = require('../model/producttype');
 var Promotion = require('../model/promotion');
+var dataPots = require('../model/datapromotionandpots');
 
 
 /**
@@ -190,7 +191,8 @@ function generateNewPots(callback) {
     con.beginTransaction(function (err) {
         if (err) { throw err; }
 
-        con.query("UPDATE Bees SET potsCount=FLOOR((honeyInPot+12.5)/0.25), honeyInPot=honeyInPot+12.5 WHERE id=1", function (error, result, fields) {
+        var honey = (dataPots.getPots() * 0.25).toFixed(2);
+        con.query("UPDATE Bees SET potsCount=FLOOR((honeyInPot+"+honey+")/0.25), honeyInPot=honeyInPot+"+honey+" WHERE id=1", function (error, result, fields) {
             if (error) {
                 callback(false);
                 return con.rollback(function () { console.error(error.message); });

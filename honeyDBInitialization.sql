@@ -74,7 +74,7 @@ CREATE TABLE User (
 );
 
 INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount, isDeactivation, idPromotion, nameUserType) 
-VALUES('superpooh', 'honeyismylife', 'Администратор', true, 0, 0, false, 1, 'Винни-Пух');
+VALUES('superpooh', 'honeyismylife', 'Администратор', true, 0, 0, false, 1, 'Винни Пух');
 
 CREATE TABLE Deal (
   idDeal int NOT NULL auto_increment,
