@@ -5,6 +5,8 @@ var dbo = require('../db/commondb.js');
 var Operation = require('../model/operation');
 var User = require("../model/usermodel");
 var Promotion = require('../model/promotion');
+var ProductType = require('../model/producttype');
+var UserType = require('../model/usertype');
 
 /**
  * Покупка меда(подтверждение)
@@ -22,9 +24,11 @@ router.post('/buy-honey', function (req, res) {
 	user.promotion.operationsToNext = parsedUser.promotion.operationsToNext;
 	user.promotion.commission = parsedUser.promotion.commission;
 
-	user.userType = parsedUser.userType;
+	var productType = new ProductType(parsedUser.userType.productType.type, parsedUser.userType.productType.name, parsedUser.userType.productType.rate);
 
-	console.log(user);
+	user.userType = new UserType(parsedUser.userType.name, parsedUser.userType.isDeleted, productType);
+
+	//console.log(user);
 
 	// Купить у пчел мед
 	db.buyHoney(user, req.body.countPots, function(newUserData, comission) {

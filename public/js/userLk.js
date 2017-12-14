@@ -12,12 +12,12 @@ $(document).ready(function(){
     // TODO сделать функцию для работы с localStorage
     // Устанавливаем информацию о пользователе
     // userImage loginDropdown userTypeName productLabel honeyLabel
-    // Устанавливаем изображение
-    $("#userImage").attr("src",getUserImagePath(userApi.curUser.productType));
+    // Устанавливаем изображение(там функцию я удалил)
+    //$("#userImage").attr("src",getUserImagePath(userApi.curUser.productType));
     // Устанавливаем логин
     $("#loginDropdown").text(userApi.curUser.login);
     // Устанавливаем тип пользователя и имя
-    $("#userTypeName").text(translateTypeToString(userApi.curUser.productType)+" "+userApi.curUser.name);
+    $("#userTypeName").text(userApi.curUser.userType.name+" "+userApi.curUser.name);
     setUserBalance();
 
     enterPillBttn.click();
@@ -25,7 +25,7 @@ $(document).ready(function(){
 
 function setUserBalance(){
     // Устанавливаем количество товара пользователя
-    $("#productLabel").text(translateProductCountToRussian(userApi.curUser.productAmount, userApi.curUser.productType));
+    $("#productLabel").text(userApi.curUser.productAmount + " шт.");
     // Устанавливаем количество меда пользователя
     $("#honeyLabel").text(commonLk.translateHoney(userApi.curUser.honeyAmount).toString()+" л меда");
 }
@@ -314,7 +314,7 @@ potsInBuyBttn.onclick = function(event){
         // Добавляем информацию о покупке на виджеты
         $("#potsCountToBuy").text($("#selectPots").val() + " шт.");
         // TODO узнать текущий курс
-        $("#productCountToBuy").text((Number($("#selectPots").val())*getCourse(userApi.curUser.productType)).toString() + " шт.");
+        $("#productCountToBuy").text((Number($("#selectPots").val()) * userApi.curUser.userType.productType.rate).toString() + " шт.");
         $("#comissionSizeForBuy").text((+(((Number($("#selectPots").val())*0.25*(Number(userApi.curUser.promotion.percent)/100))).toFixed(5))).toString());
         var div = document.querySelector("#secondStep");
         div.style.visibility = "visible";
@@ -479,10 +479,16 @@ forgetMeBttn.onclick = function(event){
     // Если пароль корректный, TODO деактивировать пользователя
     if(wasPapaProud){
 		if(pswdInput.value == userApi.curUser.password){
-			console.log("Деактивация");
-			socket.emit('leave', { username: userApi.curUser.login });
-			localStorage.clear();
-			window.location = "/";
+            console.log("Деактивация");
+            userApi.deactivateAccount(function (success) {
+                if (success) {
+                    socket.emit('leave', { username: userApi.curUser.login });
+                    localStorage.clear();
+                    window.location = "/";
+                } else {
+                    alert("Не удалось деактивировать аккаунт!");
+                }
+            });
 		}
 		else{
 			makePapaProud(pswdInput.parentNode, false);
@@ -520,90 +526,6 @@ function clearMakeNewPswdInputs(){
     forgetPapasPride(newRepeatPswdInput.parentNode);
 }
 
-/**
- * Конвертировать количество товара у пользователя в строку
- * @param {int} count - количество товара пользователя
- * @param {string} userType - тип пользователя
- */
-function translateProductCountToRussian(count, userType){
-    var countStr = count + '';
-    var strlen = countStr.length;
-    // 1 _
-    // Если последняя цифра 1 и это не 11..
-    if(countStr.charAt(countStr.length-1)==1 && countStr.endsWith("11")==false){
-        if (userType == "B")
-            return countStr+" шарик";
-        if (userType == "P")
-            return countStr+" горшочек";
-        if (userType == "F")
-            return countStr+" цветок";
-    }
-    // 2-4 а/чка/тка
-    // Если последняя цифра 2-4 и это не 11-14..
-    else if(countStr.charAt(countStr.length-1)==2 && countStr.endsWith("12")==false 
-        || countStr.charAt(countStr.length-1)==3 && countStr.endsWith("13")==false
-        || countStr.charAt(countStr.length-1)==4 && countStr.endsWith("14")==false){
-        if (userType == "B")
-            return countStr+" шарика";
-        if (userType == "P")
-            return countStr+" горшочка";
-        if (userType == "F")
-            return countStr+" цветка";
-    }
-    // 5-20 ов/чков/тков
-    // Если последняя цифра 5-0...
-    else{
-        if (userType == "B")
-            return countStr+" шариков";
-        if (userType == "P")
-            return countStr+" горшочков";
-        if (userType == "F")
-            return countStr+" цветков";
-    }
-}
-
-/**
- * Конвертировать типа пользователя в строку
- * @param {string} userType - тип пользователя
- */
-function translateTypeToString(userType){
-    if (userType == "B")
-        return "Пятачок";
-    if (userType == "P")
-        return "Совунья";
-    if (userType == "F")
-        return "Кролик";
-    if (userType == "H")
-        return "Винни Пух";
-}
-
-/**
- * Получить путь к изображению пользователя
- * @param {string} userType - тип пользователя
- */
-function getUserImagePath(userType){
-    if (userType == "B")
-        return "images/users/pig.png";
-    if (userType == "P")
-        return "images/users/owl.png";
-    if (userType == "F")
-        return "images/users/rabbit.png";
-    if (userType == "H")
-        return "images/pooh.png";
-}
-
-/**
- * Получить стоимость одного товара пользователя в зависимости от его типа
- * @param {string} userType - тип пользователя
- */
-function getCourse(userType){
-    if (userType == "B")
-        return 10;
-    if (userType == "P")
-        return 5;
-    if (userType == "F")
-        return 10;
-}
 
 
 /*   СОБЫТИЯ    */

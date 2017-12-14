@@ -65,7 +65,11 @@ export function logIn() {
                 console.log("ПОЛЬЗОВАТЕЛЬ ВОШЕЛ В СИСТЕМУ!!!");
                 // Запоминаем пользователя в браузере
                 localStorage.currentUser = JSON.stringify(response.user);
-                goToLk(response.user.isAdmin);
+                if (response.user == "admin") {
+                    window.location = '/adminLk.html';
+                } else {
+                    goToLk(response.user.isAdmin);
+                }
             } else {
                 console.log(response.message);
                 // TODO сделать вывод сообщения в поле под логином
@@ -107,12 +111,12 @@ export function getUserType() {
                 console.log("получили типов пользователей!!!");
                 // Вставляем их в html
                 $("#userType").empty();
-                for (var i=0; i < response.length; i++) {
-                    if (!response[i].isDeleted) {
+                for (var i=0; i < response.userTypes.length; i++) {
+                    if (!response.userTypes[i].isDeleted) {
                         var o = document.createElement("option");
-                        o.value = response[i].name;
-                        o.innerHTML = response[i].name;
-                        tableBody.append(o);
+                        o.value = response.userTypes[i].name;
+                        o.innerHTML = response.userTypes[i].name;
+                        $("#userType").append(o);
                     }
                 }
             } else {
