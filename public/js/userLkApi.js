@@ -59,7 +59,7 @@ export function buyHoneyInfo(callback){
         dataType: 'json',
         data: {
             productAmount : curUser.productAmount,
-            productType : curUser.productType
+            rate : curUser.userType.productType.rate
         },   
         success: function(response){
             if(response.success == true){

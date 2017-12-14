@@ -19,7 +19,7 @@ function User(login, name) {
      * @param {number} countPots - количество горшочков меда
      */
     this.buyHoney = function(countPots) {
-        var rate = userType.productType.rate;
+        var rate = this.userType.productType.rate;
 
         this.productAmount = Number(this.productAmount) - Number(((countPots * rate).toFixed(5)));
         this.honeyAmount = Number(this.honeyAmount) + Number(((countPots * 0.25).toFixed(5)));
