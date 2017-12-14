@@ -488,7 +488,6 @@ forgetMeBttn.onclick = function(event){
                 } else {
                     alert("Не удалось деактивировать аккаунт!");
                 }
-                
             });
 		}
 		else{
