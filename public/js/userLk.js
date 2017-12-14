@@ -479,10 +479,12 @@ forgetMeBttn.onclick = function(event){
     // Если пароль корректный, TODO деактивировать пользователя
     if(wasPapaProud){
 		if(pswdInput.value == userApi.curUser.password){
-			console.log("Деактивация");
-			socket.emit('leave', { username: userApi.curUser.login });
-			localStorage.clear();
-			window.location = "/";
+            console.log("Деактивация");
+            userApi.deactivateAccount(function (success) {
+                socket.emit('leave', { username: userApi.curUser.login });
+                localStorage.clear();
+                window.location = "/";
+            });
 		}
 		else{
 			makePapaProud(pswdInput.parentNode, false);
