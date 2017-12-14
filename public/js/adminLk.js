@@ -168,6 +168,21 @@ logOutBttn.onclick = function(event){
 var editGoodsSubmitBttn = document.querySelector("#editGoodsSubmit")
 editGoodsSubmitBttn.onclick = function(event){
     console.log("Нажата кнопка сохранения изменений в товаре");
+    // Проверить введенные поля
+    var goodsInputName = document.querySelector("#goodsInputName");
+    var goodsInputNameHelp = document.querySelector("#goodsInputNameHelp");
+    var wasPapaProud = isCorrectNaming(goodsInputName, goodsInputNameHelp);
+    makePapaProud(goodsInputName.parentNode, wasPapaProud);
+    var papa = wasPapaProud;
+
+    var goodsInputCourse = document.querySelector("#goodsInputCourse");
+    var goodsInputCourseHelp = document.querySelector("#goodsInputCourseHelp");
+    wasPapaProud = isCorrectInt(goodsInputCourse, goodsInputCourseHelp);
+    makePapaProud(goodsInputCourse.parentNode, wasPapaProud);
+    papa = wasPapaProud && papa;
+    if(papa){
+        // Отправить запрос на сервер
+    }
 }
 
 // Сохранить изменения в типе пользовател
