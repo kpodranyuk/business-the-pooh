@@ -37,6 +37,8 @@ userDiscountPillBttn.onclick = function(event){
     div3.style.visibility = "hidden";    
     var bttnsDiv = document.querySelector("#discountChangeButtons");
     bttnsDiv.style.visibility = "hidden";
+
+    editDiscountBttn.disabled = false;
 }
 
 /* КНОПКИ СТРАНИЦ */
@@ -54,6 +56,10 @@ var editDiscountBttn = document.querySelector("#editDiscount");
 editDiscountBttn.onclick = function(event){
     console.log("Нажата кнопка редактирования скидочной системы");
     // Отобразить второй блок с виджетами для редактирования
+    var div2 = document.querySelector("#discountChangeTableDiv");
+    div2.style.visibility = "visible";
+    var bttnsDiv = document.querySelector("#discountChangeButtons");
+    bttnsDiv.style.visibility = "visible";
 }
 
 // Сохранение новой скидочной системы
@@ -61,6 +67,11 @@ var saveDiscountBttn = document.querySelector("#saveDiscount");
 saveDiscountBttn.onclick = function(event){
     console.log("Нажата кнопка сохранения скидочной системы");
     // Отобразить третий блок с благодарностью и деактивировать кнопки
+    var div3 = document.querySelector("#discountInfoChangedDiv");
+    div3.style.visibility = "visible";    
+    var bttnsDiv = document.querySelector("#discountChangeButtons");
+    bttnsDiv.style.visibility = "hidden";
+    editDiscountBttn.disabled = true;
 }
 
 // Отмена изменений, вносимых в скидочную систему
@@ -68,6 +79,15 @@ var cancelNewDiscountBttn = document.querySelector("#cancelNewDiscount");
 cancelNewDiscountBttn.onclick = function(event){
     console.log("Нажата кнопка отмены изменений скидочной системы");
     // Очистить формы блока и сделать его невидимым
+    $("#startDInput").text("");
+    $("#secondDInput").text("");
+    $("#thirdDInput").text("");
+    var div2 = document.querySelector("#discountChangeTableDiv");
+    div2.style.visibility = "hidden";
+    var div3 = document.querySelector("#discountInfoChangedDiv");
+    div3.style.visibility = "hidden";    
+    var bttnsDiv = document.querySelector("#discountChangeButtons");
+    bttnsDiv.style.visibility = "hidden";
 }
 
 // Кнопка выхода из аккаунта
