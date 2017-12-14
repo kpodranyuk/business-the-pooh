@@ -219,6 +219,35 @@ function insertNewDataForUserTypes(data) {
 }
 
 /**
+ * Вставить данные о товарах
+ * @param {mass} data - массив объектов, содержащих информацию о типах пользователей
+ */
+function insertNewDataForGoods(data) {
+    // Очистить таблицу
+    var tableBody = $("#goodsTableBody");
+    tableBody.empty();
+    var table = document.getElementById("goodsTable");
+    for (var i = 0; i < data.length; i++) {
+        if(data[i].isDeleted!=0){
+            var buttons = document.createElement('div');
+            buttons.className = "text-center";
+            createEditGoodsButton(buttons);        
+            console.log(buttons);
+            var row = table.insertRow(i);
+            var name = row.insertCell(0); // Название
+            name.innerHTML = data[i].name;
+            var goods = row.insertCell(1); // Предмет обмена
+            goods.innerHTML = data[i].type;
+            var course = row.insertCell(2); // Курс обмена
+            course.innerHTML = data[i].rate;
+            var c = row.insertCell(3); // Кнопки
+            c.appendChild(buttons);
+            tableBody.append(row);
+        }
+    }
+}
+
+/**
  * Открыть модальное окно добавления/редактирования типа пользователя
  * @param {number} currentId - текущий идентификатор записи
  */
@@ -349,4 +378,27 @@ function createButtonsForUserTypes(parentDiv) {
     delButton.appendChild(delSpan);
     // Вкладываем кнопку в див
     parentDiv.appendChild(delButton);
+}
+
+/**
+ * Создать кнопку редактирования для товара
+ * @param {any} parentDiv - родительский div, лежащий внутри ячейки таблицы
+ */
+function createEditGoodsButton(parentDiv) {
+    // Создаем кнопку редактирования
+    // Кнопка
+    var editButton = document.createElement('button');
+    editButton.className = "btn btn-warning";
+    editButton.href = "#editGoodsModal";
+    editButton.setAttribute('data-toggle', "modal");
+    editButton.setAttribute('data-target', "#editGoodsModal");
+    editButton.onclick = editGoods;
+    //Спан с карандашом
+    var editSpan = document.createElement('span');
+    editSpan.className = "glyphicon glyphicon-pencil";
+    editSpan.setAttribute('aria-hidden', "true");
+    // Вкладываем спан в кнопку
+    editButton.appendChild(editSpan);
+    // Вкладываем кнопку в див
+    buttons.appendChild(editButton);
 }
