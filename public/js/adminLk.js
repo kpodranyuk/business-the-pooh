@@ -161,6 +161,10 @@ potsInputInBttn.onclick = function(event){
 var logOutBttn = document.querySelector("#logOut");
 logOutBttn.onclick = function(event){
     console.log("Нажата кнопка выхода из аккаунта");
+    // Очищаем хранилище
+    localStorage.clear();
+    // Переходим на главную страницу
+    window.location = "/";
 }
 
 /* КНОПКИ МОДАЛЬНЫХ ОКОН */
