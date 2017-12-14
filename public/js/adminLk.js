@@ -44,6 +44,11 @@ userTypesPillBttn.onclick = function(event){
 userDiscountPillBttn.onclick = function(event){
     console.log("Нажата кнопка Скидки системы в панели меню");
     // Получить данные с сервера
+    adminLkApi.getCommission(function(commission) {
+        document.querySelector("#startD").innerHTML = commission[0];
+        document.querySelector("#secondD").innerHTML = commission[1];
+        document.querySelector("#thirdD").innerHTML = commission[2];
+    });
     // Прячем div'ы
     var div2 = document.querySelector("#discountChangeTableDiv");
     div2.style.visibility = "hidden";
