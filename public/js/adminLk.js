@@ -52,6 +52,10 @@ potsPerDayPillBttn.onclick = function(event){
     var potsInputHelp = document.querySelector("#potsInputHelp");
     forgetPapasPride(potsInput.parentNode);
     potsInputHelp.innerHTML = "Не менее 1 горшочка";
+
+    potsInputInBttn.disabled = false;
+    var thxForPotsEditLbl = document.querySelector("#thxForPotsEdit");
+    thxForPotsEditLbl.style.visibility = "hidden";
 }
 
 /* КНОПКИ СТРАНИЦ */
@@ -133,6 +137,15 @@ var potsInputInBttn = document.querySelector("#potsInputIn");
 potsInputInBttn.onclick = function(event){
     console.log("Нажата кнопка обновления количества производимых горшочков");
     // Проверить введенные данные и вывести сообщение об успешности операции
+    var potsInput = document.querySelector("#potsInput");
+    var potsInputHelp = document.querySelector("#potsInputHelp");
+    var papa = isCorrectPotsCount(potsInput.value, potsInputHelp);
+    makePapaProud(potsInput.parentNode,papa);
+    if(papa){
+        potsInputInBttn.disabled = true;
+        var thxForPotsEditLbl = document.querySelector("#thxForPotsEdit");
+        thxForPotsEditLbl.style.visibility = "visible";
+    }
 }
 
 // Кнопка выхода из аккаунта
@@ -172,6 +185,27 @@ function isCorrectComission(comission, errorPlace){
     }
     else {
         errorPlace.innerHTML = "Введите целое число от 1 до 100";
+        return false;
+    }    
+}
+
+/**
+ * Проверить корректность значения производимых пчелами горшочков с медом
+ * @param {string} potsCount - значение, введенное пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
+function isCorrectPotsCount(potsCount, errorPlace){
+    var reg = new RegExp(`^([1-9][0-9]*)$`, '');
+    if (potsCount==null){
+        errorPlace.innerHTML = "Введите количество горшочков, пустое поле";
+        return false;
+    } 
+    if(reg.test(potsCount)){
+        errorPlace.innerHTML = "Корректное значение количества горшочков";
+        return true;
+    }
+    else {
+        errorPlace.innerHTML = "Введите целое число не меньше 1";
         return false;
     }    
 }
