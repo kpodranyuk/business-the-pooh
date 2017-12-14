@@ -316,6 +316,10 @@ function clearInputsForCommision() {
     thirdDInputHelp.innerHTML = "Введите целое число от 1 до 100";
 }
 
+/**
+ * Создать кнопки редактирования и удаления для таблицы типов пользователей
+ * @param {any} parentDiv - родительский div, лежащий внутри ячейки таблицы
+ */
 function createButtonsForUserTypes(parentDiv) {
     // Создаем кнопку редактирования
     // Кнопка
