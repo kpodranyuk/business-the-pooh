@@ -113,7 +113,7 @@ function getCommission(promotion, callback) {
                     // костыль из-за асинхронности
                     if (i == result.length - 1) {
                         // Обновляем баланс Пуха
-                        con.query("UPDATE user SET honeyAmount=honeyAmount+" + Number(poohZP.toFixed(5)) + " WHERE login=\"superpooh\"", function (error, result, fields) {
+                        con.query("UPDATE user SET honeyAmount=ROUND(honeyAmount+" + Number(poohZP.toFixed(5))+ ",5)" + " WHERE login=\"superpooh\"", function (error, result, fields) {
                             if (error) console.log(error.message);
                             dateOperation = new Date();
                         });

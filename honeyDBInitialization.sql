@@ -29,7 +29,7 @@ CREATE TABLE UserType (
 );
 
 INSERT INTO UserType(name, isDeleted, productType) 
-VALUES('Кролик', false, 1),('Пятачок', false, 2),('Совунья', false, 3), ('Винни-Пух', false, 4);
+VALUES('Кролик', false, 1),('Пятачок', false, 2),('Совунья', false, 3), ('Винни Пух', false, 4);
 
 CREATE TABLE Promotion (
   idPromotion int NOT NULL auto_increment,
@@ -97,4 +97,4 @@ CREATE TABLE Bees (
 );
 
 INSERT INTO Bees(id, login, password, potsCount, honeyInPot, idProductType) 
-VALUES(1, 'admin', 'admin', 50, 12.5, (select idProductType from ProductType where type='H'));
+VALUES(1, 'admin', 'adminadmin', 50, 12.5, (select idProductType from ProductType where type='H'));
