@@ -24,7 +24,36 @@ var tmpProductType = {
  * @param {function} callback 
  */
 export function getProductTypes(callback) {
-
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/exchange-rate-info',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json', 
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                // Заполняем данными
+                data.productTypes = [];
+                for(var i=0; i<response.products.length; i++) {
+                    tmpProductType.idProductType = response.products[i].idProductType;
+                    tmpProductType.name = response.products[i].name;
+                    tmpProductType.type = response.products[i].type;
+                    tmpProductType.rate = response.products[i].rate;
+                    data.productTypes[data.productTypes.length] = tmpProductType;
+                }
+                console.log(data);
+            } else {
+                console.log(response.message);
+                callback(response.result, response.success);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ПОЛУЧЕНИЕ ТИПА ТОВАРОВ");
+            console.log(response);
+        }
+    });
 }
 
 
@@ -43,7 +72,35 @@ export function editProduct(productType, callback) {
  * @param {function} callback 
  */
 export function getUserTypes(callback) {
-    
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/user-type-info',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json', 
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                // Заполняем данными
+                data.userTypes = [];
+                for(var i=0; i<response.userTypes.length; i++) {
+                    tmpUserType.productType = response.userTypes[i].productType;
+                    tmpUserType.name = response.userTypes[i].name;
+                    tmpUserType.isDeleted = response.userTypes[i].isDeleted;
+                    data.userTypes[data.userTypes.length] = tmpUserType;
+                }
+                console.log(data);
+            } else {
+                console.log(response.message);
+                callback(response.result, response.success);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ПОЛУЧЕНИЕ ТИПА ТОВАРОВ");
+            console.log(response);
+        }
+    });
 }
 
 
