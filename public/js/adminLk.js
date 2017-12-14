@@ -1,4 +1,5 @@
 import {makePapaProud, forgetPapasPride} from "./formControl.js";
+import * as adminLkApi from "./adminLkApi.js";
 
 // По загрузке документа загружаем данные о товарах системы
 $(document).ready(function(){
