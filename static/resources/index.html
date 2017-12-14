@@ -95,6 +95,10 @@
                             <!--Large-->
                         </div>
                     </div>
+                    <h4>
+                        <i>Поделиться в социальных сетях:</i>
+                    </h4>
+                    <div class="ya-share2" data-services="vkontakte,twitter,telegram"></div>
                 </div>
                 <div id="about" class="tab-pane fade">
                     <div class="row">
@@ -169,12 +173,10 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <p>Нужна помощь?
-                                <br> Свяжитесь с нами с помощью почтовых синичек или обращайтесь по адресу:
-                                <br>
-                                <h3>
-                                    <i>Волшебный лес, Медовый проезд, Пчелиный улей №1</i>
-                                </h3>
-                                Ежедневно с 8.00 до 18.00</p>
+                                <br> Свяжитесь с нами с помощью почтовых синичек или обращайтесь по адресу:</p>
+                            <div id="map" style="width:800px;height:400px;background:yellow">
+                            </div>
+                            <p>Ежедневно с 8.00 до 18.00</p>
                         </div>
                     </div>
                 </div>
@@ -307,6 +309,31 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+    <script src="//yastatic.net/share2/share.js"></script>
     <script src="js/index.js" type="module"></script>
+	 <script>
+        function initMap() {
+
+            var location = new google.maps.LatLng(48.712868, 44.526871);
+
+            var mapCanvas = document.getElementById('map');
+            var mapOptions = {
+                center: location,
+                zoom: 18,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+
+            var markerImage = 'marker.png';
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                icon: markerImage
+            });
+            console.log("map");
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5SvUD6gZr4jlURwBVG3VfV5g-NtPnvl8&callback=initMap"></script>
 </body>
 </html>
