@@ -171,7 +171,36 @@ function getZPLastDayPooh(callback) {
     });
 }
 
+/**
+ * Наказать Пуха
+ * @param {function} callback 
+ */
+function punish(callback) {
+    // Начинаем транзакцию 
+    con.beginTransaction(function (err) {
+        if (err) { throw err; }
+
+        con.query("UPDATE Promotion SET operationsCount=0, operationsToNext=10, percent=15 WHERE idPromotion=1", function (error, result, fields) {
+            if (error) {
+                con.commit(function (err) {
+                    callback(null);
+                    if (err) return con.rollback(function () { console.error(err.message); });
+                });
+                return con.rollback(function () { console.error(error.message); });
+            } else {
+                con.commit(function (err) {
+                    if (err) return con.rollback(function () { console.error(err.message); });
+                    if (result.affectedRows != 0)
+                        callback(true);
+                    else
+                        callback(false);
+                });
+            }
+        });
+    });
+}
 
 module.exports.getCommission = getCommission;
 module.exports.getHistoryForLastDay = getHistoryForLastDay;
 module.exports.getZPLastDayPooh = getZPLastDayPooh;
+module.exports.punish = punish;
