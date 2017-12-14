@@ -180,6 +180,8 @@
                                 <div class="ya-share2" data-services="vkontakte,twitter,telegram"></div>
                                 Ежедневно с 8.00 до 18.00</p>
                         </div>
+						<div id="map" style="width:800px;height:400px;background:yellow">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -314,5 +316,28 @@
     <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
     <script src="//yastatic.net/share2/share.js"></script>
     <script src="js/index.js" type="module"></script>
+	 <script>
+        function initMap() {
+
+            var location = new google.maps.LatLng(48.712868, 44.526871);
+
+            var mapCanvas = document.getElementById('map');
+            var mapOptions = {
+                center: location,
+                zoom: 18,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+
+            var markerImage = 'marker.png';
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                icon: markerImage
+            });
+            console.log("map");
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5SvUD6gZr4jlURwBVG3VfV5g-NtPnvl8&callback=initMap"></script>
 </body>
 </html>
