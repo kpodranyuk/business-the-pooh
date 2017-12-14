@@ -211,6 +211,27 @@ function isCorrectPotsCount(potsCount, errorPlace){
 }
 
 /**
+ * Проверить корректность названия типа пользователя или товара
+ * @param {string} name - значение, введенное пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
+function isCorrectNaming(name, errorPlace){
+    var reg = new RegExp(`^([А-Яа-я]{2,20})$`, '');
+    if (name==null){
+        errorPlace.innerHTML = "Введите название, пустое поле";
+        return false;
+    } 
+    if(reg.test(name)){
+        errorPlace.innerHTML = "Корректное название";
+        return true;
+    }
+    else {
+        errorPlace.innerHTML = "Введите название на русском языке с длиной от 2 до 20 символов";
+        return false;
+    }    
+}
+
+/**
  * Очистить элементы для ввода комиссии
  */
 function clearInputsForCommision() {
