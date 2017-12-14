@@ -481,13 +481,9 @@ forgetMeBttn.onclick = function(event){
 		if(pswdInput.value == userApi.curUser.password){
             console.log("Деактивация");
             userApi.deactivateAccount(function (success) {
-                if (success) {
-                    socket.emit('leave', { username: userApi.curUser.login });
-                    localStorage.clear();
-                    window.location = "/";
-                } else {
-                    alert("Не удалось деактивировать аккаунт!");
-                }
+                socket.emit('leave', { username: userApi.curUser.login });
+                localStorage.clear();
+                window.location = "/";
             });
 		}
 		else{
