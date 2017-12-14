@@ -53,6 +53,10 @@ potsPerDayPillBttn.onclick = function(event){
     // Затереть данные виджетов
     var potsInput = document.querySelector("#potsInput");
     potsInput.value="";
+    // Текущее количество горшочков
+    var potsForNow = document.querySelector("#potsForNow");
+    // ВСТАВИТЬ ЗНАЧЕНИЕ С СЕРВЕРА
+    potsForNow.value="";    
     var potsInputHelp = document.querySelector("#potsInputHelp");
     forgetPapasPride(potsInput.parentNode);
     potsInputHelp.innerHTML = "Не менее 1 горшочка";
