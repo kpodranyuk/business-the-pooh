@@ -198,8 +198,17 @@ function editUserType(event){
 
 function removeUserType(){
     // Нажата кнопка удаления типа пользователя с идентификатором id
-    // получить таблицу получить роу.роуИндекс
-    // из таблицы делитРоу с индексом роуИндекс
+    var id = 0;
+    if(event.target.type == "button"){
+        id = event.target.parentNode.parentNode.parentNode.id;
+    }
+    else {
+        id = event.target.parentNode.parentNode.parentNode.parentNode.id;
+    }
+    curIdUserTypes = id;
+    var rowIndex = document.getElementById(id).rowIndex;
+    var table = document.querySelector("#typesTable");
+    table.deleteRow(rowIndex);
 }
 
 /**
