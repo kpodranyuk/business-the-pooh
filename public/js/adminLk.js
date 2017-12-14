@@ -30,6 +30,13 @@ userTypesPillBttn.onclick = function(event){
 userDiscountPillBttn.onclick = function(event){
     console.log("Нажата кнопка Скидки системы в панели меню");
     // Получить данные с сервера
+    // Прячем div'ы
+    var div2 = document.querySelector("#discountChangeTableDiv");
+    div2.style.visibility = "hidden";
+    var div3 = document.querySelector("#discountInfoChangedDiv");
+    div3.style.visibility = "hidden";    
+    var bttnsDiv = document.querySelector("#discountChangeButtons");
+    bttnsDiv.style.visibility = "hidden";
 }
 
 /* КНОПКИ СТРАНИЦ */
