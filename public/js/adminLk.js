@@ -259,7 +259,7 @@ function insertNewDataForUserTypes(data) {
     tableBody.empty();
     var table = document.getElementById("typesTable");
     for (var i = 0; i < data.length; i++) {
-        if(data[i].isDeleted!=0){
+        if(data[i].isDeleted==0){
             var buttons = document.createElement('div');
             buttons.className = "text-center";
             createButtonsForUserTypes(buttons);        
@@ -422,7 +422,7 @@ function createButtonsForUserTypes(parentDiv) {
     // Вкладываем спан в кнопку
     editButton.appendChild(editSpan);
     // Вкладываем кнопку в див
-    buttons.appendChild(editButton);
+    parentDiv.appendChild(editButton);
     // Создаем кнопку удаления
     // Кнопка
     var delButton = document.createElement('button');
