@@ -44,9 +44,10 @@ export function getProductTypes(callback) {
                     data.productTypes[data.productTypes.length] = tmpProductType;
                 }
                 console.log(data);
+                callback(data.productTypes);
             } else {
                 console.log(response.message);
-                callback(response.result, response.success);
+                callback(response.success);
             }
         },
         error: function(response){
@@ -91,13 +92,14 @@ export function getUserTypes(callback) {
                     data.userTypes[data.userTypes.length] = tmpUserType;
                 }
                 console.log(data);
+                callback(data.userTypes);
             } else {
                 console.log(response.message);
-                callback(response.result, response.success);
+                callback(response.success);
             }
         },
         error: function(response){
-            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ПОЛУЧЕНИЕ ТИПА ТОВАРОВ");
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ПОЛУЧЕНИЕ ТИПА ПОЛЬЗОВАТЕЛЕЙ");
             console.log(response);
         }
     });
@@ -139,15 +141,63 @@ export function addUser(userType, callback) {
  * @param {function} callback 
  */
 export function getPots(callback) {
-    
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/pots-count-info',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json', 
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                // Заполняем данными
+                data.pots = response.pots;
+                console.log(data);
+                callback(data.pots);// отсылаем кол-во горшков
+            } else {
+                console.log(response.message);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ПОЛУЧЕНИЕ ГОРШОЧКОВ");
+            console.log(response);
+        }
+    });
 }
 
 /**
  * Изменить кол-во горшочков
+ * @param {number} pots
  * @param {function} callback 
  */
-export function editPots(callback) {
-    
+export function editPots(pots, callback) {
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/edit-pots-count',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            pots: pots
+        }, 
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                // Заполняем данными
+                data.pots = pots;
+                console.log(data);
+                callback(response.success);// отсылаем успешность
+            } else {
+                console.log(response.message);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ИЗМИНЕНИЕ ГОРШОЧКОВ");
+            console.log(response);
+        }
+    });
 }
 
 
@@ -156,14 +206,62 @@ export function editPots(callback) {
  * @param {function} callback 
  */
 export function getCommission(callback) {
-    
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/commission-info',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json', 
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                // Заполняем данными
+                data.commission = response.comission;
+                console.log(data);
+                callback(data.commission);// отсылаем список комиссий
+            } else {
+                console.log(response.message);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ПОЛУЧЕНИЕ КОМИССИИ");
+            console.log(response);
+        }
+    });
 }
 
 
 /**
  * Изменить комиссию
+ * @param {mass} commission
  * @param {function} callback 
  */
-export function editCommission(callback) {
-    
+export function editCommission(commission ,callback) {
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/edit-commission',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            commission: commission
+        }, 
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                // Заполняем данными
+                data.commission = commission;
+                console.log(data);
+                callback(response.success);// отсылаем успешность
+            } else {
+                console.log(response.message);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ИЗМИНЕНИЕ КОМИССИИ");
+            console.log(response);
+        }
+    });
 }
