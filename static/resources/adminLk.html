@@ -183,7 +183,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 panel" id="discountInfoTableDiv" style="background-color:white">
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 panel" id="discountChangeTableDiv" style="background-color:white">
                   <label for="headerDiscountInfo">
                     <h3> Установите размер комиссии при покупке (в процентах):</h3>
                   </label>
@@ -193,28 +193,28 @@
                         <tr>
                           <td>0-5 покупок:</td>
                           <td>
-                            <input type="number" class="form-control" id="startDInput" aria-describedby="startDInputHelp" placeholder="15" required>
-                            <small id="startDInputHelp" class="control-label form-text text-muted">Целое неотрицательное число меньше 100</small>
+                            <input type="number" min="1" max="100" class="form-control" id="startDInput" aria-describedby="startDInputHelp" placeholder="15" required>
+                            <small id="startDInputHelp" class="control-label form-text text-muted">Введите целое число от 1 до 100</small>
                           </td>
                         </tr>
                         <tr>
                           <td>6-15 покупок: </td>
                           <td>
-                            <input type="number" class="form-control" id="secondDInput" aria-describedby="secondDInputHelp" placeholder="10" required>
-                            <small id="secondDInputHelp" class="control-label form-text text-muted">Целое неотрицательное число меньше 100</small>
+                            <input type="number" min="1" max="100" class="form-control" id="secondDInput" aria-describedby="secondDInputHelp" placeholder="10" required>
+                            <small id="secondDInputHelp" class="control-label form-text text-muted">Введите целое число от 1 до 100</small>
                           </td>
                         </tr>
                         <tr>
                           <td>От 16 покупок:</td>
                           <td>
-                            <input type="number" class="form-control" id="thirdDInput" aria-describedby="thirdDInputHelp" placeholder="5" required>
-                            <small id="thirdDInputHelp" class="control-label form-text text-muted">Целое неотрицательное число меньше 100</small>
+                            <input type="number" min="1" max="100" class="form-control" id="thirdDInput" aria-describedby="thirdDInputHelp" placeholder="5" required>
+                            <small id="thirdDInputHelp" class="control-label form-text text-muted">Введите целое число от 1 до 100</small>
                           </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                  <div class="row" id="buyButtons">
+                  <div class="row" id="discountChangeButtons">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
                       <button class="btn btn-md btn-primary" id="saveDiscount">Подтвердить</button>
                     </div>
