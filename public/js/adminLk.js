@@ -233,22 +233,20 @@ function insertNewDataForGoods(data) {
     tableBody.empty();
     var table = document.getElementById("goodsTable");
     for (var i = 0; i < data.length; i++) {
-        if(data[i].isDeleted!=0){
-            var buttons = document.createElement('div');
-            buttons.className = "text-center";
-            createEditGoodsButton(buttons);        
-            console.log(buttons);
-            var row = table.insertRow(i);
-            var name = row.insertCell(0); // Название
-            name.innerHTML = data[i].name;
-            var goods = row.insertCell(1); // Предмет обмена
-            goods.innerHTML = data[i].type;
-            var course = row.insertCell(2); // Курс обмена
-            course.innerHTML = data[i].rate;
-            var c = row.insertCell(3); // Кнопки
-            c.appendChild(buttons);
-            tableBody.append(row);
-        }
+        var buttons = document.createElement('div');
+        buttons.className = "text-center";
+        createEditGoodsButton(buttons);        
+        console.log(buttons);
+        var row = table.insertRow(i);
+        var name = row.insertCell(0); // Название
+        name.innerHTML = data[i].name;
+        var goods = row.insertCell(1); // Предмет обмена
+        goods.innerHTML = data[i].type;
+        var course = row.insertCell(2); // Курс обмена
+        course.innerHTML = data[i].rate;
+        var c = row.insertCell(3); // Кнопки
+        c.appendChild(buttons);
+        tableBody.append(row);
     }
 }
 
