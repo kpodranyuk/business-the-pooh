@@ -62,6 +62,9 @@
           <li>
             <a data-toggle="pill" href="#userDiscount" id="userDiscountPill">Скидки системы</a>
           </li>
+          <li>
+            <a data-toggle="pill" href="#potsPerDay" id="potsPerDayPill">Производимый мед</a>
+          </li>
         </ul>
         <div class="tab-content">
           <div id="goods" class="tab-pane fade in active">
@@ -237,6 +240,38 @@
                       </i>
                     </div>
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 panel"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Установить максимальное количество горшочков в день-->
+          <div id="potsPerDay" class="tab-pane fade">
+            <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
+              <div class="row content">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                  <h2>Укажите количество горшочков с медом, выставляемое на продажу ежедневно:</h2>
+                </div>
+              </div>
+              <div class="container-fluid text-center" style="display: table">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                  <div class="form-group">
+                    <label for="potsInput">Количество горшочков с медом в штуках</label>
+                    <input type="number" min="1" class="form-control" id="potsInput" aria-describedby="potsInputHelp" placeholder="4" required>
+                    <small id="potsInputHelp" class="control-label form-text text-muted">Не менее 1 горшочка</small>
+                  </div>
+                  <div class="row content">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                      <button class="btn btn-lg btn-primary" id="potsInputIn">Обновить количество</button>
+                    </div>
+                  </div>
+                  <div class="row content">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                      <label>
+                        <i id="thxForPotsEdit" style="visibility:hidden">Спасибо!
+                          <br> Количество горшочков обновлено.</i>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
