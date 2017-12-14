@@ -77,16 +77,13 @@ export function getComission(callback) {
         },        
         dataType: 'json',
         data: {
-            balance: curUser.honeyAmount,
-            promotion: JSON.stringify(curUser.promotion)
+            user: JSON.stringify(curUser)
         },   
         success: function(response){
             if(response.success == true){
                 // сохраняем в локальный объект все новые данные
                 // Передаем операции для их отображения
-                curUser.honeyAmount = "";
-                curUser.honeyAmount = response.balance;
-                localStorage.currentUser = JSON.stringify(curUser);
+                localStorage.currentUser = JSON.stringify(response.user);
                 callback(response.balance, response.poohZP);
             } else {
                 console.log("Произошла какая то ошибка, нет соединения к БД, или не правильный запрос");

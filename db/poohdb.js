@@ -68,10 +68,10 @@ function getHistoryForLastDay(callback) {
 
 /**
  * Снять комиссию с пользователей
- * @param {Promotion} promotion - текущая программа поощерения Пуха
+ * @param {User} user - Винни Пух
  * @param {function} функция, отправляющая Пуху его баланс
  */
-function getCommission(promotion, callback) {
+function getCommission(user, callback) {
     // Начинаем транзакцию 
     con.beginTransaction(function (err) {
         if (err) { throw err; }
@@ -98,9 +98,12 @@ function getCommission(promotion, callback) {
                 for (var i = 0; i < result.length; i++) {
                     sumCommission += result[i].comission;
                 }
-                var poohZP = +(((Number(sumCommission)) * Number((promotion.percent / 100))).toFixed(5));
+                var poohZP = +(((Number(sumCommission)) * Number((user.promotion.percent / 100))).toFixed(5));
                 var beeZP = +((sumCommission - poohZP).toFixed(5));
                 var dateOperation = null;
+
+                // Поощряем Пуха
+                user.encourage();
 
                 // Для каждого пользователя обновляем его баланс
                 for (var i = 0; i < result.length; i++) {

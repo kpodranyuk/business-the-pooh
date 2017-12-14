@@ -35,6 +35,9 @@ function User(login, name) {
         }
     };
 
+    /**
+     * Рассчитать новую поощрительную систему
+     */
     this.calculateNewPromotion = function() {
         
         if (this.promotion.operationsCount == 5 && this.promotion.operationsToNext == 10) {
@@ -42,7 +45,31 @@ function User(login, name) {
         } else if (this.promotion.operationsCount >= 15) {
             this.promotion.percent = this.promotion.commission[2];
         }
-    }
+    };
+
+
+    /**
+     * Поощрить Пуха
+     */
+    this.encourage = function() {
+
+        this.promotion.operationsCount = this.promotion.operationsCount + 1;
+        this.promotion.operationsToNext = this.promotion.operationsToNext - 1;
+        if (this.promotion.operationsToNext <= 0) {
+            if (this.promotion.operationsCount == 10) {
+                this.promotion.operationsToNext = 20;
+            } else if (this.promotion.operationsCount >= 30) {
+                this.promotion.operationsToNext = 0;
+            }
+        }
+
+        if (this.promotion.operationsCount == 10 && this.promotion.operationsToNext == 20) {
+            this.promotion.percent = this.promotion.commission[1];
+        } else if (this.promotion.operationsCount >= 30) {
+            this.promotion.percent = this.promotion.commission[2];
+        }
+
+    };
 }
 
 module.exports = User;
