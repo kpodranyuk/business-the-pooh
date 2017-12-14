@@ -135,31 +135,106 @@ export function getUserTypes(callback) {
 
 /**
  * Отредактировать определенный тип пользователя
- * @param {Object} userType
+ * @param {string} userType - текущее название типа пользователя
+ * @param {string} newUserType - новое название типа
+ * @param {number} idProduct - айдишник
  * @param {function} callback 
  */
-export function editUser(userType, callback) {
-    
+export function editUser(userType, newUserType, idProduct, callback) {
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/user-type-edit',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            userType: userType,
+            newUserType: newUserType,
+            idProduct: idProduct
+        },
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                callback(response.success);// сообщаем об успешности
+            } else {
+                console.log(response.message);
+                callback(response.success, response.message);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА РЕДАКТИРОВАНИЕ ТИПА ПОЛЬЗОВАТЕЛЯ");
+            console.log(response);
+        }
+    });
 }
 
 
 /**
  * Удалить определенный тип пользователя
- * @param {Object} userType
+ * @param {string} userType - удаляемый тип пользователя
  * @param {function} callback 
  */
 export function deleteUser(userType, callback) {
-    
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/user-type-delete',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            userType: userType
+        },
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                callback(response.success);// сообщаем об успешности
+            } else {
+                console.log(response.message);
+                callback(response.success, response.message);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА УДАЛЕНИЕ ТИПА ПОЛЬЗОВАТЕЛЯ");
+            console.log(response);
+        }
+    });
 }
 
 
 /**
  * Добавить определенный тип пользователя
- * @param {Object} userType
+ * @param {string} userType - название типа пользователя
+ * @param {number} idProduct - тип товара
  * @param {function} callback 
  */
-export function addUser(userType, callback) {
-    
+export function addUser(userType, idProduct, callback) {
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/user-type-add',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            userType: userType,
+            idProduct: idProduct
+        },
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                callback(response.success);// сообщаем об успешности
+            } else {
+                console.log(response.message);
+                callback(response.success, response.message);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ДОБАВЛЕНИЕ ТИПА ПОЛЬЗОВАТЕЛЯ");
+            console.log(response);
+        }
+    });
 }
 
 
