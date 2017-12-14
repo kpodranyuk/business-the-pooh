@@ -174,6 +174,12 @@ editGoodsSubmitBttn.onclick = function(event){
 var editAddUserTypeSubmitBttn = document.querySelector("#editAddUserTypeSubmit")
 editAddUserTypeSubmitBttn.onclick = function(event){
     console.log("Нажата кнопка сохранения изменений в типе пользователя");
+    if(curIdUserTypes<0){
+        // Добавление типа пользователя
+    }
+    else{
+        // Редактирование типа пользователя
+    }
 }
 
 var _1 = document.querySelector("#idid")
@@ -209,6 +215,7 @@ function removeUserType(){
     var rowIndex = document.getElementById(id).rowIndex;
     var table = document.querySelector("#typesTable");
     table.deleteRow(rowIndex);
+    curIdUserTypes = -1;
 }
 
 /**
