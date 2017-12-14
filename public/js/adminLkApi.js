@@ -60,11 +60,38 @@ export function getProductTypes(callback) {
 
 /**
  * Отредактировать определенный тип товара
- * @param {Object} productType
+ * @param {number} idProduct
+ * @param {string} newName
+ * @param {number} rate
  * @param {function} callback 
  */
-export function editProduct(productType, callback) {
-    
+export function editProduct(idProduct, newName, rate, callback) {
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/admin/edit-product',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            idProduct: idProduct,
+            newName: newName,
+            rate: rate
+        },
+        success: function(response){
+            console.log(response);
+            if(response.success == true){
+                callback(response.success);
+            } else {
+                console.log(response.message);
+                callback(response.success, response.message);
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОТПРАВКЕ ЗАПРОСА НА ПОЛУЧЕНИЕ ТИПА ТОВАРОВ");
+            console.log(response);
+        }
+    });
 }
 
 
