@@ -139,7 +139,7 @@ potsInputInBttn.onclick = function(event){
     // Проверить введенные данные и вывести сообщение об успешности операции
     var potsInput = document.querySelector("#potsInput");
     var potsInputHelp = document.querySelector("#potsInputHelp");
-    var papa = isCorrectPotsCount(potsInput.value, potsInputHelp);
+    var papa = isCorrectInt(potsInput.value, potsInputHelp);
     makePapaProud(potsInput.parentNode,papa);
     if(papa){
         potsInputInBttn.disabled = true;
@@ -190,18 +190,18 @@ function isCorrectComission(comission, errorPlace){
 }
 
 /**
- * Проверить корректность значения производимых пчелами горшочков с медом
- * @param {string} potsCount - значение, введенное пользователем
+ * Проверить корректность значения производимых пчелами горшочков с медом или количество товара для покупки 1 горшочка с медом
+ * @param {string} int - значение, введенное пользователем
  * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
  */
-function isCorrectPotsCount(potsCount, errorPlace){
+function isCorrectInt(int, errorPlace){
     var reg = new RegExp(`^([1-9][0-9]*)$`, '');
-    if (potsCount==null){
-        errorPlace.innerHTML = "Введите количество горшочков, пустое поле";
+    if (int==null){
+        errorPlace.innerHTML = "Введите количество, пустое поле";
         return false;
     } 
-    if(reg.test(potsCount)){
-        errorPlace.innerHTML = "Корректное значение количества горшочков";
+    if(reg.test(int)){
+        errorPlace.innerHTML = "Корректное значение";
         return true;
     }
     else {
