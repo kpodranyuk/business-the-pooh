@@ -56,22 +56,47 @@ var editDiscountBttn = document.querySelector("#editDiscount");
 editDiscountBttn.onclick = function(event){
     console.log("Нажата кнопка редактирования скидочной системы");
     // Отобразить второй блок с виджетами для редактирования
+    clearInputsForCommision();
     var div2 = document.querySelector("#discountChangeTableDiv");
     div2.style.visibility = "visible";
     var bttnsDiv = document.querySelector("#discountChangeButtons");
     bttnsDiv.style.visibility = "visible";
+    editDiscountBttn.disabled = true;
 }
 
 // Сохранение новой скидочной системы
 var saveDiscountBttn = document.querySelector("#saveDiscount");
 saveDiscountBttn.onclick = function(event){
     console.log("Нажата кнопка сохранения скидочной системы");
-    // Отобразить третий блок с благодарностью и деактивировать кнопки
-    var div3 = document.querySelector("#discountInfoChangedDiv");
-    div3.style.visibility = "visible";    
-    var bttnsDiv = document.querySelector("#discountChangeButtons");
-    bttnsDiv.style.visibility = "hidden";
-    editDiscountBttn.disabled = true;
+    var startDInput = document.querySelector("#startDInput");
+    var startDInputHelp = document.querySelector("#startDInputHelp");
+
+    var secondDInput = document.querySelector("#secondDInput");
+    var secondDInputHelp = document.querySelector("#secondDInputHelp");
+
+    var thirdDInput = document.querySelector("#thirdDInput");
+    var thirdDInputHelp = document.querySelector("#thirdDInputHelp");
+
+    var papa = isCorrectComission(startDInput.value, startDInputHelp);
+    makePapaProud(startDInput.parentNode, papa);
+
+    var papasLast = papa;
+
+    papa = isCorrectComission(secondDInput.value, secondDInputHelp);
+    makePapaProud(secondDInput.parentNode, papa);
+    papasLast = papasLast && papa;
+
+    papa = isCorrectComission(thirdDInput.value, thirdDInputHelp);
+    makePapaProud(thirdDInput.parentNode, papa);
+    papasLast = papasLast && papa;
+    if(papasLast) {
+        // Отобразить третий блок с благодарностью и деактивировать кнопки
+        var div3 = document.querySelector("#discountInfoChangedDiv");
+        div3.style.visibility = "visible";    
+        var bttnsDiv = document.querySelector("#discountChangeButtons");
+        bttnsDiv.style.visibility = "hidden";
+        editDiscountBttn.disabled = true;
+    }
 }
 
 // Отмена изменений, вносимых в скидочную систему
@@ -79,15 +104,15 @@ var cancelNewDiscountBttn = document.querySelector("#cancelNewDiscount");
 cancelNewDiscountBttn.onclick = function(event){
     console.log("Нажата кнопка отмены изменений скидочной системы");
     // Очистить формы блока и сделать его невидимым
-    $("#startDInput").text("");
-    $("#secondDInput").text("");
-    $("#thirdDInput").text("");
+    clearInputsForCommision();
+
     var div2 = document.querySelector("#discountChangeTableDiv");
     div2.style.visibility = "hidden";
     var div3 = document.querySelector("#discountInfoChangedDiv");
     div3.style.visibility = "hidden";    
     var bttnsDiv = document.querySelector("#discountChangeButtons");
     bttnsDiv.style.visibility = "hidden";
+    editDiscountBttn.disabled = false;
 }
 
 // Кнопка выхода из аккаунта
@@ -108,4 +133,45 @@ function openUserTypeModal(currentId){
     else{
         modalHeader.innerHTML = "Добавление типа пользователя";
     }
+}
+
+/**
+ * Проверить корректность значения комиссии
+ * @param {string} comission - значение, введенное пользователем
+ * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
+ */
+function isCorrectComission(comission, errorPlace){
+    var reg = new RegExp(`^([1-9]|[1-9][0-9]|(100))$`, '');
+    if (comission==null){
+        errorPlace.innerHTML = "Введите комиссию, пустое поле";
+        return false;
+    } 
+    if(reg.test(comission)){
+        errorPlace.innerHTML = "Корректное значение комиссии";
+        return true;
+    }
+    else {
+        errorPlace.innerHTML = "Введите целое число от 1 до 100";
+        return false;
+    }    
+}
+
+/**
+ * Очистить элементы для ввода комиссии
+ */
+function clearInputsForCommision() {
+    var startDInput = document.querySelector("#startDInput");
+    var startDInputHelp = document.querySelector("#startDInputHelp");
+    var secondDInput = document.querySelector("#secondDInput");
+    var secondDInputHelp = document.querySelector("#secondDInputHelp");
+    var thirdDInput = document.querySelector("#thirdDInput");
+    var thirdDInputHelp = document.querySelector("#thirdDInputHelp");
+
+    forgetPapasPride(startDInput.parentNode);
+    forgetPapasPride(secondDInput.parentNode);
+    forgetPapasPride(thirdDInput.parentNode);
+
+    startDInputHelp.innerHTML = "Введите целое число от 1 до 100";
+    secondDInputHelp.innerHTML = "Введите целое число от 1 до 100";
+    thirdDInputHelp.innerHTML = "Введите целое число от 1 до 100";
 }
