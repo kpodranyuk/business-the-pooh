@@ -12,6 +12,8 @@ var goodsPillBttn = document.querySelector("#goodsPill");
 var userTypesPillBttn = document.querySelector("#userTypesPill");
 // userDiscountPill - Скидки системы
 var userDiscountPillBttn = document.querySelector("#userDiscountPill");
+// potsPerDayPill - Производимое кол-во горшочков меда в день
+var potsPerDayPillBttn = document.querySelector("#potsPerDayPill");
 
 /* ДЕЙСТВИЯ ПО НАЖАТИЮ КНОПОК МЕНЮ */
 // Вкладка Товары системы
@@ -39,6 +41,17 @@ userDiscountPillBttn.onclick = function(event){
     bttnsDiv.style.visibility = "hidden";
 
     editDiscountBttn.disabled = false;
+}
+
+// Вкладка Производимый мед
+potsPerDayPillBttn.onclick = function(event){
+    console.log("Нажата кнопка Производимый мед в панели меню");
+    // Затереть данные виджетов
+    var potsInput = document.querySelector("#potsInput");
+    potsInput.value="";
+    var potsInputHelp = document.querySelector("#potsInputHelp");
+    forgetPapasPride(potsInput.parentNode);
+    potsInputHelp.innerHTML = "Не менее 1 горшочка";
 }
 
 /* КНОПКИ СТРАНИЦ */
@@ -113,6 +126,13 @@ cancelNewDiscountBttn.onclick = function(event){
     var bttnsDiv = document.querySelector("#discountChangeButtons");
     bttnsDiv.style.visibility = "hidden";
     editDiscountBttn.disabled = false;
+}
+
+// Кнопка обновления количества производимых горшочков
+var potsInputInBttn = document.querySelector("#potsInputIn");
+potsInputInBttn.onclick = function(event){
+    console.log("Нажата кнопка обновления количества производимых горшочков");
+    // Проверить введенные данные и вывести сообщение об успешности операции
 }
 
 // Кнопка выхода из аккаунта
