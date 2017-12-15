@@ -69,6 +69,9 @@ potsPerDayPillBttn.onclick = function(event){
     // Текущее количество горшочков
     var potsForNow = document.querySelector("#potsForNow");
     // ВСТАВИТЬ ЗНАЧЕНИЕ С СЕРВЕРА
+    adminLkApi.getPots(function(pots){
+        document.querySelector("#potsForNow").innerHTML = pots;
+    });
     potsForNow.value="";    
     var potsInputHelp = document.querySelector("#potsInputHelp");
     forgetPapasPride(potsInput.parentNode);
@@ -175,6 +178,15 @@ potsInputInBttn.onclick = function(event){
     var papa = isCorrectInt(potsInput.value, potsInputHelp);
     makePapaProud(potsInput.parentNode,papa);
     if(papa){
+        adminLkApi.editPots(Number(potsInput.value), function(success) {
+            if (success) {
+                adminLkApi.getPots(function(pots){
+                    document.querySelector("#potsForNow").innerHTML = pots;
+                });
+            } else {
+                console.log("Не удалось сохранить комиссию");
+            }
+        });
         potsInputInBttn.disabled = true;
         var thxForPotsEditLbl = document.querySelector("#thxForPotsEdit");
         thxForPotsEditLbl.style.visibility = "visible";
