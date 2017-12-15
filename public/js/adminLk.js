@@ -52,6 +52,11 @@ userTypesPillBttn.onclick = function(event){
 userDiscountPillBttn.onclick = function(event){
     console.log("Нажата кнопка Скидки системы в панели меню");
     // Получить данные с сервера
+    adminLkApi.getCommission(function(commission) {
+        document.querySelector("#startD").innerHTML = commission[0];
+        document.querySelector("#secondD").innerHTML = commission[1];
+        document.querySelector("#thirdD").innerHTML = commission[2];
+    });
     // Прячем div'ы
     var div2 = document.querySelector("#discountChangeTableDiv");
     div2.style.visibility = "hidden";
@@ -72,6 +77,9 @@ potsPerDayPillBttn.onclick = function(event){
     // Текущее количество горшочков
     var potsForNow = document.querySelector("#potsForNow");
     // ВСТАВИТЬ ЗНАЧЕНИЕ С СЕРВЕРА
+    adminLkApi.getPots(function(pots){
+        document.querySelector("#potsForNow").innerHTML = pots;
+    });
     potsForNow.value="";    
     var potsInputHelp = document.querySelector("#potsInputHelp");
     forgetPapasPride(potsInput.parentNode);
@@ -131,6 +139,18 @@ saveDiscountBttn.onclick = function(event){
     makePapaProud(thirdDInput.parentNode, papa);
     papasLast = papasLast && papa;
     if(papasLast) {
+        // Сохраняем скидки
+        adminLkApi.editCommission(Number(startDInput.value), Number(secondDInput.value), Number(thirdDInput.value), function(success) {
+            if (success) {
+                adminLkApi.getCommission(function(commission) {
+                    document.querySelector("#startD").innerHTML = commission[0];
+                    document.querySelector("#secondD").innerHTML = commission[1];
+                    document.querySelector("#thirdD").innerHTML = commission[2];
+                });
+            } else {
+                console.log("Не удалось сохранить комиссию");
+            }
+        });
         // Отобразить третий блок с благодарностью и деактивировать кнопки
         var div3 = document.querySelector("#discountInfoChangedDiv");
         div3.style.visibility = "visible";    
@@ -166,6 +186,15 @@ potsInputInBttn.onclick = function(event){
     var papa = isCorrectInt(potsInput.value, potsInputHelp);
     makePapaProud(potsInput.parentNode,papa);
     if(papa){
+        adminLkApi.editPots(Number(potsInput.value), function(success) {
+            if (success) {
+                adminLkApi.getPots(function(pots){
+                    document.querySelector("#potsForNow").innerHTML = pots;
+                });
+            } else {
+                console.log("Не удалось сохранить комиссию");
+            }
+        });
         potsInputInBttn.disabled = true;
         var thxForPotsEditLbl = document.querySelector("#thxForPotsEdit");
         thxForPotsEditLbl.style.visibility = "visible";

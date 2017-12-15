@@ -149,7 +149,7 @@ router.post('/user-type-add', function (req, res) {
  * Редактирование кол-ва выпускаемого пчелами меда в сутки
  */
 router.post('/edit-pots-count', function (req, res) {
-    var count = req.body.pots;
+    var count = Number(req.body.pots);
     editData.setNewPots(count);
     res.json({
         success: true
@@ -161,7 +161,7 @@ router.post('/edit-pots-count', function (req, res) {
  * Редактирование комисии для новых пользователей
  */
 router.post('/edit-commission', function (req, res) {
-    var comission = req.body.commission;
+    var comission = [Number(req.body.startDInput), Number(req.body.secondDInput), Number(req.body.thirdDInput)];
     editData.setNewСommission(comission);
     res.json({
         success: true
