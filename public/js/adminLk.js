@@ -8,8 +8,8 @@ $(document).ready(function(){
 });
 
 /* ГЛОБАЛЬНЫЕ ИДЕНТИФИКАТОРЫ */
-var curIdGoods = 0;
-var curIdUserTypes = 0;
+var curIdGoods = -1;
+var curIdUserTypes = -1;
 
 /* КНОПКИ МЕНЮ */
 // goodsPill - Товары системы
@@ -25,6 +25,9 @@ var potsPerDayPillBttn = document.querySelector("#potsPerDayPill");
 // Вкладка Товары системы
 goodsPillBttn.onclick = function(event){
     console.log("Нажата кнопка Товары системы в панели меню");
+    // Очистить таблицу
+    var tableBody = $("#userTypesTableBody");
+    tableBody.empty();
     // Получить данные с сервера
     adminLkApi.getProductTypes(function(productTypes) {
         insertNewDataForGoods(productTypes);
@@ -33,6 +36,10 @@ goodsPillBttn.onclick = function(event){
 
 // Вкладка Типы пользователей
 userTypesPillBttn.onclick = function(event){
+    curIdUserTypes=-1;
+    // Очистить таблицу
+    var tableBody = $("#goodsTableBody");
+    tableBody.empty();
     console.log("Нажата кнопка Типы пользователей в панели меню");
     // Получить данные с сервера
     adminLkApi.getUserTypes(function(userTypes) {
@@ -178,6 +185,7 @@ logOutBttn.onclick = function(event){
 // Сохранить изменения типа товара
 var editGoodsSubmitBttn = document.querySelector("#editGoodsSubmit")
 editGoodsSubmitBttn.onclick = function(event){
+    event.preventDefault();
     console.log("Нажата кнопка сохранения изменений в товаре");
     // Проверить введенные поля
     var goodsInputName = document.querySelector("#goodsInputName");
@@ -195,7 +203,7 @@ editGoodsSubmitBttn.onclick = function(event){
         // Отправить запрос на сервер
         adminLkApi.editProduct(curIdGoods,goodsInputName.value,goodsInputCourse.value,function(result){
             if(result){
-                return true;
+                //return false;
                 goodsPillBttn.click();
             }
         });
@@ -207,12 +215,36 @@ editGoodsSubmitBttn.onclick = function(event){
 // Сохранить изменения в типе пользовател
 var editAddUserTypeSubmitBttn = document.querySelector("#editAddUserTypeSubmit")
 editAddUserTypeSubmitBttn.onclick = function(event){
+    event.preventDefault();
     console.log("Нажата кнопка сохранения изменений в типе пользователя");
     if(curIdUserTypes<0){
         // Добавление типа пользователя
     }
     else{
         // Редактирование типа пользователя
+        // Проверить введенные поля
+        var userTypeInputName = document.querySelector("#userTypeInputName");
+        var userTypeInputNameHelp = document.querySelector("#userTypeInputNameHelp");
+        var wasPapaProud = isCorrectNaming(userTypeInputName.value, userTypeInputNameHelp);
+        makePapaProud(userTypeInputName.parentNode, wasPapaProud);
+
+        if(wasPapaProud){
+            // Отправить запрос на сервер
+            adminLkApi.editUser(getCurUserTypeName(),userTypeInputName.value,getProductIdForCurUser(),function(result){
+                if(result){
+                    //return false;
+                    //userTypesPillBttn.click();
+                    console.log("cool");
+                    // Получить данные с сервера
+                    adminLkApi.getUserTypes(function(userTypes) {
+                        insertNewDataForUserTypes(userTypes);
+                    });
+                    return false;
+                }
+            });
+        }
+        else
+            return false;
     }
 }
 
@@ -224,13 +256,18 @@ function editGoods(){
 function editUserType(event){
     // Нажата кнопка редактирования типа пользователя с идентификатором id
     var id = 0;
-    if(event.target.type == "button"){
+    console.log(event.target.getAttribute('class'))
+    if(event.target.getAttribute('class') == "btn btn-warning"){
         id = event.target.parentNode.parentNode.parentNode.id;
+        console.log(event.target.parentNode.parentNode.parentNode)
     }
     else {
         id = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        console.log(event.target.parentNode.parentNode.parentNode.parentNode)
     }
     curIdUserTypes = id;
+    openUserTypeModal(curIdUserTypes);
+    console.log(curIdUserTypes)
     // Добавить информацию о товарах
     var select = document.querySelector("#goodsTypesSelect");
     var option;
@@ -277,6 +314,7 @@ function insertNewDataForUserTypes(data) {
             createButtonsForUserTypes(buttons);        
             console.log(buttons);
             var row = table.insertRow(i);
+            row.id = i;
             var name = row.insertCell(0); // Название
             name.innerHTML = data[i].name;
             var goods = row.insertCell(1); // Товар !!!! Решить вопрос с именем товара
@@ -483,4 +521,32 @@ function findProductName(productTypeId){
             return pTypes[i].name;
     }
     return "";
+}
+
+function getCurUserTypeName(){
+    if(curIdUserTypes>-1){
+        var row = document.getElementById(curIdUserTypes);
+        console.log(curIdUserTypes);
+        var name = row.cells[0].innerHTML;
+        console.log(name);
+        return name;
+    }
+    return "";
+}
+
+function getProductIdForCurUser(){
+    if(curIdUserTypes>-1){
+        var row = document.getElementById(curIdUserTypes);
+        var product = row.cells[1].innerHTML;
+        console.log(product);
+        var pTypes = adminLkApi.data.productTypes;
+        for (var i = 0; i < pTypes.length; i++) {
+            if(pTypes[i].name === product){
+                console.log(pTypes[i].idProductType)
+                return pTypes[i].idProductType;
+            }
+                
+        }
+    }
+    return -1;
 }
