@@ -231,10 +231,12 @@ editGoodsSubmitBttn.onclick = function(event){
     papa = wasPapaProud && papa;
     if(papa){
         // Отправить запрос на сервер
-        adminLkApi.editProduct(curIdGoods,goodsInputName.value,goodsInputCourse.value,function(result){
+        adminLkApi.editProduct(curIdGoods,goodsInputName.value,goodsInputCourse.value,function(result, error){
             if(result){
                 //return false;
                 goodsPillBttn.click();
+            } else {
+                alert(error);
             }
         });
     }
@@ -257,7 +259,7 @@ editAddUserTypeSubmitBttn.onclick = function(event){
 
         if(wasPapaProud){
             // Отправить запрос на сервер
-            adminLkApi.addUser(userTypeInputName.value,getProductIdForCurUser(),function(result){
+            adminLkApi.addUser(userTypeInputName.value,getProductIdForCurUser(),function(result, error){
                 if(result){
                     //return false;
                     //userTypesPillBttn.click();
@@ -267,6 +269,8 @@ editAddUserTypeSubmitBttn.onclick = function(event){
                         insertNewDataForUserTypes(userTypes);
                     });
                     return false;
+                } else {
+                    alert(error);
                 }
             });
         }
@@ -283,7 +287,7 @@ editAddUserTypeSubmitBttn.onclick = function(event){
 
         if(wasPapaProud){
             // Отправить запрос на сервер
-            adminLkApi.editUser(getCurUserTypeName(),userTypeInputName.value,getProductIdForCurUser(),function(result){
+            adminLkApi.editUser(getCurUserTypeName(),userTypeInputName.value,getProductIdForCurUser(),function(result, error){
                 if(result){
                     //return false;
                     //userTypesPillBttn.click();
@@ -293,6 +297,8 @@ editAddUserTypeSubmitBttn.onclick = function(event){
                         insertNewDataForUserTypes(userTypes);
                     });
                     return false;
+                } else {
+                    alert(error);
                 }
             });
         }
@@ -413,7 +419,7 @@ function insertNewDataForGoods(data) {
         var name = row.insertCell(0); // Название
         name.innerHTML = data[i].name;
         var goods = row.insertCell(1); // Предмет обмена
-        goods.innerHTML = data[i].type;
+        goods.innerHTML = getStringType(data[i].type);
         var course = row.insertCell(2); // Курс обмена
         course.innerHTML = data[i].rate;
         var c = row.insertCell(3); // Кнопки
@@ -626,4 +632,15 @@ function getProductIdForCurUser(){
             
     }
     return -1;
+}
+
+function getStringType(type) {
+    if(type == "F") {
+        return "Цветочек";
+    } else if (type == "B") {
+        return "Шарик";
+    } else if (type == "P") {
+        return "Горшочек";
+    }
+
 }
