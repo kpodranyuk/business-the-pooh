@@ -328,7 +328,7 @@ export function getCommission(callback) {
  * @param {mass} commission
  * @param {function} callback 
  */
-export function editCommission(commission ,callback) {
+export function editCommission(startDInput, secondDInput, thirdDInput, callback) {
     var req = $.ajax({
         method: "POST",
         url: '/api/admin/edit-commission',
@@ -337,13 +337,15 @@ export function editCommission(commission ,callback) {
         },        
         dataType: 'json',
         data: {
-            commission: commission
+            startDInput: startDInput,
+            secondDInput: secondDInput,
+            thirdDInput: thirdDInput
         }, 
         success: function(response){
             console.log(response);
             if(response.success == true){
                 // Заполняем данными
-                data.commission = commission;
+                data.commission = [startDInput, secondDInput, thirdDInput];
                 console.log(data);
                 callback(response.success);// отсылаем успешность
             } else {

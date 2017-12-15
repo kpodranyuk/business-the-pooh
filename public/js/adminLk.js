@@ -128,6 +128,18 @@ saveDiscountBttn.onclick = function(event){
     makePapaProud(thirdDInput.parentNode, papa);
     papasLast = papasLast && papa;
     if(papasLast) {
+        // Сохраняем скидки
+        adminLkApi.editCommission(Number(startDInput.value), Number(secondDInput.value), Number(thirdDInput.value), function(success) {
+            if (success) {
+                adminLkApi.getCommission(function(commission) {
+                    document.querySelector("#startD").innerHTML = commission[0];
+                    document.querySelector("#secondD").innerHTML = commission[1];
+                    document.querySelector("#thirdD").innerHTML = commission[2];
+                });
+            } else {
+                console.log("Не удалось сохранить комиссию");
+            }
+        });
         // Отобразить третий блок с благодарностью и деактивировать кнопки
         var div3 = document.querySelector("#discountInfoChangedDiv");
         div3.style.visibility = "visible";    

@@ -161,7 +161,7 @@ router.post('/edit-pots-count', function (req, res) {
  * Редактирование комисии для новых пользователей
  */
 router.post('/edit-commission', function (req, res) {
-    var comission = req.body.commission;
+    var comission = [Number(req.body.startDInput), Number(req.body.secondDInput), Number(req.body.thirdDInput)];
     editData.setNewСommission(comission);
     res.json({
         success: true
