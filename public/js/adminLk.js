@@ -220,6 +220,29 @@ editAddUserTypeSubmitBttn.onclick = function(event){
     console.log("Нажата кнопка сохранения изменений в типе пользователя");
     if(curIdUserTypes<0){
         // Добавление типа пользователя
+        // Проверить введенные поля
+        var userTypeInputName = document.querySelector("#userTypeInputName");
+        var userTypeInputNameHelp = document.querySelector("#userTypeInputNameHelp");
+        var wasPapaProud = isCorrectNaming(userTypeInputName.value, userTypeInputNameHelp);
+        makePapaProud(userTypeInputName.parentNode, wasPapaProud);
+
+        if(wasPapaProud){
+            // Отправить запрос на сервер
+            adminLkApi.addUser(userTypeInputName.value,getProductIdForCurUser(),function(result){
+                if(result){
+                    //return false;
+                    //userTypesPillBttn.click();
+                    console.log("cool");
+                    // Получить данные с сервера
+                    adminLkApi.getUserTypes(function(userTypes) {
+                        insertNewDataForUserTypes(userTypes);
+                    });
+                    return false;
+                }
+            });
+        }
+        else
+            return false;
     }
     else{
         // Редактирование типа пользователя
@@ -281,18 +304,6 @@ function editUserType(event){
     curIdUserTypes = id;
     openUserTypeModal(curIdUserTypes);
     console.log(curIdUserTypes)
-    // Добавить информацию о товарах
-    var select = document.querySelector("#goodsTypesSelect");
-    var option;
-    while (select.length > 0) {
-        select.remove(select.length-1);
-    }
-    var pTypes = adminLkApi.data.productTypes;
-    for (var i = 0; i < pTypes.length; i++) {
-        option = document.createElement("option");
-        option.text = pTypes[i].name;
-        select.add(option);
-    }
 }
 
 function removeUserType(){
@@ -379,6 +390,18 @@ function openUserTypeModal(currentId){
     }
     else{
         modalHeader.innerHTML = "Добавление типа пользователя";
+    }
+    // Добавить информацию о товарах
+    var select = document.querySelector("#goodsTypesSelect");
+    var option;
+    while (select.length > 0) {
+        select.remove(select.length-1);
+    }
+    var pTypes = adminLkApi.data.productTypes;
+    for (var i = 0; i < pTypes.length; i++) {
+        option = document.createElement("option");
+        option.text = pTypes[i].name;
+        select.add(option);
     }
 }
 
@@ -555,6 +578,17 @@ function getProductIdForCurUser(){
         var pTypes = adminLkApi.data.productTypes;
         for (var i = 0; i < pTypes.length; i++) {
             if(pTypes[i].name === product){
+                console.log(pTypes[i].idProductType)
+                return pTypes[i].idProductType;
+            }
+                
+        }
+    }
+    else{
+        var val = $("#goodsTypesSelect").val();
+        var pTypes = adminLkApi.data.productTypes;
+        for (var i = 0; i < pTypes.length; i++) {
+            if(pTypes[i].name === val){
                 console.log(pTypes[i].idProductType)
                 return pTypes[i].idProductType;
             }
