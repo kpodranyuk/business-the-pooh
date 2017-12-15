@@ -1,11 +1,21 @@
+#Промоушены пользователей
+INSERT INTO Promotion(operationsCount, operationsToNext, percent, firstCommission, secondCommission, thirdCommission) 
+VALUES(1,9,15, 15, 10, 5);
+
+INSERT INTO Promotion(operationsCount, operationsToNext, percent, firstCommission, secondCommission, thirdCommission) 
+VALUES(1,9,15, 15, 10, 5);
+
+INSERT INTO Promotion(operationsCount, operationsToNext, percent, firstCommission, secondCommission, thirdCommission) 
+VALUES(1,9,15, 15, 10, 5);
+
 # Пользователи
 INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount,isDeactivation, idPromotion,nameUserType) 
-VALUES('super_owl44', 'yasovaatinet', 'Екатерина', false, 15, 5,0,1,"Совунья");
+VALUES('super_owl44', 'yasovaatinet', 'Екатерина', false, 15, 5,0,2,"Совунья");
 
 INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount,isDeactivation, idPromotion,nameUserType) 
-VALUES('P9ltA40k', 'pyatak2828', 'Дмитрий', false, 0, 0, 0,1,"Пятачок");
+VALUES('P9ltA40k', 'pyatak2828', 'Дмитрий', false, 0, 0, 0,3,"Пятачок");
 INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount,isDeactivation, idPromotion,nameUserType) 
-VALUES('rraabbiitt', 'aaaaa1234', 'Евстрат', false, 0, 0, 0,1,"Кролик");
+VALUES('rraabbiitt', 'aaaaa1234', 'Евстрат', false, 0, 0, 0,4,"Кролик");
 
 
 
