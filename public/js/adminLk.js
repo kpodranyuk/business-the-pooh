@@ -309,17 +309,32 @@ function editUserType(event){
 function removeUserType(){
     // Нажата кнопка удаления типа пользователя с идентификатором id
     var id = 0;
-    if(event.target.type == "button"){
+    console.log(event.target.getAttribute('class'))
+    if(event.target.getAttribute('class') == "btn btn-danger"){
         id = event.target.parentNode.parentNode.parentNode.id;
+        console.log(event.target.parentNode.parentNode.parentNode)
     }
     else {
         id = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        console.log(event.target.parentNode.parentNode.parentNode.parentNode)
     }
     curIdUserTypes = id;
+    console.log(id)
+    var name = document.getElementById(id).cells[0].innerHTML;
     var rowIndex = document.getElementById(id).rowIndex;
-    var table = document.querySelector("#typesTable");
-    table.deleteRow(rowIndex);
-    curIdUserTypes = -1;
+    // Отправить запрос на сервер
+    adminLkApi.deleteUser(name,function(result){
+        if(result){
+            //return false;
+            //userTypesPillBttn.click();
+            console.log("cool");
+            // Получить данные с сервера
+            adminLkApi.getUserTypes(function(userTypes) {
+                insertNewDataForUserTypes(userTypes);
+            });
+            return false;
+        }
+    });
 }
 
 /**
@@ -513,6 +528,7 @@ function createButtonsForUserTypes(parentDiv) {
     // Кнопка
     var delButton = document.createElement('button');
     delButton.className = "btn btn-danger";
+    delButton.onclick = removeUserType;
     //Спан с крестиком
     var delSpan = document.createElement('span');
     delSpan.className = "glyphicon glyphicon-remove";
@@ -571,29 +587,14 @@ function getCurUserTypeName(){
 }
 
 function getProductIdForCurUser(){
-    if(curIdUserTypes>-1){
-        var row = document.getElementById(curIdUserTypes);
-        var product = row.cells[1].innerHTML;
-        console.log(product);
-        var pTypes = adminLkApi.data.productTypes;
-        for (var i = 0; i < pTypes.length; i++) {
-            if(pTypes[i].name === product){
-                console.log(pTypes[i].idProductType)
-                return pTypes[i].idProductType;
-            }
-                
+    var val = $("#goodsTypesSelect").val();
+    var pTypes = adminLkApi.data.productTypes;
+    for (var i = 0; i < pTypes.length; i++) {
+        if(pTypes[i].name === val){
+            console.log(pTypes[i].idProductType)
+            return pTypes[i].idProductType;
         }
-    }
-    else{
-        var val = $("#goodsTypesSelect").val();
-        var pTypes = adminLkApi.data.productTypes;
-        for (var i = 0; i < pTypes.length; i++) {
-            if(pTypes[i].name === val){
-                console.log(pTypes[i].idProductType)
-                return pTypes[i].idProductType;
-            }
-                
-        }
+            
     }
     return -1;
 }
