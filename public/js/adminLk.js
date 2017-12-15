@@ -25,6 +25,7 @@ var potsPerDayPillBttn = document.querySelector("#potsPerDayPill");
 // Вкладка Товары системы
 goodsPillBttn.onclick = function(event){
     console.log("Нажата кнопка Товары системы в панели меню");
+    curIdGoods = -1;
     // Очистить таблицу
     var tableBody = $("#userTypesTableBody");
     tableBody.empty();
@@ -251,6 +252,18 @@ editAddUserTypeSubmitBttn.onclick = function(event){
 /* СОБЫТИЯ НА КНОПКИ ТАБЛИЦ */
 function editGoods(){
     // Нажата кнопка редактирования товара с идентификатором id
+    var id = 0;
+    console.log(event.target.getAttribute('class'))
+    if(event.target.getAttribute('class') == "btn btn-warning"){
+        id = event.target.parentNode.parentNode.parentNode.id;
+        console.log(event.target.parentNode.parentNode.parentNode)
+    }
+    else {
+        id = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        console.log(event.target.parentNode.parentNode.parentNode.parentNode)
+    }
+    curIdGoods = id;
+    console.log(curIdGoods)
 }
 
 function editUserType(event){
