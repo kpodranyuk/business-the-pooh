@@ -393,8 +393,10 @@ function insertNewDataForUserTypes(data) {
             name.innerHTML = data[i].name;
             var goods = row.insertCell(1); // Товар !!!! Решить вопрос с именем товара
             goods.innerHTML = findProductName(data[i].productType); // Находим имя товара
-            var c = row.insertCell(2); // Кнопки
-            c.appendChild(buttons);
+            if (i > 2) {
+                var c = row.insertCell(2); // Кнопки
+                c.appendChild(buttons);
+            }
             tableBody.append(row);
         }
     }
