@@ -10,12 +10,13 @@ VALUES(1,9,15, 15, 10, 5);
 
 # Пользователи
 INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount,isDeactivation, idPromotion,nameUserType) 
-VALUES('super_owl44', 'yasovaatinet', 'Екатерина', false, 15, 5,0,2,"Совунья");
+VALUES('super_owl44', 'yasovaatinet', 'Екатерина', false, 35, 0.12, 0, 2, "Совунья");
 
 INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount,isDeactivation, idPromotion,nameUserType) 
-VALUES('P9ltA40k', 'pyatak2828', 'Дмитрий', false, 0, 0, 0,3,"Пятачок");
+VALUES('P9ltA40k', 'pyatak2828', 'Дмитрий', false, 0, 0.0375, 0, 3, "Пятачок");
+
 INSERT INTO User(login, password, name, isAdmin, productAmount, honeyAmount,isDeactivation, idPromotion,nameUserType) 
-VALUES('rraabbiitt', 'aaaaa1234', 'Евстрат', false, 0, 0, 0,4,"Кролик");
+VALUES('rraabbiitt', 'aaaaa1234', 'Евстрат', false, 5, 0.5, 0, 4, "Кролик");
 
 
 
@@ -69,7 +70,3 @@ INSERT INTO Deal(loginUser, idOperation) VALUES('P9ltA40k', 6);
 INSERT INTO Deal(loginUser, idOperation) VALUES('super_owl44', 7);
 INSERT INTO Deal(loginUser, idOperation) VALUES('super_owl44', 8);
 INSERT INTO Deal(loginUser, idOperation) VALUES('super_owl44', 9);
-
-# Винни
-INSERT INTO Operation(type, date, productAmount, honeyPots, honeyCount, comission, idProductType) 
-VALUES('E', '2017-12-14 13:01:43', 0, 0,  0.15, 0, (select idProductType from ProductType where type='H'));
