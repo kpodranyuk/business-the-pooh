@@ -30,7 +30,9 @@ export function sendRegist(){
             else{
                 console.log(response.message);
                 // TODO сделать вывод сообщения в поле под логином
-                alert(response.message);
+                //alert(response.message);
+                var loginHelp = document.querySelector("#regloginHelp");
+                loginHelp.innerHTML=response.message;
             }
         },
         error: function(response){
@@ -73,7 +75,9 @@ export function logIn() {
             } else {
                 console.log(response.message);
                 // TODO сделать вывод сообщения в поле под логином
-                alert(response.message);
+                //alert(response.message);
+                var loginHelp = document.querySelector("#enterloginHelp");
+                loginHelp.innerHTML=response.message;
             }
         },
         error: function(response){

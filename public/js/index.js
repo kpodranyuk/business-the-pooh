@@ -43,6 +43,7 @@ enterBttn.onclick = function (event) {
         return false;
     } else {
         indexApi.logIn();
+        formCtrl.makePapaProud(login.parentNode, false);
         return false;
     }
 
@@ -92,6 +93,7 @@ regBttn.onclick = function (event) {
         return false;
     } else {
         indexApi.sendRegist();
+        formCtrl.makePapaProud(login.parentNode, false);
         return false;
     }
     return false;
