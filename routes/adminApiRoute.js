@@ -3,6 +3,7 @@ var router = express.Router();
 var path = require('path');
 var db = require('../db/admindb.js');
 var editData = require('../model/datapromotionandpots');
+var common = require('../model/common');
 
 /**
  * Получение информации о текущем курсе товаров
@@ -43,6 +44,7 @@ router.post('/edit-product', function (req, res) {
             res.json({ success: false, message: 'Тип товара с таким названием уже существует' });
         }
         else {
+            req.io.sockets.emit('update-type-product', { type: common.getStringProductType(idProduct)});
             res.json({
                 success: true
             });
@@ -90,6 +92,7 @@ router.post('/user-type-edit', function (req, res) {
             res.json({ success: false, message: 'Тип с таким названием уже существует' });
         }
         else {
+            req.io.sockets.emit('update-type', { oldUserType: userType});
             res.json({
                 success: true
             });

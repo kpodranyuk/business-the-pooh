@@ -587,6 +587,37 @@ socket.on('get-comission', function(data) {
 
 });
 
+socket.on('update-type', function(data) {
+    console.log("Сработало событие обновления типа пользователя");
+    if (userApi.curUser.userType.name == data.oldUserType) {
+        // Подгружаем обновленного пользователя с сервера
+        userApi.updateUser(function() {
+            console.log("Обновили пользователя");
+            $("#userTypeName").text(userApi.curUser.userType.name+" "+userApi.curUser.name);
+            if (currentPill == "buyPill") {
+                // Обновляем информацию во вкладке покупки меда
+                buyPillBttn.click();
+            }
+            alert("Ваш тип пользователя обновил администратор");
+        });
+    }
+});
+
+socket.on('update-type-product', function(data) {
+    console.log("Сработало событие обновления типа продукта");
+    if (userApi.curUser.userType.productType.type == data.type) {
+        // Подгружаем обновленного пользователя с сервера
+        userApi.updateUser(function() {
+            console.log("Обновили тип товара");
+            if (currentPill == "buyPill") {
+                // Обновляем информацию во вкладке покупки меда
+                buyPillBttn.click();
+            }
+            alert("Ваш тип товара обновил администратор");
+        });
+    }
+});
+
 function updatePillAfterEvent() {
     if (currentPill == "buyPill") {
         // Обновляем информацию во вкладке покупки меда

@@ -164,4 +164,20 @@ router.post('/get-honey-info', function (req, res) {
 });
 
 
+/**
+ * Получить юзера
+ */
+router.post('/get-user', function (req, res) {
+	
+	var login = req.body.login;
+	// Получить все данные о пользователе и отправить их на клиент
+	db.getUser(login, function (user) {
+		res.json({
+			success: true,
+			user: user
+		});
+	});
+
+});
+
 module.exports = router;

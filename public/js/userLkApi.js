@@ -385,3 +385,38 @@ export function getUserBalance(callback){
         }      
     });
 }
+
+
+/**
+ * Обновить данные у пользователя
+ */
+export function updateUser(callback) {
+    // Запрос
+    var req = $.ajax({
+        method: "POST",
+        url: '/api/common/get-user',
+        header: {
+            "Content-Type": 'application/json',
+        },        
+        dataType: 'json',
+        data: {
+            login : curUser.login
+        }, 
+        success: function(response){
+            if(response.success == true) {
+                console.log("ОБНОВИЛИСЬ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ!!!");
+                // Запоминаем пользователя в браузере
+                curUser = response.user;
+                console.log(curUser);
+                localStorage.currentUser = JSON.stringify(response.user);
+                callback();
+            } else {
+                console.log("не удалось обновить пользователя");
+            }
+        },
+        error: function(response){
+            console.log("ОШИБКА ПРИ ОБНОВЛЕНИИ ПОЛЬЗОВАТЕЛЯ");
+            console.log(response);
+        }
+    });
+}
