@@ -253,6 +253,7 @@ editGoodsSubmitBttn.onclick = function(event){
             if(result){
                 //return false;
                 goodsPillBttn.click();
+                editGoodsSubmitBttn.disabled=true;
             } else {
                 alert(error);
             }
@@ -314,6 +315,7 @@ editAddUserTypeSubmitBttn.onclick = function(event){
                     adminLkApi.getUserTypes(function(userTypes) {
                         insertNewDataForUserTypes(userTypes);
                     });
+                    editAddUserTypeSubmitBttn.disabled=true;
                     return false;
                 } else {
                     alert(error);
@@ -327,6 +329,7 @@ editAddUserTypeSubmitBttn.onclick = function(event){
 
 /* СОБЫТИЯ НА КНОПКИ ТАБЛИЦ */
 function editGoods(){
+    editGoodsSubmitBttn.disabled=false;
     // Нажата кнопка редактирования товара с идентификатором id
     var id = 0;
     console.log(event.target.getAttribute('class'))
@@ -340,9 +343,22 @@ function editGoods(){
     }
     curIdGoods = id;
     console.log(curIdGoods)
+    // Очищаем поля модального окна
+    var goodsInputName = document.querySelector("#goodsInputName");
+    goodsInputName.value="";
+    var goodsInputNameHelp = document.querySelector("#goodsInputNameHelp");
+    goodsInputNameHelp.innerHTML="";
+    forgetPapasPride(goodsInputName.parentNode);
+
+    var goodsInputCourse = document.querySelector("#goodsInputCourse");
+    goodsInputCourse.value="";
+    var goodsInputCourseHelp = document.querySelector("#goodsInputCourseHelp");
+    goodsInputCourseHelp.innerHTML="";
+    forgetPapasPride(goodsInputCourse.parentNode);
 }
 
 function editUserType(event){
+    editAddUserTypeSubmitBttn.disabled=false;
     // Нажата кнопка редактирования типа пользователя с идентификатором id
     var id = 0;
     console.log(event.target.getAttribute('class'))
@@ -455,6 +471,14 @@ function insertNewDataForGoods(data) {
  * @param {number} currentId - текущий идентификатор записи
  */
 function openUserTypeModal(currentId){
+
+    // Очищаем поля для ввода
+    var userTypeInputName = document.querySelector("#userTypeInputName");
+    userTypeInputName.value="";
+    var userTypeInputNameHelp = document.querySelector("#userTypeInputNameHelp");
+    userTypeInputNameHelp.innerHTML="";
+    forgetPapasPride(userTypeInputName.parentNode);
+    
     var modalHeader = document.querySelector("#editAddUserTypeModalLabel");
     curIdUserTypes = parseInt(currentId.toString());
     if(curIdUserTypes>-1){
