@@ -80,17 +80,44 @@ export function controlPagesForBrowser(){
     // Получаем текущую открытую вкладку сайта
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    console.log( page );
-    // Если в хранилище бразуера есть текущий пользователь
-    if(user!=null){
-        // Перенаправляем его на страницу с ошибкой
-        window.location = '/sorry.html';
-    }
-    // Если пользователь еще не совершил вход, отправляем его на главную страницу
-    else{        
-        if(page!="index.html"){
-            // Перенаправить на главную страницу
-            window.location = '/index.html';
+    console.log(localStorage.getItem("tabsCount"));
+    console.log(user);
+    console.log(page);
+    if(localStorage.getItem("tabsCount")!=null && parseInt(localStorage.tabsCount)>1){
+        console.log( window.location.href );
+        // Если в хранилище бразуера есть текущий пользователь
+        if(user!=null){
+            // Перенаправляем его на страницу с ошибкой
+            window.location = '/sorry.html';
+            return false;
+        }
+        // Если пользователь еще не совершил вход, отправляем его на главную страницу
+        else{        
+            if(page!="index.html"){
+                // Перенаправить на главную страницу
+                window.location = '/index.html';
+            }
         }
     }
+    else if(localStorage.getItem("tabsCount")!=null && parseInt(localStorage.tabsCount)===1){
+        // Отправить пользователя в его ЛК
+        console.log('here')
+        whereToGo(user, page);
+        return true;
+    }
+}
+
+function whereToGo(user, curPage){
+    if (user!=null){
+        if(user.user==="admin")
+            window.location = '/adminLk.html';
+        else if(user.isAdmin && curPage!= 'poohLk.html'){
+            window.location = '/poohLk.html';
+        }
+        else if(!user.isAdmin && curPage!= 'userLk.html'){
+            window.location = '/userLk.html';
+        }
+    }
+    else if(curPage != 'index.html')
+        window.location = '/index.html';
 }
