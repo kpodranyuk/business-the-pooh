@@ -88,7 +88,7 @@ export function controlPagesForBrowser(){
         // Если в хранилище бразуера есть текущий пользователь
         if(user!=null){
             // Перенаправляем его на страницу с ошибкой
-            window.location = '/sorry.html';
+            //window.location = '/sorry.html';
             return false;
         }
         // Если пользователь еще не совершил вход, отправляем его на главную страницу

@@ -20,6 +20,9 @@ $(document).ready(function(){
         // Загружаем данные о товарах системы
         goodsPillBttn.click();
     }
+    else{
+        window.location = '/sorry.html';
+    }
 });
 
 /* ГЛОБАЛЬНЫЕ ИДЕНТИФИКАТОРЫ */

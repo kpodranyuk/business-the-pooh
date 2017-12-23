@@ -2,9 +2,13 @@ import * as poohApi from "./poohLkApi.js";
 import * as commonLk from "./commonLk.js";
 import {makePapaProud, forgetPapasPride} from "./formControl.js";
 
+// Создание сокетного соединения
+var socket = io.connect();
+var going = '';
 //document.addEventListener("DOMContentLoaded", commonLk.controlPagesForBrowser);
 window.onunload = function () {
-    socket.emit('leave', { username: 'Администратор Пух' });
+    if(going.length==0)
+        socket.emit('leave', { username: 'Администратор Пух' });
     console.log("LEAVING")
     localStorage.setItem("tabsCount", (parseInt(localStorage.tabsCount)-1).toString());
  }
@@ -18,13 +22,17 @@ $(document).ready(function(){
         localStorage.setItem("tabsCount", (parseInt(localStorage.getItem("tabsCount"))+1).toString());
     console.log(localStorage.getItem("tabsCount"));
     if(commonLk.controlPagesForBrowser()){
+        socket.emit('join', {username: 'Администратор Пух'});
         $("#honeyAmount").text(commonLk.translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
         myHistoryPillBttn.click();
+        going = '';
+    }
+    else{
+        going = 'sorry';
+        window.location = '/sorry.html';
     }
 });
 
-// Создание сокетного соединения
-var socket = io.connect();
 var currentPill = "myHistoryPill";
 // Изображение пчелы при выводе меда
 var beeOut = document.querySelector("#outbee");
@@ -222,7 +230,7 @@ function getWordForTypeOperation(type) {
 
 
 /*   СОБЫТИЯ    */
-socket.emit('join', {username: 'Администратор Пух'});
+//socket.emit('join', {username: 'Администратор Пух'});
 
 // Настал новый операционный день
 socket.on('new-oper-day', function(data) {

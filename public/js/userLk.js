@@ -2,16 +2,17 @@ import * as userApi from "./userLkApi.js";
 import * as commonLk from "./commonLk.js";
 import {makePapaProud, forgetPapasPride, isCorrectPassword, isSecondPswdTheSame} from "./formControl.js";
 
-//document.addEventListener("DOMContentLoaded", commonLk.controlPagesForBrowser);
+// Создание сокетного соединения
+var socket = io.connect();
+var going = '';
 
 window.onunload = function () {
-    socket.emit('leave', { username: userApi.curUser.login });
+    if(going.length==0)
+        socket.emit('leave', { username: userApi.curUser.login });
     console.log("LEAVING")
     localStorage.setItem("tabsCount", (parseInt(localStorage.tabsCount)-1).toString());
  }
 
-// Создание сокетного соединения
-var socket = io.connect();
 var currentPill = "enterPill";
 var maxPots = 0;
 
@@ -24,6 +25,8 @@ $(document).ready(function(){
         localStorage.setItem("tabsCount", (parseInt(localStorage.getItem("tabsCount"))+1).toString());
     console.log(localStorage.getItem("tabsCount"));
     if(commonLk.controlPagesForBrowser()){
+        going = '';
+        socket.emit('join', {username: userApi.curUser.login});
         // TODO сделать функцию для работы с localStorage
         // Устанавливаем информацию о пользователе
         // userImage loginDropdown userTypeName productLabel honeyLabel
@@ -36,6 +39,10 @@ $(document).ready(function(){
         setUserBalance();
 
         enterPillBttn.click();
+    }
+    else{
+        going = 'sorry';
+        window.location = '/sorry.html';
     }
 });
 
@@ -545,7 +552,7 @@ function clearMakeNewPswdInputs(){
 
 
 /*   СОБЫТИЯ    */
-socket.emit('join', {username: userApi.curUser.login});
+//socket.emit('join', {username: userApi.curUser.login});
 
 // Настал новый операционный день
 socket.on('new-oper-day', function(data) {
