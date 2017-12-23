@@ -1,5 +1,22 @@
 import * as indexApi from "./indexApi.js";
 import * as formCtrl from "./formControl.js";
+import {controlPagesForBrowser} from "./commonLk.js"
+
+window.onunload = function () {
+    console.log("LEAVING")
+    localStorage.setItem("tabsCount", (parseInt(localStorage.tabsCount)-1).toString());
+ }
+
+ // По загрузке документа заполняем элементы, отображающие информацию о пользователе
+$(document).ready(function(){
+    if(localStorage.getItem("tabsCount")==null || isNaN(localStorage.getItem("tabsCount"))){
+        localStorage.setItem("tabsCount", 1);
+    }
+    else
+        localStorage.setItem("tabsCount", (parseInt(localStorage.getItem("tabsCount"))+1).toString());
+    console.log(localStorage.getItem("tabsCount"));
+    controlPagesForBrowser();
+});
 
 // подгружаем типы пользователей
 indexApi.getUserType();

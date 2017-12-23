@@ -2,10 +2,25 @@ import * as poohApi from "./poohLkApi.js";
 import * as commonLk from "./commonLk.js";
 import {makePapaProud, forgetPapasPride} from "./formControl.js";
 
+//document.addEventListener("DOMContentLoaded", commonLk.controlPagesForBrowser);
+window.onunload = function () {
+    socket.emit('leave', { username: 'Администратор Пух' });
+    console.log("LEAVING")
+    localStorage.setItem("tabsCount", (parseInt(localStorage.tabsCount)-1).toString());
+ }
+
 // По загрузке документа заполняем элементы, отображающие информацию о Пухе
 $(document).ready(function(){
-    $("#honeyAmount").text(commonLk.translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
-    myHistoryPillBttn.click();
+    if(localStorage.getItem("tabsCount")==null || isNaN(localStorage.getItem("tabsCount"))){
+        localStorage.setItem("tabsCount", 1);
+    }
+    else
+        localStorage.setItem("tabsCount", (parseInt(localStorage.getItem("tabsCount"))+1).toString());
+    console.log(localStorage.getItem("tabsCount"));
+    if(commonLk.controlPagesForBrowser()){
+        $("#honeyAmount").text(commonLk.translateHoney(poohApi.curUser.honeyAmount).toString()+" л меда");
+        myHistoryPillBttn.click();
+    }
 });
 
 // Создание сокетного соединения

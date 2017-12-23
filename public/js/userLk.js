@@ -2,6 +2,14 @@ import * as userApi from "./userLkApi.js";
 import * as commonLk from "./commonLk.js";
 import {makePapaProud, forgetPapasPride, isCorrectPassword, isSecondPswdTheSame} from "./formControl.js";
 
+//document.addEventListener("DOMContentLoaded", commonLk.controlPagesForBrowser);
+
+window.onunload = function () {
+    socket.emit('leave', { username: userApi.curUser.login });
+    console.log("LEAVING")
+    localStorage.setItem("tabsCount", (parseInt(localStorage.tabsCount)-1).toString());
+ }
+
 // Создание сокетного соединения
 var socket = io.connect();
 var currentPill = "enterPill";
@@ -9,18 +17,26 @@ var maxPots = 0;
 
 // По загрузке документа заполняем элементы, отображающие информацию о пользователе
 $(document).ready(function(){
-    // TODO сделать функцию для работы с localStorage
-    // Устанавливаем информацию о пользователе
-    // userImage loginDropdown userTypeName productLabel honeyLabel
-    // Устанавливаем изображение(там функцию я удалил)
-    //$("#userImage").attr("src",getUserImagePath(userApi.curUser.productType));
-    // Устанавливаем логин
-    $("#loginDropdown").text(userApi.curUser.login);
-    // Устанавливаем тип пользователя и имя
-    $("#userTypeName").text(userApi.curUser.userType.name+" "+userApi.curUser.name);
-    setUserBalance();
+    if(localStorage.getItem("tabsCount")==null || isNaN(localStorage.getItem("tabsCount"))){
+        localStorage.setItem("tabsCount", 1);
+    }
+    else
+        localStorage.setItem("tabsCount", (parseInt(localStorage.getItem("tabsCount"))+1).toString());
+    console.log(localStorage.getItem("tabsCount"));
+    if(commonLk.controlPagesForBrowser()){
+        // TODO сделать функцию для работы с localStorage
+        // Устанавливаем информацию о пользователе
+        // userImage loginDropdown userTypeName productLabel honeyLabel
+        // Устанавливаем изображение(там функцию я удалил)
+        //$("#userImage").attr("src",getUserImagePath(userApi.curUser.productType));
+        // Устанавливаем логин
+        $("#loginDropdown").text(userApi.curUser.login);
+        // Устанавливаем тип пользователя и имя
+        $("#userTypeName").text(userApi.curUser.userType.name+" "+userApi.curUser.name);
+        setUserBalance();
 
-    enterPillBttn.click();
+        enterPillBttn.click();
+    }
 });
 
 function setUserBalance(){

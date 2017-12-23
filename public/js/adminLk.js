@@ -1,10 +1,25 @@
 import {makePapaProud, forgetPapasPride} from "./formControl.js";
 import * as adminLkApi from "./adminLkApi.js";
+import {controlPagesForBrowser} from "./commonLk.js"
+
+//document.addEventListener("DOMContentLoaded", controlPagesForBrowser);
+window.onunload = function () {
+    console.log("LEAVING")
+    localStorage.setItem("tabsCount", (parseInt(localStorage.tabsCount)-1).toString());
+}
 
 // По загрузке документа загружаем данные о товарах системы
 $(document).ready(function(){
-    // Загружаем данныео товарах системы
-    goodsPillBttn.click();
+    if(localStorage.getItem("tabsCount")==null || isNaN(localStorage.getItem("tabsCount"))){
+        localStorage.setItem("tabsCount", 1);
+    }
+    else
+        localStorage.setItem("tabsCount", (parseInt(localStorage.getItem("tabsCount"))+1).toString());
+    console.log(localStorage.getItem("tabsCount"));
+    if(controlPagesForBrowser()){
+        // Загружаем данные о товарах системы
+        goodsPillBttn.click();
+    }
 });
 
 /* ГЛОБАЛЬНЫЕ ИДЕНТИФИКАТОРЫ */
