@@ -109,12 +109,12 @@ export function controlPagesForBrowser(){
 
 function whereToGo(user, curPage){
     if (user!=null){
-        if(user.login==="admin")
+        if(user.login==="admin" && curPage!= 'adminLk.html')
             window.location = '/adminLk.html';
-        else if(user.isAdmin && curPage!= 'poohLk.html'){
+        else if(user.isAdmin && user.login!="admin" && curPage!= 'poohLk.html'){
             window.location = '/poohLk.html';
         }
-        else if(!user.isAdmin && curPage!= 'userLk.html'){
+        else if(!user.isAdmin && user.login!="admin" && curPage!= 'userLk.html'){
             window.location = '/userLk.html';
         }
     }

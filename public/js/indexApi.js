@@ -67,7 +67,7 @@ export function logIn() {
                 console.log("ПОЛЬЗОВАТЕЛЬ ВОШЕЛ В СИСТЕМУ!!!");
                 // Запоминаем пользователя в браузере
                 localStorage.currentUser = JSON.stringify(response.user);
-                if (response.user == "admin") {
+                if (response.user.login == "admin") {
                     window.location = '/adminLk.html';
                 } else {
                     goToLk(response.user.isAdmin);
