@@ -70,3 +70,27 @@ export function isCorrectProductAmount(productAmount, min, max, errorPlace){
         return false;
     }    
 }
+
+/**
+ * Осуществить контроль переходов при открытии страницы бразуера в зависимости от того, залогинен ли пользователь
+ */
+export function controlPagesForBrowser(){
+    // Получаем пользователя,который хранится в браузере
+    var user = JSON.parse(localStorage.getItem("currentUser"));
+    // Получаем текущую открытую вкладку сайта
+    var path = window.location.pathname;
+    var page = path.split("/").pop();
+    console.log( page );
+    // Если в хранилище бразуера есть текущий пользователь
+    if(user!=null){
+        // Перенаправляем его на страницу с ошибкой
+        window.location = '/sorry.html';
+    }
+    // Если пользователь еще не совершил вход, отправляем его на главную страницу
+    else{        
+        if(page!="index.html"){
+            // Перенаправить на главную страницу
+            window.location = '/index.html';
+        }
+    }
+}
