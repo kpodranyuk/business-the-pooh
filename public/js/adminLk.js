@@ -403,7 +403,11 @@ function insertNewDataForUserTypes(data) {
         if(data[i].isDeleted==0){
             var buttons = document.createElement('div');
             buttons.className = "text-center";
-            createButtonsForUserTypes(buttons);        
+            if(data[i].name == "Совунья" || data[i].name == "Пятачок" || data[i].name == "Кролик") {
+                createLabel(buttons)
+            } else {
+                createButtonsForUserTypes(buttons);
+            }        
             console.log(buttons);
             var row = table.insertRow(i);
             row.id = i;
@@ -554,6 +558,17 @@ function clearInputsForCommision() {
     startDInputHelp.innerHTML = "Введите целое число от 1 до 100";
     secondDInputHelp.innerHTML = "Введите целое число от 1 до 100";
     thirdDInputHelp.innerHTML = "Введите целое число от 1 до 100";
+}
+
+
+/**
+ * Создать лейбл для дефолтных пользователей
+ * @param {any} parentDiv - родительский div, лежащий внутри ячейки таблицы
+ */
+function createLabel(parentDiv) {
+    var label = document.createElement('label');
+    label.innerHTML = "Стандартный тип";
+    parentDiv.appendChild(label);
 }
 
 /**

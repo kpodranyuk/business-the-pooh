@@ -1,1 +1,8 @@
-{"pots":50,"commission":[15,10,5]}
+{
+    "pots": 50,
+    "commission": [
+        15,
+        10,
+        5
+    ]
+}
