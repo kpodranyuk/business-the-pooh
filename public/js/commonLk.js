@@ -93,7 +93,7 @@ export function controlPagesForBrowser(){
         }
         // Если пользователь еще не совершил вход, отправляем его на главную страницу
         else{        
-            if(page!="index.html"){
+            if(page!="index.html" || page!=""){
                 // Перенаправить на главную страницу
                 window.location = '/index.html';
             }
