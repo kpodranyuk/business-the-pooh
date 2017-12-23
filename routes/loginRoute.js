@@ -16,7 +16,9 @@ router.post('/', function (req, res) {
 			if (login == "admin" && password == "adminadmin") {
 				res.json({
 					success: true,
-					user: "admin"
+					user: {
+						login: "admin"
+					}
 				});
 			} else {
 				// Получить все данные о пользователе и отправить их на клиент

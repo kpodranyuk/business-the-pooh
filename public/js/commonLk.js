@@ -109,7 +109,7 @@ export function controlPagesForBrowser(){
 
 function whereToGo(user, curPage){
     if (user!=null){
-        if(user.user==="admin")
+        if(user.login==="admin")
             window.location = '/adminLk.html';
         else if(user.isAdmin && curPage!= 'poohLk.html'){
             window.location = '/poohLk.html';
