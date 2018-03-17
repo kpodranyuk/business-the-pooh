@@ -93,6 +93,7 @@ export function logIn() {
 }
 
 function goToLk(isAdmin) {
+    // TODO ПЕРЕСМОТРЕТЬ КОД В СВЯЗИ С 3 ВЕРСИЕЙ ПРОЕКТА
     console.log("LK");
     var url = '';
     if (isAdmin)

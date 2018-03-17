@@ -36,40 +36,8 @@ function setUserBalance(){
     $("#honeyLabel").text(translateHoney(userApi.curUser.honeyAmount).toString()+" л меда");
 }
 
-// Изображение пчелы при выводе меда
-var beeOut = document.querySelector("#outbee");
-
 // Изображение пчелы при вводе товара
 var beeIn = document.querySelector("#inbee");
-
-// Анимация пчелы при выводе меда
-var outAnime = anime({
-    targets: beeOut,
-    rotate: '1turn',
-    autoplay: false,
-    duration: 800,
-    begin: function(anim) {
-        // СОБЫТИЕ ЗАВЕРШЕНИЯ АНИМАЦИИ ПРИ ВЫВОДЕ МЕДА
-        // Проверить введенное количество меда
-        var honeyCount = document.querySelector("#honeyInput");
-        var honeyCountHelp = document.querySelector("#honeyInputHelp");
-        var wasPapaProud = false;
-        wasPapaProud = isCorrectHoneyAmount(honeyCount.value, $("#honeyInput").attr('min'), $("#honeyInput").attr('max'), honeyCountHelp);
-        makePapaProud(honeyCount.parentNode, wasPapaProud);
-        if(wasPapaProud){
-            // Отправить запрос на сервер
-            userApi.getHoney(honeyCount.value, function(result){
-                if(result){
-                    var thxForEnter = document.querySelector("#thxForGet");
-                    thxForEnter.style.visibility = "visible";  
-                    // Устанавливаем количество товара пользователя
-                    setUserBalance();
-                    honeyOutBttn.disabled = true;
-                }
-            });
-        }
-    }
-});
 
 // Анимация пчелы при вводе товара
 var inAnime = anime({
@@ -107,8 +75,6 @@ var buyPillBttn = document.querySelector("#buyPill");
 var historyPillBttn = document.querySelector("#historyPill");
 // enterPill - Ввод товара
 var enterPillBttn = document.querySelector("#enterPill");
-// getPill - Вывод меда
-var getPillBttn = document.querySelector("#getPill");
 // settingsPill - Настройки аккаунта (ввод пароля)
 var settingsPillBttn = document.querySelector("#settingsPill");
 // accPill - Аккаунт
@@ -232,40 +198,6 @@ enterPillBttn.onclick = function(event){
     });      
 }
 
-// Вкладка Вывод меда
-getPillBttn.onclick = function(event){
-    currentPill = "getPill";
-    var thxForGet = document.querySelector("#thxForGet");
-    thxForGet.style.visibility = "hidden";    
-    // TODO получить от сервера количество товара для ввода и ограничить инпут
-    userApi.getHoneyInfo(function (result) {
-        var maxHoney = 0;
-        console.log(result);
-        if(result != null) {
-            maxHoney = result;
-            var inp = document.querySelector("#honeyInput");
-            inp.value = "";
-            var inpHelp = document.querySelector("#honeyInputHelp");
-            if(maxHoney<0.005){
-                inp.value = "";
-                makePapaProud(inp.parentNode, false);
-                inpHelp.innerHTML = "Невозможно осуществить снятие<br>На Вашем счету недостаточно меда или Вы исчерпали ежедневный лимит вывода меда в виде 5 литров";
-                honeyOutBttn.disabled = true;
-                return false;
-            }
-            else{
-                inp.parentNode.classList.remove("has-error");
-                inp.parentNode.classList.remove("has-success");
-                inpHelp.innerHTML = "Не более "+(parseFloat((maxHoney.toString()).replace(",", "."))).toString() + " л";
-                honeyOutBttn.disabled = false;
-                $("#honeyInput").attr('min',0.005);
-                $("#honeyInput").attr('max',maxHoney);
-                $("#honeyInput").attr('step',0.010);
-            }
-        }
-    });
-}
-
 // Вкладка Настройки аккаунта (вход)
 settingsPillBttn.onclick = function(event){
     currentPill = "settingsPill";
@@ -296,8 +228,6 @@ var potsInBuyBttn = document.querySelector("#chosenPots");
 var makeBuyBttn = document.querySelector("#argeeToBuy");
 // cancelBuy - Отмена операции покупки
 var stopBuyBttn = document.querySelector("#cancelBuy");
-// honeyOut - Кнопка вывода меда
-var honeyOutBttn = document.querySelector("#honeyOut");
 // honeyIn - Кнопка ввода товара
 var honeyInBttn = document.querySelector("#honeyIn");
 // cont - Переключение на скрытую вкладку с настройками аккаунта
@@ -325,6 +255,7 @@ potsInBuyBttn.onclick = function(event){
         $("#potsCountToBuy").text($("#selectPots").val() + " шт.");
         // TODO узнать текущий курс
         $("#productCountToBuy").text((Number($("#selectPots").val())*getCourse(userApi.curUser.productType)).toString() + " шт.");
+        // TODO ПЕРЕСМОТРЕТЬ КОД В СВЯЗИ С 3 ВЕРСИЕЙ ПРОЕКТА
         $("#comissionSizeForBuy").text((+(((Number($("#selectPots").val())*0.25*(Number(userApi.curUser.promotion.percent)/100))).toFixed(5))).toString());
         var div = document.querySelector("#secondStep");
         div.style.visibility = "visible";
@@ -365,9 +296,6 @@ stopBuyBttn.onclick = function(event){
     var bttnsDiv = document.querySelector("#buyButtons");
     bttnsDiv.style.visibility = "hidden";
 }
-
-// Кнопка вывода меда
-honeyOutBttn.onclick = outAnime.restart;
 
 // Кнопка ввода товара
 honeyInBttn.onclick = inAnime.restart;
@@ -520,34 +448,6 @@ function makePapaProud(parentForm, isProud){
         parentForm.classList.add("has-error");
         return false;
     }
-}
-
-/**
- * Проверить корректность количества меда для вывода
- * @param {string} honeyAmount - значение, введенное пользователем
- * @param {number} min - минимально возможное значение
- * @param {number} max - максимально возможное значение
- * @param {any} errorPlace - лейбл для отображения сообщения с результатом проверки
- */
-function isCorrectHoneyAmount(honeyAmount, min, max, errorPlace){
-    var reg = new RegExp(`^[0-5]([.,][0-9]{1,3})?$`, '');
-    if (honeyAmount==null){
-        errorPlace.innerHTML = "Введите количество меда, пустое поле";
-        return false;
-    } 
-    if(reg.test(honeyAmount)){
-        if (parseFloat(honeyAmount)<min || parseFloat(honeyAmount)>max){
-            errorPlace.innerHTML = "Количество меда не должно быть меньше " + min.toString()
-            + " и больше " + max.toString();            
-            return false;
-        }
-        errorPlace.innerHTML = "Корректное количество меда";
-        return true;
-    }
-    else {
-        errorPlace.innerHTML = "Некорректное количество меда.<br>Количество меда должно быть положительным числом меньше 5";
-        return false;
-    }    
 }
 
 /**
@@ -764,17 +664,6 @@ socket.on('buy-honey', function(data) {
     }
 });
 
-// Пух снял комиссию с пользователей
-socket.on('get-comission', function(data) {
-    console.log("Сработало событие снятия комиссии с пользователей");
-    // Подгружаем обновленный баланс с сервера
-    userApi.getUserBalance(function() {
-        setUserBalance();
-        updatePillAfterEvent();
-    });
-
-});
-
 function updatePillAfterEvent() {
     if (currentPill == "buyPill") {
         // Обновляем информацию во вкладке покупки меда
@@ -782,8 +671,5 @@ function updatePillAfterEvent() {
     } else if (currentPill == "enterPill") {
         // Обновляем информацию во вкладке ввода товара
         enterPillBttn.click();
-    } else if(currentPill == "getPill") {
-        // Обновляем информацию во вкладке вывода меда
-        getPillBttn.click();
-    }
+    } 
 }

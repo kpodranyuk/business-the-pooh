@@ -4,7 +4,6 @@ var db = require('../db/userdb.js');
 var dbo = require('../db/commondb.js');
 var Operation = require('../model/operation');
 var User = require("../model/usermodel");
-var Promotion = require('../model/promotion');
 
 /**
  * Покупка меда(подтверждение)
@@ -16,10 +15,12 @@ router.post('/buy-honey', function (req, res) {
 	user.password = parsedUser.password;
 	user.productAmount = parsedUser.productAmount;
 	user.honeyAmount = parsedUser.honeyAmount;
+	// TODO ПЕРЕСМОТРЕТЬ КОД В СВЯЗИ С 3 ВЕРСИЕЙ ПРОЕКТА
+	/*
 	user.promotion = new Promotion(parsedUser.promotion.id);
 	user.promotion.operationsCount =  parsedUser.promotion.operationsCount;
 	user.promotion.percent = parsedUser.promotion.percent;
-	user.promotion.operationsToNext = parsedUser.promotion.operationsToNext;
+	user.promotion.operationsToNext = parsedUser.promotion.operationsToNext;*/
 
 	// Купить у пчел мед
 	db.buyHoney(user, req.body.countPots, function(newUserData, comission) {

@@ -201,83 +201,6 @@ export function enterProductInfo(callback){
 }
 
 /**
- * Отправить на сервер запрос вывода меда
- */
-export function getHoney(amount, callback){
-    // Формируем запрос
-    var req = $.ajax({
-        method: "POST",
-        url: '/api/common/get-honey',
-        header: {
-            "Content-Type": 'application/json',
-        },        
-        dataType: 'json',
-        data: {
-            login : curUser.login,
-            honey : amount
-        },   
-        success: function(response){
-            if(response.success == true){
-                console.log("МЕД ВЫВЕДЕН ИЗ СИСТЕМЫ");
-                curUser.honeyAmount = response.honeyAmount;
-                localStorage.currentUser = JSON.stringify(curUser);
-                callback(true);
-            }
-            else{
-                console.log(response.message);
-                callback(false);
-            }
-        },
-        error: function(response){
-            console.log("ОШИБКА ПРИ ВЫВОДЕ МЕДА");
-            console.log(response);
-            callback(false);
-        }, 
-        complete: function(){
-
-        }        
-    });
-}
-
-/**
- * Отправить на сервер запрос об информации для вывода меда
- */
-export function getHoneyInfo(callback){
-    // Формируем запрос
-    var req = $.ajax({
-        method: "POST",
-        url: '/api/common/get-honey-info',
-        header: {
-            "Content-Type": 'application/json',
-        },        
-        dataType: 'json',
-        data: {
-            login : curUser.login
-        },   
-        success: function(response){
-            if(response.success == true){
-                console.log("ИНФОРМАЦИЯ ДЛЯ ВЫВОДА МЕДА ПОЛУЧЕНА");
-                // Возвращаем максимальное количество товара для ввода
-                callback(response.honeyToGet);
-            }
-            else{
-                console.log(response.message);
-                callback(null);
-            }
-        },
-        error: function(response){
-            console.log("ОШИБКА ПРИ ПОЛУЧЕНИИ ИНФОРМАЦИИ ДЛЯ ВЫВОДА МЕДА");
-            console.log(response);
-            callback(null);
-        }, 
-        complete: function(){
-
-        }        
-    });
-}
-
-
-/**
  * Отправить на сервер запрос об получении информации о операциях пользователя
  */
 export function getOperations(callback){
@@ -310,7 +233,6 @@ export function getOperations(callback){
         }      
     });
 }
-
 
 /**
  * Отправить на сервер запрос об получении баланса пользователя

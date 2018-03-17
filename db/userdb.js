@@ -1,7 +1,6 @@
 var mysql = require('mysql');
 var config = require('./config');
 var User = require('../model/usermodel');
-var Promotion = require('../model/promotion');
 var OperationDay = require('../model/operationday.js');
 
 var con = mysql.createConnection({
@@ -109,18 +108,20 @@ function registrationUser(loginUser, passwordUser, nameUser, productTypeUser, ca
             } else {
                 // Создаем пользователя и скидку для него
                 var user = new User(loginUser, nameUser, productTypeUser);
-                user.promotion = new Promotion(1);
-                user.promotion.operationsToNext = 5;
-                user.promotion.percent = 15;
+                // TODO ПЕРЕСМОТРЕТЬ КОД В СВЯЗИ С 3 ВЕРСИЕЙ ПРОЕКТА
+                // user.promotion = new Promotion(1);
+                // user.promotion.operationsToNext = 5;
+                // user.promotion.percent = 15;
                 user.password = passwordUser;
                 user.honeyAmount = 0;
                 user.productAmount = 0;
 
                 // Вставляем скидки дл нового пользователя
+                // TODO ПЕРЕСМОТРЕТЬ КОД В СВЯЗИ С 3 ВЕРСИЕЙ ПРОЕКТА
                 con.query("INSERT INTO Promotion(operationsCount, operationsToNext, percent) VALUES(0, 5, 15)", function (error, results, fields) {
                     if (error) return con.rollback(function () { console.error(error.message); });
 
-                    user.promotion.id = results.insertId;
+                    //user.promotion.id = results.insertId;
 
                     // Обновляем id скидки у  пользователя и отправляем в коллбек
                     con.query("UPDATE User SET idPromotion = " + user.promotion.id + " WHERE login = " + mysql.escape(user.login), function (error, results, fields) {
@@ -166,6 +167,7 @@ function loginUser(login, password, callback) {
                 }
                 else {
                     // Получаем скидку пользователя
+                    // TODO ПЕРЕСМОТРЕТЬ КОД В СВЯЗИ С 3 ВЕРСИЕЙ ПРОЕКТА
                     var sql = "Select * from promotion where idPromotion=" + mysql.escape(results[0].idPromotion);
                     con.query(sql, function (error, promotiRes, fields) {
                         if (error) {
@@ -178,10 +180,11 @@ function loginUser(login, password, callback) {
 
                             // Создаем пользователя и скидку для него
                             var user = new User(results[0].login, results[0].name, getStringProductType(results[0].idProductType));
-                            user.promotion = new Promotion(results[0].idPromotion);
-                            user.promotion.operationsToNext = promotiRes[0].operationsToNext;
-                            user.promotion.percent = promotiRes[0].percent;
-                            user.promotion.operationsCount = promotiRes[0].operationsCount;
+                            // TODO ПЕРЕСМОТРЕТЬ КОД В СВЯЗИ С 3 ВЕРСИЕЙ ПРОЕКТА
+                            // user.promotion = new Promotion(results[0].idPromotion);
+                            // user.promotion.operationsToNext = promotiRes[0].operationsToNext;
+                            // user.promotion.percent = promotiRes[0].percent;
+                            // user.promotion.operationsCount = promotiRes[0].operationsCount;
                             user.password = results[0].password;
                             user.honeyAmount = results[0].honeyAmount;
                             user.productAmount = results[0].productAmount;
@@ -294,7 +297,8 @@ function buyHoney(user, countPots, callback) {
             } else {
                 // обновить данные у пользователя(баланс) и рассчитать комиссию
                 user.buyHoney(countPots);
-                var comission = +(((countPots * 0.25) * (user.promotion.percent / 100)).toFixed(5));
+                // TODO ПЕРЕСМОТРЕТЬ КОД В СВЯЗИ С 3 ВЕРСИЕЙ ПРОЕКТА
+                // var comission = +(((countPots * 0.25) * (user.promotion.percent / 100)).toFixed(5));
 
                 // вставить в базу обновленные данные о балансе пользователя
                 con.query("UPDATE User SET productAmount=" + user.productAmount + ", honeyAmount=" + user.honeyAmount + " WHERE login=" + mysql.escape(user.login), function (error, result, fields) {
@@ -307,7 +311,8 @@ function buyHoney(user, countPots, callback) {
                         return con.rollback(function () { console.error(error.message); });
                     } else {
                         // рассчитать новую скидку для следующей покупки
-                        user.calculateNewPromotion();
+                        // TODO ПЕРЕСМОТРЕТЬ КОД В СВЯЗИ С 3 ВЕРСИЕЙ ПРОЕКТА
+                        // user.calculateNewPromotion();
                         // вставить в базу обновленную скидку
                         con.query("UPDATE Promotion SET operationsCount=" + user.promotion.operationsCount + ", operationsToNext=" + user.promotion.operationsToNext + ", percent=" + user.promotion.percent + " WHERE idPromotion=" + user.promotion.id, function (error, result, fields) {
                             if (error) {

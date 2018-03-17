@@ -51,6 +51,7 @@ function getAllHistory(loginUser, callback) {
         });
     });
 }
+
 /**
  * Получить операции прошедшие в текущий день
  * @param {string} loginUser - логин пользователя
@@ -81,39 +82,6 @@ function getTodaysOperations(loginUser, callback) {
                     callback(result);
                     if (error) return con.rollback(function () { console.error(error.message); });
                 });
-            }
-        });
-    });
-}
-
-/**
- * Снять мед с счета пользователя
- * @param {string} login - логин пользователя
- * @param {double} honey - количество мёда для снятия
- * @param {function} функция, отправляющая полученный баланс
- */
-function withdrawUserHoney(login, honey, callback) {
-    // Начинаем транзакцию 
-    con.beginTransaction(function (error) {
-        if (error) { throw error; }
-        // Обновить поле с количеством меда пользователя
-        var sql = "UPDATE user SET honeyAmount = honeyAmount-" + (+(honey).toFixed(5))
-            + " WHERE login = " + mysql.escape(login);
-        con.query(sql, function (error, result, fields) {
-
-            if (error) {
-                con.commit(function (error) {
-                    callback(null);
-                    if (error) return con.rollback(function () { console.error(error.message); });
-                });
-
-                return con.rollback(function () { console.error(error.message); });
-            } else {
-                con.commit(function (error) {
-                    callback(result);
-                    if (error) return con.rollback(function () { console.error(error.message); });
-                });
-
             }
         });
     });
@@ -190,7 +158,6 @@ function insertNewOperation(operation, login, callback) {
         });
     });
 }
-
 
 /**
  * 
