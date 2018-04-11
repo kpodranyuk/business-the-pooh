@@ -44,9 +44,6 @@
               <li>
                   <a data-toggle="pill" href="#liders" id="lidersPill">Лидеры системы</a>
               </li>
-              <li>
-                <a data-toggle="pill" href="#account" id="settingsPill">Настройка аккаунта</a>
-              </li>
               <li class="hidden">
                 <a data-toggle="pill" href="#trueAcc" id="accPill">Аккаунт</a>
               </li>
@@ -152,101 +149,27 @@
                 </div>
               </div>
               <!-- Лидеры системы-->
-              <div id="liders" class="tab-pane fade in active">
-                  <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
-
-                  </div>
-              </div>
-              <!-- Настройки аккаунта -->
-              <div id="account" class="tab-pane fade">
+              <div id="liders" class="tab-pane fade">
                 <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center"></div>
-                      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-                        <div class="form-group">
-                          <label for="passwordInput">Для продолжения введите пароль</label>
-                          <input type="password" class="form-control" id="passwordInput" aria-describedby="passwordInputHelp" placeholder="" required>
-                          <small id="passwordInputHelp" class="control-label form-text text-muted"></small>
-                        </div>
-                        <div class="row content">
-                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                            <button class="btn btn-lg btn-primary" id="cont">Продолжить</button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center"></div>
+                  <div class="row content">
+                    <h2>Таблица лидеров</h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped table-hover" style="background-color:lightgoldenrodyellow">
+                        <thead>
+                          <tr>
+                            <th>Позиция</th>
+                            <th>Имя пользователя</th>
+                            <th>Объем меда за период</th>
+                            <th>Объем меда за все время</th>
+                          </tr>
+                        </thead>
+                        <tbody id="lidersTable">
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- Скрытые настройки аккаунта -->
-              <div id="trueAcc" class="tab-pane fade">
-                <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
-                  <div class="container-fluid" style="display: table; padding:0pt">
-                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" style="background-color:white">
-                      <div class="table-responsive" id="res">
-                        <label>
-                            <h4> Информация об аккаунте:</h4>
-                        </label>
-                        <table class="table" style="background-color:white">
-                          <tbody>
-                            <tr>
-                                <td><b style="font-size: 13pt">Ваше имя:</b></td>
-                                <td id="accName">--</td>
-                            </tr>
-                            <tr>
-                              <td><b style="font-size: 13pt">Ваш логин:</b></td>
-                              <td id="accLogin">--</td>
-                            </tr>
-                            <tr>
-                              <td><b style="font-size: 13pt">Ваш пароль:</b></td>
-                              <td id="accPassword">--</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="row" style="margin: 10pt">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-md btn-primary" id="makeNewPswd">Обновить пароль</button>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-md btn-primary" data-toggle="modal" id="openForgetMe" data-target="#forgetMeModal">Деактивировать аккаунт</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 panel text-center" id="pswdDiv" style="background-color:white; visibility:hidden">
-                      <form>
-                        <div class="form-row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="oldPswdInput">Введите текущий пароль</label>
-                              <input type="password" class="form-control" id="oldPswdInput" aria-describedby="oldPswdInputHelp" placeholder="Текущий пароль">
-                              <small id="oldPswdInputHelp" class="control-label form-text text-muted"></small>
-                            </div>
-                            <div class="form-group">
-                              <label for="newPswdInput">Введите новый пароль</label>
-                              <input type="password" class="form-control" id="newPswdInput" placeholder="Новый пароль">
-                              <small id="newPswdInputHelp" class="control-label form-text text-muted"></small>
-                            </div>
-                            <div class="form-group">
-                              <label for="newPswdInputRepeat">Подтвердите пароль</label>
-                              <input type="password" class="form-control" id="newPswdInputRepeat" placeholder="Пароль">
-                              <small id="newPswdInputRepeatHelp" class="control-label form-text text-muted"></small>
-                            </div>
-                          </div>
-                        </div>
-                    </form>
-                    <button class="btn btn-md btn-primary" id="saveNewPswd">Сохранить</button>
-                  </div>
-                  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel text-center" style="background-color:white">
-                    <img class="img-responsive" src="images/honey_logo.png" />
-                  </div>
-                </div>
-                </div>
-                </div>
             </div>
           </div>
         </div>
