@@ -58,9 +58,35 @@
                   <div class="row content my-row" style="display: table">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 panel" style="background-color:white">
                       <div class="form-group">
-                        <label for="selectPots">
-                          <h3> Выберите желаемое количество горшочков мёда для покупки:</h3>
+                        <label for="buyDrop">
+                          <h3> Выберите желаемый тип товара для покупки:</h3>
                         </label>
+                        <div class="dropdown" id="buyDrop">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="buyDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                              Что купить?
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="buyDropdown">
+                                <li class="dropdown-header">Лесной товар</li>
+                                <li role="presentation" id="buyFlowersDrop" style="font-size:10pt; color:black">
+                                  <a role="menuitem" tabindex="-1" href="#" >Цветочки</a>
+                                </li>
+                                <li role="presentation" id="buyPotsDrop" style="font-size:10pt; color:black">
+                                  <a role="menuitem" tabindex="-1" href="#" >Горшочки</a>
+                                </li>
+                                <li role="presentation" id="buyBalloonsDrop" style="font-size:10pt; color:black">
+                                  <a role="menuitem" tabindex="-1" href="#" >Шарики</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation" id="buyHoneyDrop" style="font-size:10pt; color:black">
+                                  <a role="menuitem" tabindex="-1" href="#" >Мед</a>
+                                </li>
+                            </ul>
+                          </div>   
+                        <label for="selectPots">
+                          <h3> Выберите желаемое количество для покупки:</h3>
+                        </label>
+                        <!--- TODO с учетом того, что мед измеряется в литрах, нужно контроллер ввода сделать для плавающих чисел тоже-->
                         <input type="number" class="form-control" id="selectPots" aria-describedby="selectPotsHelp" placeholder="1">
                         <small id="selectPotsHelp" class="control-label form-text text-muted">Не более 50 товаров в день</small>
                       </div>
