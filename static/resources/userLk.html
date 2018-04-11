@@ -61,28 +61,12 @@
                         <label for="buyDrop">
                           <h3> Выберите желаемый тип товара для покупки:</h3>
                         </label>
-                        <div class="dropdown" id="buyDrop">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="buyDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                              Что купить?
-                              <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="buyDropdown">
-                                <li class="dropdown-header">Лесной товар</li>
-                                <li role="presentation" id="buyFlowersDrop" style="font-size:10pt; color:black">
-                                  <a role="menuitem" tabindex="-1" href="#" >Цветочки</a>
-                                </li>
-                                <li role="presentation" id="buyPotsDrop" style="font-size:10pt; color:black">
-                                  <a role="menuitem" tabindex="-1" href="#" >Горшочки</a>
-                                </li>
-                                <li role="presentation" id="buyBalloonsDrop" style="font-size:10pt; color:black">
-                                  <a role="menuitem" tabindex="-1" href="#" >Шарики</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li role="presentation" id="buyHoneyDrop" style="font-size:10pt; color:black">
-                                  <a role="menuitem" tabindex="-1" href="#" >Мед</a>
-                                </li>
-                            </ul>
-                          </div>   
+                        <select class="form-control" id="buyDrop">
+                            <option value="flowers">Цветочек</option>
+                            <option value="pots">Горшочек</option>
+                            <option value="balloons">Шарик</option>
+                            <option value="honey">Мед</option>
+                        </select> 
                         <label for="selectPots">
                           <h3> Выберите желаемое количество для покупки:</h3>
                         </label>
@@ -104,21 +88,15 @@
                         <table class="table" style="background-color:white">
                           <tbody>
                             <tr>
-                              <td>Будет совершена покупка горшочков мёда в количестве:</td>
+                              <td>Будет совершена покупка товара в количестве:</td>
                               <td>
-                                <b><label id="potsCountToBuy"></label></b>
+                                <b><label id="goodsCountToBuy"></label></b>
                               </td>
                             </tr>
                             <tr>
-                              <td>С счета будет списано товара в количестве: </td>
+                              <td>С счета будет списано: </td>
                               <td>
-                                <b><label id="productCountToBuy"></label></b>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Комиссия за операцию (в меде):</td>
-                              <td>
-                                <b><label id="comissionSizeForBuy"></label></b>
+                                <b><label id="moneyToBuy"></label></b>
                               </td>
                             </tr>
                           </tbody>
@@ -139,8 +117,6 @@
                       </label>
                       <i style="font-size:12pt">
                         Спасибо за совершенную покупку!
-                        <br> В следующий операционный день с Вашего медового счета спишется
-                        <label id="comissionSize"></label> л мёда за данную операцию.
                       </i>
                     </div>
                   </div>
@@ -360,7 +336,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js'></script>
-  <script src="js/userLk.js" type="module"></script>
+  <!--<script src="js/userLk.js" type="module"></script>-->
 </body>
 
 </html>
