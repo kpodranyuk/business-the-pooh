@@ -39,16 +39,16 @@
                 <a data-toggle="pill" href="#history" id="historyPill">История операций</a>
               </li>
               <li class="active">
-                <a data-toggle="pill" href="#enterMoney" id="enterPill">Ввод товара</a>
+                <a data-toggle="pill" href="#enterMoney" id="enterPill">Ввод средств</a>
+              </li>
+              <li>
+                  <a data-toggle="pill" href="#liders" id="lidersPill">Лидеры системы</a>
               </li>
               <li>
                 <a data-toggle="pill" href="#account" id="settingsPill">Настройка аккаунта</a>
               </li>
               <li class="hidden">
                 <a data-toggle="pill" href="#trueAcc" id="accPill">Аккаунт</a>
-              </li>
-              <li>
-                <a data-toggle="pill" href="#help" id="helpPill">О сервисе</a>
               </li>
             </ul>
             <div class="tab-content">
@@ -146,37 +146,14 @@
               <!-- Ввести средства -->
               <div id="enterMoney" class="tab-pane fade in active">
                 <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
-                  <div class="row content">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                      <h2>Укажите количество товара для ввода в систему:</h2>
-                    </div>
-                  </div>
-                  <div class="container-fluid text-center" style="display: table">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-                      <div class="form-group">
-                        <label for="goodsInput">Введите количество товара в штуках</label>
-                        <input type="number" class="form-control" id="goodsInput" aria-describedby="goodsInputHelp" placeholder="4" required>
-                        <small id="goodsInputHelp" class="control-label form-text text-muted">Не более 50 товаров в день</small>
-                      </div>
-                      <div class="row content">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <button class="btn btn-lg btn-primary" id="honeyIn">Ввести товар</button>
-                        </div>
-                      </div>
-                      <div class="row content">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                          <label>
-                            <i id="thxForEnter" style="visibility:hidden">Спасибо!
-                              <br> Средства введены в систему.</i>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-                      <img class="img-responsive" id="inbee" src="images/honey_logo.png" />
-                    </div>
-                  </div>
+                  <iframe src="https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=%D0%92%D0%B2%D0%BE%D0%B4%20%D1%81%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B2&targets-hint=&default-sum=2.00&button-text=12&payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410013339872029" width="450" height="213" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
                 </div>
+              </div>
+              <!-- Лидеры системы-->
+              <div id="liders" class="tab-pane fade in active">
+                  <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
+
+                  </div>
               </div>
               <!-- Настройки аккаунта -->
               <div id="account" class="tab-pane fade">
@@ -197,61 +174,6 @@
                         </div>
                       </div>
                       <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div id="help" class="tab-pane fade">
-                <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color:beige; padding:20pt">
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <p>
-                        <h2>Требования для пользования сервисом</h2>
-                        Пользователь обязан предоставить:
-                        <ul>
-                          <li>информацию о своем имени,</li>
-                          <li>информацию для входа в систему (логин и пароль),</li>
-                          <li>информацию о типе своего товара (см. ниже).</li>
-                        </ul>
-                        <h4>Мы в свою очередь обязуемся хранить данную информацию и не передавать ее третьим лицам.</h4>
-                        Ваше имя нужно нам для того, чтобы знать как к Вам обращаться. Ваш логин и пароль - чтобы опеспечить Вам вход в систему.
-                        Ваш тип товара - чтобы знать какие расценки Вам предложить.
-                        <br> Взамен на мёд нам нужны цветы (которые бывают у Кролика), горшочки (которые бывают у Совуньи) и воздушные шарики
-                        (которые бывают у Пятачка). В соответствии с этим мы и выделили 3 соответствующих типа пользователя:
-                        <ul>
-                          <li>Кролик,</li>
-                          <li>Совунья,</li>
-                          <li>Пятачок.</li>
-                        </ul>
-                        Система обязуется:
-                        <ul>
-                          <li>предоставлять Вам возможность вводить свои товары в систему для совершения покупок,</li>
-                          <li>предоставлять Вам возможность совершать покупки мёда,</li>
-                          <li>предоставлять Вам возможность выводить купленный мёд из системы.</li>
-                        </ul>
-                        <h2>Правила работы сервиса:</h2>
-                        Ежедневно мы собираем 50 горшочков с медом с наших лучших пасек и выставляем их на продажу.
-                        <br> Горшочки с медом выставляются на продажу каждое утро в 7:00. С этого времени и до 7:00 следующего дня идет Операционный
-                        день.
-                        <br> Зная курс своего товара к одному горшочку, Вы можете приобрести их при наличии достаточного количества Вашего товара
-                        в системе.
-                        <br> За каждую операцию покупки взимается комиссия в размере 15% от объема купленного мёда (далее - комиссионный мед).
-                        Программа лояльности покупателей позволяет снижать размер комиссии с увеличением количества покупок:
-                        <ul>
-                          <li>После 5 покупок комиссия для последующих обменов становится равна 10%,</li>
-                          <li>После 15 покупок комиссия для последующих обменов становится равна 5%.</li>
-                        </ul>
-                        На следующее утро после покупки (на следующий Операционный день) к Вам прийдет наш агент - Винни Пух - и соберет комиссионный
-                        мед. Система проследит, чтобы Вы не смогли потратить мёд в таком объеме, что его будет недостаточно чтобы вернуть
-                        нам комиссию.
-                        <br> Так же вы можете вывести купленный мед из системы, при этом комиссия за эту операцию не снимается.</p>
-                      <p>
-                        <h2>Нужна помощь?</h2>
-                        <br> Свяжитесь с нами с помощью почтовых синичек или обращайтесь по адресу:
-                        <h4>
-                          <i>Волшебный лес, Медовый проезд, Пчелиный улей №1</i>
-                        </h4>
-                        Ежедневно с 8.00 до 18.00</p>
                     </div>
                   </div>
                 </div>
@@ -320,7 +242,6 @@
                   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel text-center" style="background-color:white">
                     <img class="img-responsive" src="images/honey_logo.png" />
                   </div>
-                
                 </div>
                 </div>
                 </div>
