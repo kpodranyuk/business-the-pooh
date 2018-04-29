@@ -2,13 +2,8 @@
 var express = require('express');
 var http = require('http');
 var bodyParser = require('body-parser');
-var indexRoute = require('./routes/indexRoute');
-var userRoute = require('./routes/userRoute');
-var loginRoute = require('./routes/loginRoute');
-var registerRoute = require('./routes/registerRoute');
-var userApiRoute = require('./routes/userApiRoute');
-var commonApiRoute = require('./routes/commonApiRoute');
-var common = require('./model/common');
+var path = require("path");
+var api = require('./app_server/routes/router.js');
 
 
 /*СОЗДАНИЕ ПРИЛОЖЕНИЯ*/
@@ -19,8 +14,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/static/resources'));
 
 //Подключение json парсера
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json({ type: 'application/json' }));
 
 /*ЗАПУСК СЕРВЕРА*/
 var port = process.env.PORT || '3000';
@@ -38,12 +33,16 @@ app.use(function (req, res, next) {
   req.io = io;
   next();
 });
-app.use('/', indexRoute);
-app.use('/userLk', userRoute);
-app.use('/login', loginRoute);
-app.use('/register', registerRoute);
-app.use('/api/user', userApiRoute);
-app.use('/api/common', commonApiRoute);
+
+app.get('/', function (req, res) {
+  res.sendFile(path.resolve(__dirname + '/static/resources/index.html'));
+});
+
+app.get('/userLk', function (req, res) {
+  res.sendFile(path.resolve(__dirname + '/static/resources/userLk.html'));
+});
+
+app.use('/api', api);
 
 // Сокеты для генерации событий для клиента
 io.sockets.on('connection', function (socket) {
@@ -58,11 +57,3 @@ io.sockets.on('connection', function (socket) {
   });
 
 });
-
-// Обновляем операционный день
-setInterval(function() {
-  common.updateOperationDay(io);
-}, 1200);
-
-var getComissionToday = false;
-global.getComissionToday = getComissionToday;
