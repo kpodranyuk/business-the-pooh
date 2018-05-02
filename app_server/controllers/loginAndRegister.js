@@ -1,4 +1,4 @@
-var model = require('../models/model.js');
+var db = require('../models/model.js');
 
 /**
  * Функция отправки данных на клиент
@@ -10,6 +10,47 @@ var sendJSONresponse = function (res, content) {
 };
 
 module.exports.login = function (req, res) {
-    
+    var login = req.body.login;
+    db.User.findOne({
+        where: { login: login, password: req.body.password }
+    }).then(user => {
+        if (user != null) {
+            db.Purse.findAll({
+                where: { loginUser: login },
+                attributes: ['amount', 'itemType']
+            }).then(purse => {
+                sendJSONresponse(res, {
+                    ok: true,
+                    login: login,
+                    purse: purse
+                });
+            });
+        } else {
+            sendJSONresponse(res, { ok: false, message: "Пользователь не существует, или введенные данные неверные" });
+        }
+    }).catch(error => {
+        console.log(error);
+    });
 };
 
+
+module.exports.register = function (req, res) {
+    var login = req.body.login;
+    var password = req.body.password;
+    db.User.findOne({
+        where: { login: login, password: password }
+    }).then(user => {
+        if (user == null) {
+            db.User.create({ login: login, password: password })
+                .then(() => {
+                    sendJSONresponse(res, {
+                        ok: true,
+                        login: login,
+                        purse: []
+                    })
+                });
+        } else {
+            sendJSONresponse(res, { ok: false, message: "Польователь с таким логином существует" });
+        }
+    })
+};
