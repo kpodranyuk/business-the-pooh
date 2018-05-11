@@ -43,11 +43,25 @@ module.exports.register = function (req, res) {
         if (user == null) {
             db.User.create({ login: login, password: password })
                 .then(() => {
-                    sendJSONresponse(res, {
-                        ok: true,
-                        login: login,
-                        purse: []
-                    })
+                    db.Purse.bulkCreate([
+                        { amount: 0, itemType: 'ruble', loginUser: login },
+                        { amount: 0, itemType: 'honey', loginUser: login },
+                        { amount: 0, itemType: 'flower', loginUser: login },
+                        { amount: 0, itemType: 'pot', loginUser: login },
+                        { amount: 0, itemType: 'balloon', loginUser: login }
+                    ]).then(() => {
+                        sendJSONresponse(res, {
+                            ok: true,
+                            login: login,
+                            purse: [
+                                { amount: 0, itemType: 'ruble' },
+                                { amount: 0, itemType: 'honey' },
+                                { amount: 0, itemType: 'flower' },
+                                { amount: 0, itemType: 'pot' },
+                                { amount: 0, itemType: 'balloon' }
+                            ]
+                        })
+                    });
                 });
         } else {
             sendJSONresponse(res, { ok: false, message: "Польователь с таким логином существует" });
