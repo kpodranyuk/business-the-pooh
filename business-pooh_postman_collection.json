@@ -1,511 +1,481 @@
 {
-	"id": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-	"name": "business-pooh",
-	"description": "",
-	"order": [
-		"1117be53-9d70-d027-af26-65ed9b20614d",
-		"c53b4326-a8e5-fd9c-9e41-81ebaf9b24a6",
-		"d5d9cef6-d03c-f01d-4204-1696f142e0ef",
-		"c5e02924-1842-548d-b44e-94e2a9a3c188",
-		"bc1a4112-31ea-4ad5-1385-bfb7ac3edbd3",
-		"6f43eba2-db61-51f6-600d-04ab15ff31ee",
-		"a4af09db-f854-e231-a33f-44375b31dc67",
-		"13da7678-c09b-44f6-6842-7315061c6f79",
-		"e60da823-10ae-bbaa-d65f-89a996d38a58",
-		"8785d43c-0301-76ce-3f41-418248ebcc1a",
-		"8e0bc890-4afe-3123-928d-61ec1a7ebea0",
-		"b2acca90-5d41-6a74-3fb7-3913514fa59d",
-		"a37c9c4d-7cc2-6dec-62e2-a8289ec9312b",
-		"bea9ca3b-a1b7-066c-9f40-6f9a933e779c",
-		"514ec0bc-55af-bdc2-ab26-458e119e7df2",
-		"c0f1bcd1-3b3b-55b5-8118-d256279feb0f",
-		"54746c78-e0b3-9ff6-f1b9-b7feb6706ac3"
-	],
-	"folders": [],
-	"folders_order": [],
-	"timestamp": 1509457490504,
-	"owner": "3002892",
-	"public": false,
-	"requests": [
+	"info": {
+		"name": "business-pooh",
+		"_postman_id": "15b31557-b5df-f6c0-c8e1-ff17aa58d650",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
 		{
-			"id": "1117be53-9d70-d027-af26-65ed9b20614d",
-			"headers": "",
-			"headerData": [],
-			"url": "http://localhost:3000/",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "GET",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"data": null,
-			"dataMode": "params",
 			"name": "Главная страница",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1509653228987,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {}
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
 		},
 		{
-			"id": "13da7678-c09b-44f6-6842-7315061c6f79",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/api/user/entry-product",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509887233853,
-			"name": "Ввод товара в систему",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"login\": \"nikita\",\n\t\"product\": 30,\n\t\"productType\": \"B\"\n}"
-		},
-		{
-			"id": "514ec0bc-55af-bdc2-ab26-458e119e7df2",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/api/user/deactivate-account",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "POST",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"data": null,
-			"dataMode": "params",
-			"name": "Деактивация аккаунта",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1509457932195,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {}
-		},
-		{
-			"id": "54746c78-e0b3-9ff6-f1b9-b7feb6706ac3",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/api/user/get-balance",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509886600518,
-			"name": "Получить баланс пользователя",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"login\": \"nikita\"\n}"
-		},
-		{
-			"id": "6f43eba2-db61-51f6-600d-04ab15ff31ee",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/api/user/buy-honey",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509893032313,
-			"name": "Покупка меда пользователем(подтверждение)",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"user\": {\n    \t\"login\": \"nikita\",\n    \t\"password\": \"password\",\n        \"name\": \"Никита\",\n        \"isAdmin\": false,\n        \"productType\": \"B\",\n        \"productAmount\": 110,\n        \"honeyAmount\": 4,\n        \"promotion\": {\n        \t\"id\": 2,\n            \"operationsCount\": 23,\n            \"percent\": 5,\n            \"operationsToNext\": 0\n        }\n    },\n    \"countPots\": 2\n}"
-		},
-		{
-			"id": "8785d43c-0301-76ce-3f41-418248ebcc1a",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/api/common/operations",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509887114427,
-			"name": "Показать все совершенные операции",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"login\": \"nikita\"\n}"
-		},
-		{
-			"id": "8e0bc890-4afe-3123-928d-61ec1a7ebea0",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/api/common/get-honey",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509892398162,
-			"name": "Вывод меда из системы",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"login\": \"nikita\",\n\t\"honey\": 0.005\n}"
-		},
-		{
-			"id": "a37c9c4d-7cc2-6dec-62e2-a8289ec9312b",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/api/pooh/last-op-day",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509748326907,
-			"name": "Операции за прошлый операционный день",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": ""
-		},
-		{
-			"id": "a4af09db-f854-e231-a33f-44375b31dc67",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/api/user/buy-honey-info",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509892955219,
-			"name": "Покупка меда пользователем(информация)",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"productAmount\": 110,\n\t\"productType\": \"B\"\n}"
-		},
-		{
-			"id": "b2acca90-5d41-6a74-3fb7-3913514fa59d",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/api/common/get-honey-info",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509887471660,
-			"name": "Вывод меда из системы(информация)",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"login\": \"nikita\"\n}"
-		},
-		{
-			"id": "bc1a4112-31ea-4ad5-1385-bfb7ac3edbd3",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/register",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509889613407,
-			"name": "Регистрация",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n    \"login\":\"nikita10\",\n    \"password\":\"password\",\n    \"name\": \"Никита\",\n    \"productType\": \"B\"\n}"
-		},
-		{
-			"id": "bea9ca3b-a1b7-066c-9f40-6f9a933e779c",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/api/pooh/get-commission",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509747831355,
-			"name": "Получить комиссию",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"balance\":50,\n\t\"promotion\": {\n    \t\"id\": 1,\n    \t\"operationsCount\": 0,\n\t\t\"percent\": 15,\n        \"operationsToNext\": 0\n    }\n}"
-		},
-		{
-			"id": "c0f1bcd1-3b3b-55b5-8118-d256279feb0f",
-			"headers": "",
-			"headerData": [],
-			"url": "localhost:3000/api/user/password-update",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "POST",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"data": null,
-			"dataMode": "params",
-			"name": "Смена пароля",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1509457956177,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {}
-		},
-		{
-			"id": "c53b4326-a8e5-fd9c-9e41-81ebaf9b24a6",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/userLk",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509739696326,
 			"name": "Получение страницы ЛК пользователя",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"login\" : \"nikita\"\n}"
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\" : \"nikita\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/userLk",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"userLk"
+					]
+				},
+				"description": ""
+			},
+			"response": []
 		},
 		{
-			"id": "c5e02924-1842-548d-b44e-94e2a9a3c188",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/login",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509886193659,
-			"name": "Вход в систему",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n    \"login\": \"nikita\",\n    \"password\": \"password\"\n}"
-		},
-		{
-			"id": "d5d9cef6-d03c-f01d-4204-1696f142e0ef",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/poohLk",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509886255910,
 			"name": "Получение страницы ЛК Пуха",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"login\" : \"superpooh\"\n}"
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\" : \"superpooh\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/poohLk",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"poohLk"
+					]
+				},
+				"description": ""
+			},
+			"response": []
 		},
 		{
-			"id": "e60da823-10ae-bbaa-d65f-89a996d38a58",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "localhost:3000/api/user/entry-product-info",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1509886882422,
+			"name": "Вход в систему",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"nikita\",\n    \"password\": \"password\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Регистрация",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\":\"nikita10\",\n    \"password\":\"password\",\n    \"name\": \"Никита\",\n    \"productType\": \"B\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Покупка меда пользователем(подтверждение)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n    \t\"login\": \"nikita\",\n    \t\"password\": \"password\",\n        \"name\": \"Никита\",\n        \"isAdmin\": false,\n        \"productType\": \"B\",\n        \"productAmount\": 110,\n        \"honeyAmount\": 4,\n        \"promotion\": {\n        \t\"id\": 2,\n            \"operationsCount\": 23,\n            \"percent\": 5,\n            \"operationsToNext\": 0\n        }\n    },\n    \"countPots\": 2\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/buy-honey",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"buy-honey"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Покупка меда пользователем(информация)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"productAmount\": 110,\n\t\"productType\": \"B\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/buy-honey-info",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"buy-honey-info"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Ввод товара в систему",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\": \"nikita\",\n\t\"product\": 30,\n\t\"productType\": \"B\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/entry-product",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"entry-product"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "Ввод своего товара в систему(информация)",
-			"description": "",
-			"collectionId": "417d6ca6-0684-44b7-f098-53ea230d85a8",
-			"responses": [],
-			"rawModeData": "{\n\t\"login\": \"nikita\"\n}"
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\": \"nikita\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/entry-product-info",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"entry-product-info"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Показать все совершенные операции",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\": \"leha\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/history",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"history"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Вывод меда из системы",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\": \"nikita\",\n\t\"honey\": 0.005\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/common/get-honey",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"common",
+						"get-honey"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Вывод меда из системы(информация)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\": \"nikita\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/common/get-honey-info",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"common",
+						"get-honey-info"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Операции за прошлый операционный день",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/api/pooh/last-op-day",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pooh",
+						"last-op-day"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Получить комиссию",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"balance\":50,\n\t\"promotion\": {\n    \t\"id\": 1,\n    \t\"operationsCount\": 0,\n\t\t\"percent\": 15,\n        \"operationsToNext\": 0\n    }\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/pooh/get-commission",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pooh",
+						"get-commission"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Деактивация аккаунта",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:3000/api/user/deactivate-account",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"deactivate-account"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Смена пароля",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:3000/api/user/password-update",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"password-update"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Получить баланс пользователя",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"login\": \"nikita\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/get-balance",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"get-balance"
+					]
+				},
+				"description": ""
+			},
+			"response": []
 		}
 	]
 }
