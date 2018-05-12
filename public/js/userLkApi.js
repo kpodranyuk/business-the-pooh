@@ -207,13 +207,13 @@ export function getOperations(callback){
     // Формируем запрос
     var req = $.ajax({
         method: "POST",
-        url: '/api/common/operations',
+        url: '/api/history',
         header: {
             "Content-Type": 'application/json',
         },        
         dataType: 'json',
         data: {
-            login : curUser.login
+            login : "leha"
         },   
         success: function(response){
             if(response.success == true){

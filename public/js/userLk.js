@@ -139,26 +139,19 @@ historyPillBttn.onclick = function(event){
         tableBody.empty();
         for (var i = 0; i < operations.length; i++) {
             var row = "<tr>";
-            var productAmount = "--", 
-                honeyPots = "-", 
-                honeyCount = "-", 
-                comission = "--";
-            var datatime = new Date(operations[i].datatime).toLocaleString();
-            var type = getWordForTypeOperation(operations[i].type);
-            if (type == "Покупка") {
-                productAmount = operations[i].productAmount + " шт";
-                honeyPots = operations[i].honeyPots + " шт";
-                honeyCount = "/" + operations[i].honeyCount + " л";
-                comission = operations[i].comission + " л";
-            } else if (type == "Ввод") {
-                productAmount = operations[i].productAmount + " шт";
-            } else if (type == "Вывод") {
-                honeyCount = operations[i].honeyCount + " л";
-                honeyPots = "";
+            var inputProduct = "--", 
+                outputProduct = "--";
+            var datatime = new Date(operations[i].date).toLocaleString();
+            var type = getWordForTypeOperation(operations[i].typeOperation);
+            if (type == "Покупка товара" || type == "Обмен товара на мед") {
+                inputProduct = operations[i].countEntryProduct + " шт";
+                outputProduct = operations[i].countOutputProduct + " шт";
+            } else if (type == "Ввод средств") {
+                outputProduct = operations[i].countOutputProduct + " шт";
             }
 
-            row += "<td>"+datatime+"</td>"+"<td>"+type+"</td>"+"<td>"+productAmount+"</td>";
-            row += "<td>"+honeyPots+honeyCount+"</td>" + "<td>"+comission+"</td>"
+            row += "<td>"+datatime+"</td>"+"<td>"+type+"</td>"+"<td>"+inputProduct+"</td>";
+            row += "<td>"+outputProduct+"</td>";
             row += "</tr>";
             tableBody.append(row);
         }
