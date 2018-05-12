@@ -110,6 +110,8 @@ sequelize.authenticate({ force: true })
     });
 
 module.exports.op = sequelize.Op; // Операции для where
+module.exports.fn = sequelize.fn; // Операция суммы
+module.exports.col = sequelize.col; // Колонка
 module.exports.User = User;
 module.exports.Purse = Purse;
 module.exports.Operation = Operation;
