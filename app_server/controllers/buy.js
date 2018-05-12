@@ -21,6 +21,7 @@ module.exports.buy = function (req, res) {
         where: { loginUser: login },
         attributes: ['amount', 'itemType']
     }).then(purse => {
+        var purse = JSON.parse(JSON.stringify(purse));
         // рассчитываем новый кошелек
         for (var i = 0; i < purse.length; i++) {
             if (outputProduct == purse[i].itemType) {
@@ -29,6 +30,7 @@ module.exports.buy = function (req, res) {
                 purse[i].amount -= countEntryProduct;
             }
         }
+        
         return purse;
     }).then(purse => {
         // обновим кошелек пользователя
@@ -52,7 +54,7 @@ module.exports.buy = function (req, res) {
             entryProduct: entryProduct,
             countOutputProduct: countOutputProduct,
             outputProduct: outputProduct
-        }).then(purse => {
+        }).then(operation => {
             sendJSONresponse(res, {
                 ok: true,
                 purse: purse
