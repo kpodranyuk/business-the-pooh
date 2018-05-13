@@ -125,12 +125,12 @@ historyPillBttn.onclick = function(event){
     currentPill = "historyPill";
     console.log("Нажата кнопка История в панели меню");
     function getWordForTypeOperation(type) {
-        if (type == 'E') {
-            return "Ввод";
-        } else if (type == 'G') {
-            return "Вывод";
-        } else if (type == 'B') {
-            return "Покупка";
+        if (type == 'entryMoney') {
+            return "Ввод средств";
+        } else if (type == 'exchangeForForestProduct') {
+            return "Покупка товара";
+        } else if (type == 'exchangeForestProductForHoney') {
+            return "Обмен товара на мед";
         }
     }
     // TODO обновить информацию с сервера
