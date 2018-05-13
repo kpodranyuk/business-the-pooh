@@ -30,15 +30,17 @@ module.exports.buy = function (req, res) {
                 purse[i].amount -= countEntryProduct;
             }
         }
-        
+
         return purse;
     }).then(purse => {
         // обновим кошелек пользователя
         for (var i = 0; i < purse.length; i++) {
-            db.Purse.update(
-                { amount: purse[i].amount },
-                { where: { [db.op.and]: [{ loginUser: login }, { itemType: purse[i].itemType }] } }
-            ).then(() => { });
+            if (outputProduct == purse[i].itemType || entryProduct == purse[i].itemType) {
+                db.Purse.update(
+                    { amount: purse[i].amount },
+                    { where: { [db.op.and]: [{ loginUser: login }, { itemType: purse[i].itemType }] } }
+                ).then(() => { });
+            }
         }
 
         // Добавим новую операцию
