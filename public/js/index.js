@@ -27,11 +27,6 @@ enterBttn.onclick=function(event){
     return false;
 }
 
-// agreeCheck - "Согласен с уловиями..."
-var agree = document.querySelector("#agreeCheck");
-agree.onchange=function(event){
-    regBttn.disabled = !agree.checked;
-}
 
 // regSubmit - "Зарегистрироваться"
 var regBttn = document.querySelector("#regSubmit");
@@ -42,13 +37,6 @@ regBttn.onclick=function(event){
     var wasPapaProud = false;
     wasPapaProud = isCorrectLogin(login.value, loginHelp);
     makePapaProud(login.parentNode, wasPapaProud);
-
-    // Проверить имя
-    var name = document.querySelector("#regInputName");
-    var nameHelp = document.querySelector("#regnameHelp");
-    var papasLast = isCorrectName(name.value, nameHelp);
-    makePapaProud(name.parentNode, papasLast);    
-    wasPapaProud = wasPapaProud && papasLast;
 
     // Проверить пароль
     var passwd = document.querySelector("#regInputPass");
@@ -63,9 +51,8 @@ regBttn.onclick=function(event){
     papasLast = isSecondPswdTheSame(passwd.value, passwd2.value, passwd2Help);
     makePapaProud(passwd2.parentNode, papasLast);
     wasPapaProud = wasPapaProud && papasLast;
-
+    
     // Проверить что нажат чекбокс    
-    wasPapaProud = wasPapaProud && agree.checked;
     if(!wasPapaProud) {
         return false;
     } else {
