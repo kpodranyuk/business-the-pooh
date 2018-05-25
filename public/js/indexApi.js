@@ -9,16 +9,14 @@ export function sendRegist(){
     // Формируем запрос
     var req = $.ajax({
         method: "POST",
-        url: '/register',
+        url: '/api/register',
         header: {
             "Content-Type": 'application/json',
         },        
         dataType: 'json',
         data: {
             login : $("#regInputLogin").val(),
-            password : $("#regInputPassRepeat").val(),
-            name : $("#regInputName").val(),
-            productType : convertUserTypeToString()
+            password : $("#regInputPassRepeat").val()
         },   
         success: function(response){
             if(response.success == true){
@@ -64,7 +62,7 @@ export function logIn() {
     // Запрос
     var req = $.ajax({
         method: "POST",
-        url: '/login',
+        url: '/app/login',
         header: {
             "Content-Type": 'application/json',
         },        
